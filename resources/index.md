@@ -6,9 +6,15 @@
 - ...
 
 ## Datasets
-- [Dataset Name 1](link_to_dataset_1) - Description of the dataset, including size and content.
-- [Dataset Name 2](link_to_dataset_2) - Description of the dataset, including size and content.
-- ...
+- [ethos-u-vela](https://github.com/nxp-imx/ethos-u-vela/tree/lf-5.15.71_2.2.0/ethosu/vela) - ethos-u-vela is the ML model compiler tool and used to compile a TFLite-Micro model into an optimised version for ethos-u NPU on iMX93 platform
+- [esphome](https://github.com/esphome/esphome) - ESPHome is a system to control your ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems. 
+- [pycom-micropython-sigfox)](https://github.com/pycom/pycom-micropython-sigfox) - A fork of MicroPython with the ESP32 port customized to run on Pycom's IoT multi-network modules. 
+
+  
+
+
+
+https://github.com/pycom/pycom-micropython-sigfox
 
 ## Pre-trained LLM Instances
 - [Hugging Face Model Hub](https://huggingface.co/models) - Repository of pre-trained models compatible with the Transformers library.
