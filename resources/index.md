@@ -6,7 +6,7 @@
 - ...
 
 ## Datasets
-- [ethos-u-vela](https://github.com/nxp-imx/ethos-u-vela/tree/lf-5.15.71_2.2.0/ethosu/vela) - ethos-u-vela is the ML model compiler tool and used to compile a TFLite-Micro model into an optimised version for ethos-u NPU on iMX93 platform
+- [ethos-u-vela](https://github.com/nxp-imx/ethos-u-vela/tree/lf-5.15.71_2.2.0/ethosu/vela) - ethos-u-vela is the ML model compiler tool and used to compile a TFLite-Micro model into an optimised version for ethos-u NPU on iMX93 platform, weighting 2.03 MiB
 - [esphome](https://github.com/esphome/esphome) - ESPHome is a system to control your ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems. 
 - [pycom-micropython-sigfox](https://github.com/pycom/pycom-micropython-sigfox) - A fork of MicroPython with the ESP32 port customized to run on Pycom's IoT multi-network modules.
 - [https://github.com/EnhancedRadioDevices/HamShield] - HamShield Arduino Library and Example Sketches
