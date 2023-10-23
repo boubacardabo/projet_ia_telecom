@@ -12,8 +12,8 @@
 - [https://github.com/EnhancedRadioDevices/HamShield] - HamShield Arduino Library and Example Sketches
 - [https://github.com/freeCodeCamp/freeCodeCamp] - Freecodecamp JS codebase with jest test files
 - [https://github.com/twbs/bootstrap] - Bootstrap codebase that contains e2e and integration tests
+- [https://github.com/mahimanzum/FixEval] - Java and Python dataset for competitive programming bug fixing along with a comprehensive test suite
 - 
-  
 
 ## Pre-trained LLM Instances
 - [Hugging Face Model Hub](https://huggingface.co/models) - Repository of pre-trained models compatible with the Transformers library.
