@@ -13,7 +13,7 @@
 - [https://github.com/freeCodeCamp/freeCodeCamp] - Freecodecamp JS codebase with jest test files
 - [https://github.com/twbs/bootstrap] - Bootstrap codebase that contains e2e and integration tests
 - [https://github.com/mahimanzum/FixEval] - Java and Python dataset for competitive programming bug fixing along with a comprehensive test suite
-- 
+- [https://huggingface.co/datasets/alexjercan/bugnet] - Dataset based on the CodeNet project and contains Python and C++ code submissions for online coding competitions
 
 ## Pre-trained LLM Instances
 - [Hugging Face Model Hub](https://huggingface.co/models) - Repository of pre-trained models compatible with the Transformers library.
