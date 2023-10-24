@@ -21,7 +21,7 @@
 - ...
 
 ## Research Papers
-- [Title of Research Paper 1](link_to_paper_1) - Brief summary or key points from the paper.
+- [Teaching large language models to self-debug](https://www.semanticscholar.org/reader/9e3c493fb09dcd61bb05e8c5659f23327b7b6340) - In this work, they propose SELF-DEBUGGING, where they teach the large language model to debug its own predicted code via few-shot prompting.
 - [Title of Research Paper 2](link_to_paper_2) - Brief summary or key points from the paper.
 - ...
 
@@ -29,6 +29,12 @@
 - [Course Name 1](link_to_course_1) - Description of the course content and relevance to the project.
 - [Course Name 2](link_to_course_2) - Description of the course content and relevance to the project.
 - ...
+
+## Models
+- [Llama-2-13b](https://huggingface.co/meta-llama/Llama-2-13b-chat-hf) - Link to download LLama 2 model and additional infos about the model and use cases.
+- [Falcon-40b](https://huggingface.co/TheBloke/falcon-40b-instruct-GPTQ) - Link to download falcon 40b and infos how to use it.
+- [Mistral-7b](https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF) - Link to download mistral 7b.
+- [https://www.youtube.com/watch?v=6iHVJyX2e50] - You can follow the first two chapters of the video to see how to deploy the models within your code.
 
 ## Tools and Libraries
 - [Tool/Library Name 1](link_to_tool_1) - Description of the tool/library and its application in the project.
