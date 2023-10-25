@@ -34,6 +34,7 @@
 - [Llama-2-13b](https://huggingface.co/meta-llama/Llama-2-13b-chat-hf) - Link to download LLama 2 model and additional infos about the model and use cases.
 - [Falcon-40b](https://huggingface.co/TheBloke/falcon-40b-instruct-GPTQ) - Link to download falcon 40b and infos how to use it.
 - [Mistral-7b](https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF) - Link to download mistral 7b.
+- [Mistral-7b-sharded](https://huggingface.co/someone13574/Mistral-7B-v0.1-sharded) - mistral 7b sharded into 8 parts to make it easier to load on a typical RAM (I had too low of RAM)
 - [https://www.youtube.com/watch?v=6iHVJyX2e50] - You can follow the first two chapters of the video to see how to deploy the models within your code.
 
 ## Tools and Libraries
