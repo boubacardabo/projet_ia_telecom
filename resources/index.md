@@ -6,13 +6,13 @@
 - ...
 
 ## Datasets
-- [ethos-u-vela](https://github.com/nxp-imx/ethos-u-vela/tree/lf-5.15.71_2.2.0/ethosu/vela) - [Python][2.03 MiB] ethos-u-vela is the ML model compiler tool and used to compile a TFLite-Micro model into an optimised version for ethos-u NPU on iMX93 platform.
-- [esphome](https://github.com/esphome/esphome) - [Python][19.01 MiB] ESPHome is a system to control your ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems. 
--[HamShield](https://github.com/EnhancedRadioDevices/HamShield) - [C++][911.00 KiB] HamShield Arduino Library and Example Sketches
-- [freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp) - [JavaScript][386.81 MiB] Freecodecamp JS codebase with jest test files
-- [bootstrap](https://github.com/twbs/bootstrap) - [JavaScript][230.64 MiB] Bootstrap codebase that contains e2e and integration tests
-- [FixEval](https://github.com/mahimanzum/FixEval) - [Python][19.96 MiB] Java and Python dataset for competitive programming bug fixing along with a comprehensive test suite
-- [bugnet](https://huggingface.co/datasets/alexjercan/bugnet) - [Python/C++][around 50 MB] Dataset based on the CodeNet project and contains Python and C++ code submissions for online coding competitions
+- [ethos-u-vela](https://github.com/nxp-imx/ethos-u-vela/tree/lf-5.15.71_2.2.0/ethosu/vela) - **[Python][2.03 MiB]** ethos-u-vela is the ML model compiler tool and used to compile a TFLite-Micro model into an optimised version for ethos-u NPU on iMX93 platform.
+- [esphome](https://github.com/esphome/esphome) - **[Python][19.01 MiB]** ESPHome is a system to control your ESP8266/ESP32 by simple yet powerful configuration files and control them remotely through Home Automation systems. 
+-[HamShield](https://github.com/EnhancedRadioDevices/HamShield) - **[C++][911.00 KiB]** HamShield Arduino Library and Example Sketches
+- [freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp) - **[JavaScript][386.81 MiB]** Freecodecamp JS codebase with jest test files
+- [bootstrap](https://github.com/twbs/bootstrap) - **[JavaScript][230.64 MiB]** Bootstrap codebase that contains e2e and integration tests
+- [FixEval](https://github.com/mahimanzum/FixEval) - **[Python][19.96 MiB]** Java and Python dataset for competitive programming bug fixing along with a comprehensive test suite
+- [bugnet](https://huggingface.co/datasets/alexjercan/bugnet) - **[Python/C++][around 50 MB]** Dataset based on the CodeNet project and contains Python and C++ code submissions for online coding competitions
 
 ## Pre-trained LLM Instances
 - [Hugging Face Model Hub](https://huggingface.co/models) - Repository of pre-trained models compatible with the Transformers library.
