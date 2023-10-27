@@ -25,7 +25,7 @@
 - ...
 
 ## Online Courses and Tutorials
-- [Course Name 1](link_to_course_1) - Description of the course content and relevance to the project.
+- [Autogen: task solving](https://github.com/microsoft/autogen/blob/main/notebook/agentchat_auto_feedback_from_code_execution.ipynb) - made by the developpers of AutoGen, explains how to use it to execute, debug, or solve task through code generation.
 - [Course Name 2](link_to_course_2) - Description of the course content and relevance to the project.
 - ...
 
