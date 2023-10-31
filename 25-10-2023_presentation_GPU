@@ -1,0 +1,45 @@
+
+
+25-10-2023
+Avec Nils Holzenberger
+
+
+Quelques commandes : 
+
+ssh <id-telecom>@gpu6.enst.fr #se connecter aux GPU de télécom : 
+nvidia-smi #permet d’avoir des infos utiles.
+~% #home
+
+On peut stocker ce que l'on veut sur les disques durs dans le home, dans la limite du raisonnable
+
+
+
+
+
+torch.FloatTensor(1).to(’cuda’) #dans le code Python. Permet d’utiliser le GPU réservé dans CUDA_VISIBLES_DEVICES.
+
+CUDA_VISIBLE_DEVICES : variables super importante pour réserver les GPU.
+
+CUDA_VISIBLE_DEVICES=0 python script.py #lancerle script.py avec python avec le gpu0
+
+Il faut réserver les GPUs. Ne pas utiliser un GPU pas réserver —> peut faire planter le script déjà en cours —> on peut se faire bannir pour ça.
+
+PyTorch : dans le code Python pas besoin de définir CUDA_VISIBLES_DEVICES.
+
+cluster GPU : CUDA_VISIBLES_DEVICES=0,1 par exemple (utiliser plusieurs machine à la fois)
+
+6 GPUs disponibles
+
+.to(”cuda”) —> c’est comme ça que l’on utilise le GPU dans le code Python; Pas besoin de préciser quel GPU utiliser, c’est PyTorch qui s’en charge.
+
+Un GPU est libre si GPU-util = 0%. Ne pas utiliser un GPU si GPU-util n'est pas nul (car déjà en cours d'utilisatin pas quelqu'un d'autre)
+
+On ne peut pas faire de Jupiter Notebook sur les GPUs. Il faudra faire des scripts Python.
+
+!!! GPU —> uniquement accessible depuis Télécom (Eduroam). Utiliser les GPUs en dehors de Télécom —> utiliser un VPN.
+
+Cluster —> pas d’usage commercial.
+
+besoin d’un service continue —> pas vraiement possible avec les GPU de Télécom.
+
+log-out : ctrl D.
