@@ -34,7 +34,7 @@ text_pipeline = pipeline(
 )
  
 llm = HuggingFacePipeline(pipeline=text_pipeline, model_kwargs={"temperature": 0})
-llm.invoke("how many letters in the word educa?")
+print(llm.invoke("how many letters in the word educa?"))
 
 
 # %% [markdown]
@@ -99,7 +99,7 @@ agent = (
 
 # %%
 #we reinvoke:
-agent.invoke({"input": "how many letters in the word educa?", "intermediate_steps": []})
+print(agent.invoke({"input": "how many letters in the word educa?", "intermediate_steps": []}))
 
 
 
@@ -133,7 +133,7 @@ from langchain.agents import AgentExecutor
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-agent_executor.invoke({"input": "how many letters in the word educa?"})
+print(agent_executor.invoke({"input": "how many letters in the word educa?"}))
 
 
 
@@ -183,6 +183,6 @@ chat_history.extend(
         AIMessage(content=result["output"]),
     ]
 )
-agent_executor.invoke({"input": "is that a real word?", "chat_history": chat_history})
+print(agent_executor.invoke({"input": "is that a real word?", "chat_history": chat_history}))
 
 
