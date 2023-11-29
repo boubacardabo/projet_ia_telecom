@@ -9,6 +9,8 @@ import torch
 from langchain import HuggingFacePipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline
  
+torch.FloatTensor(1).to('cuda')
+
 MODEL_NAME = "mistralai/Mistral-7B-v0.1"
 #MODEL_NAME = "C:/Users/yokor/.cache/huggingface/hub/models--codellama--CodeLlama-7b-hf/snapshots/bc5283229e2fe411552f55c71657e97edf79066c"
 #torch.FloatTensor(1).to('cuda')
