@@ -158,7 +158,7 @@ prompt = ChatPromptTemplate.from_messages(
 
 # %%
 from langchain.schema.messages import AIMessage, HumanMessage
-
+from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
 chat_history = []
 
 # %%
