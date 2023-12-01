@@ -67,6 +67,12 @@ openllm query 'What are large language models?'
 
 you can install different models using the same approach
 
+if you want to install a model manually, you can download your desired model and move it to this directory:
+
+```bash
+C:\Users\LENOVO\bentoml\models
+```
+You need to replace 'LENOVO' with your computer's username
 
 ## Quantization
 
