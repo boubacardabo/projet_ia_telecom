@@ -18,3 +18,7 @@
 If you have an "can't bind to localhost:3000 error, kill all your process that are on port 3000.
 
 run your servers using vllm background using `--backend vllm` because otherwise, it would py PyTorch, and vllm is faster and optimized for LLMs
+
+
+résoudre `[ERROR] [cli] Could not bind 0.0.0.0:3000` : 
+`lsof -t -i:3000 | xargs kill -9`
