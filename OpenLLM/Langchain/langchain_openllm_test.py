@@ -1,4 +1,5 @@
 # pip install "git+https://github.com/bentoml/langchain.git@chore/migrate-to-new-api#subdirectory=libs/langchain"
+#modify openllm.py file in at location /.local/lib/python3.10/site-packages/langchain_community/llms accordingly (https://github.com/langchain-ai/langchain/blob/3d94cfdaf0c82ab67849f9e0b6a120654193025c/libs/community/langchain_community/llms/openllm.py)
 # make sure to launch an openllm server before : openllm start <your model>
 # then launch this file : CUDA_VISIBLE_DEVICES=0 python3 langchain_openllm_test.py
 # works with :
