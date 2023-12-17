@@ -4,7 +4,7 @@ torch.FloatTensor(1).to("cuda")
 import sys
 
 # sys.path.append("/Users/boubacardabo/Desktop/school/projet_ia_telecom/backend")
-sys.path.append("/Users/boubacardabo/Desktop/school/projet_ia_telecom/backend")
+sys.path.append("/home/infres/bdabo/projet_ia_telecom/backend")
 
 from llm.llm_model import LlmModel
 
