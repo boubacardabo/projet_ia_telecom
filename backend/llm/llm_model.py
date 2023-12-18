@@ -13,7 +13,7 @@ class LlmModel:
     def generate_text(self, input_text: str):
         inputs = self.tokenizer.encode(input_text, return_tensors="pt")
         print(inputs)
-        output = self.model(**inputs)  # type: ignore
+        output = self.model.generate(inputs)  # type: ignore
         generated_text = self.tokenizer.decode(output, skip_special_tokens=True)[0]
         return generated_text
 
