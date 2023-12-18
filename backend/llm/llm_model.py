@@ -1,15 +1,15 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from llm.model_names import dolly_model
+from llm.model_names import opt_350_model
 import torch
 
 
 class LlmModel:
-    def __init__(self, model_name=dolly_model):
+    def __init__(self, model_name=opt_350_model):
         self.model = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
         self.tokenizer = AutoModelForCausalLM.from_pretrained(model_name)
 
     def generate_text(self, input_text: str):
-        input_ids = self.tokenizer(input_text)
+        input_ids = self.tokenizer([input_text], return_tensors="pt")
         output = self.model.generate(**input_ids)  # type: ignore
         generated_text = self.tokenizer.decode(output, skip_special_tokens=True)[0]
         return generated_text
