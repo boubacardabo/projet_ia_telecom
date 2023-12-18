@@ -9,7 +9,7 @@ class LlmModel:
         self.tokenizer = AutoModelForCausalLM.from_pretrained(model_name)
 
     def generate_text(self, input_text: str):
-        input_ids = self.tokenizer(input_text, return_tensors="pt")
+        input_ids = self.tokenizer(input_text)
         output = self.model.generate(**input_ids)  # type: ignore
         generated_text = self.tokenizer.decode(output, skip_special_tokens=True)[0]
         return generated_text
