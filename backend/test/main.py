@@ -9,14 +9,10 @@ sys.path.append(backend_folder)
 
 from llm.llm_model import LlmModel
 from langchain_wrapper.lang_wrapper import LangWrapper
-from utils.main import select_gpu, initialize_gpu
 
 
 def main():
-    gpu_numbers = select_gpu()
-
     try:
-        devices = initialize_gpu(gpu_numbers)
         torch.FloatTensor(2).to("cuda")
 
         model = LlmModel()
