@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaTokenizer
+from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaTokenizer, pipeline
 from llm.model_names import dolly_model, mistral_model
 import torch
 
@@ -9,15 +9,24 @@ class LlmModel:
             model_name, trust_remote_code=True
         )
         self.model = AutoModelForCausalLM.from_pretrained(model_name)
+        self.pipeline = pipeline(
+            task="text-generation",
+            model=self.model,
+            tokenizer=self.tokenizer,
+            max_new_tokens=2000,
+            return_full_text=True,
+            temperature=0.2,
+        )
 
     def generate_text(self, input_text: str):
         inputs = self.tokenizer.encode(
             text=input_text,
             return_tensors="pt",
-            add_special_tokens=False,
         )
         output = self.model.generate(inputs, max_new_tokens=2000)  # type: ignore
-        generated_text = self.tokenizer.decode(output[0], skip_special_tokens=True)
+        generated_text = self.tokenizer.batch_decode(
+            output[0], skip_special_tokens=True
+        )
         return generated_text
 
     def cleanup(self):

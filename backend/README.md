@@ -13,3 +13,7 @@ Install required packages
 ```bash
 pip install -r requirements.txt
 ```
+
+Find where models are installed
+
+https://github.com/huggingface/transformers/issues/861
