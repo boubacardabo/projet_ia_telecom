@@ -12,8 +12,9 @@ class LlmModel:
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
-            max_new_tokens=3000,
+            max_new_tokens=300,
             device_map="auto",
+            return_full_text=False,
         )
 
     def generate_text(self, input_text: str):

@@ -2,6 +2,10 @@ from llm.llm_model import LlmModel
 from langchain.prompts import PromptTemplate
 from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain.chains import LLMChain
+import langchain
+
+# uncomment for debug
+# langchain.debug = True  # type: ignore
 
 
 class LangWrapper:
