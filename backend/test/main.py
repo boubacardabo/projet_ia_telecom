@@ -9,7 +9,7 @@ sys.path.append(backend_folder)
 
 from llm.llm_model import LlmModel
 from langchain_wrapper.lang_wrapper import LangWrapper
-from utils.utils import select_gpu, initialize_gpu
+from utils.main import select_gpu, initialize_gpu
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
 
     try:
         devices = initialize_gpu(gpu_numbers)
-        torch.FloatTensor(2).to("cuda")
+        torch.FloatTensor(1).to(devices)
 
         model = LlmModel()
         langchain_wrapper = LangWrapper(model=model)
