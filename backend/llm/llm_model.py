@@ -13,6 +13,7 @@ class LlmModel:
             model=self.model,
             tokenizer=self.tokenizer,
             max_new_tokens=3000,
+            device_map="auto",
         )
 
     def generate_text(self, input_text: str):
