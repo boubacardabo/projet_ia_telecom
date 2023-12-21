@@ -32,21 +32,25 @@ def initialize_gpu(gpu_numbers):
 def main():
     gpu_numbers = select_gpu()
 
-    devices = initialize_gpu(gpu_numbers)
-    torch.FloatTensor(1).to(devices)
+    try:
+        devices = initialize_gpu(gpu_numbers)
+        torch.FloatTensor(1).to(devices)
 
-    model = LlmModel()
-    langchain_wrapper = LangWrapper(model=model)
-    generated_text = langchain_wrapper.invoke_llm_chain(
-        "",
-        """
+        model = LlmModel()
+        langchain_wrapper = LangWrapper(model=model)
+        generated_text = langchain_wrapper.invoke_llm_chain(
+            "",
+            """
             write a c++ function to interface with gpio pins of a raspberry pi. 
             GPIO0 adn GPIO1 are LEDs. Make them blink at a two seconds interval
             """,
-    )
-    print(generated_text)
+        )
+        print(generated_text)
 
-    langchain_wrapper.cleanup()
+        langchain_wrapper.cleanup()
+
+    except Exception as e:
+        print(e)
 
 
 if __name__ == "__main__":
