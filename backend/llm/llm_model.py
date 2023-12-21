@@ -1,6 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from llm.model_names import dolly_model, mistral_model
-import torch
 
 
 class LlmModel:
@@ -13,9 +12,7 @@ class LlmModel:
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
-            max_new_tokens=2000,
-            return_full_text=True,
-            temperature=0.2,
+            max_new_tokens=3000,
         )
 
     def generate_text(self, input_text: str):
@@ -25,7 +22,7 @@ class LlmModel:
         )
         output = self.model.generate(inputs, max_new_tokens=2000)  # type: ignore
         generated_text = self.tokenizer.batch_decode(
-            output[0], skip_special_tokens=True
+            output[0], skip_special_tokens=False
         )
         return generated_text
 
