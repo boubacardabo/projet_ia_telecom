@@ -4,12 +4,29 @@ import torch
 
 
 backend_folder = f"{os.getcwd()}/backend"
+
 sys.path.append(backend_folder)
 
 
 from llm.llm_model import LlmModel
 from langchain_wrapper.lang_wrapper import LangWrapper
-from utils.main import select_gpu, initialize_gpu
+
+
+def select_gpu():
+    user_input = input(
+        "Enter GPU instance (use comma for multiple GPUs, e.g., '0' or '0,1'): "
+    )
+    return user_input
+
+
+def initialize_gpu(gpu_numbers):
+    if torch.cuda.is_available():
+        devices = f"cuda:{gpu_numbers}"
+        print(f"Using GPU(s): {gpu_numbers}")
+    else:
+        devices = "cpu"
+        print("No GPU available, using CPU.")
+    return devices
 
 
 def main():
