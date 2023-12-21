@@ -17,8 +17,7 @@ def main():
 
     try:
         devices = initialize_gpu(gpu_numbers)
-        for device in devices:
-            torch.FloatTensor(1).to(device)
+        torch.FloatTensor(1).to(devices)
 
         model = LlmModel()
         langchain_wrapper = LangWrapper(model=model)
