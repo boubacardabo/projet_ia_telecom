@@ -17,7 +17,7 @@ def main():
 
     try:
         devices = initialize_gpu(gpu_numbers)
-        torch.FloatTensor(2).to(devices)
+        torch.FloatTensor(2).to("cuda")
 
         model = LlmModel()
         langchain_wrapper = LangWrapper(model=model)
