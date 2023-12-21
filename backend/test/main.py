@@ -4,6 +4,8 @@ import torch
 
 
 backend_folder = f"{os.getcwd()}/backend"
+
+print(backend_folder)
 sys.path.append(backend_folder)
 
 
