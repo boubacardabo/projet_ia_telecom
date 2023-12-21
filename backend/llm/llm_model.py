@@ -1,11 +1,11 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaTokenizer, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from llm.model_names import dolly_model, mistral_model
 import torch
 
 
 class LlmModel:
     def __init__(self, model_name=mistral_model):
-        self.tokenizer = LlamaTokenizer.from_pretrained(
+        self.tokenizer = AutoTokenizer.from_pretrained(
             model_name, trust_remote_code=True
         )
         self.model = AutoModelForCausalLM.from_pretrained(model_name)
