@@ -9,7 +9,7 @@ sys.path.append(backend_folder)
 
 from llm.llm_model import LlmModel
 from langchain_wrapper.lang_wrapper import LangWrapper
-from utils.main import select_gpu, initialize_gpu
+from utils.utils import select_gpu, initialize_gpu
 
 
 def main():
