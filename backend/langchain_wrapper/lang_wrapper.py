@@ -12,7 +12,6 @@ class LangWrapper:
     llmModel: LlmModel
     llmChain: LLMChain
     template_text = """
-                    ### [INST]
                     Instruction: Your job is to be write or correct code depending 
                     on the instruction, the context and the context given to you.
                     Do your BEST to write ABSOLUTELY CORRECT CODE.
@@ -22,8 +21,6 @@ class LangWrapper:
 
                     ### QUESTION:
                     {question} 
-
-                    [/INST]
                     """
 
     def __init__(self, model: LlmModel):
