@@ -10,7 +10,7 @@ sys.path.append(backend_folder)
 
 from llm.llm_model import LlmModel
 from langchain_wrapper.lang_wrapper import LangWrapper
-from llm.model_names import dolly_model, opt_350_model, opt_1_3_model
+from llm.model_names import mistral_model
 
 
 def select_gpu():
@@ -40,7 +40,7 @@ def main():
         for device in devices:
             torch.FloatTensor(1).to(device)
 
-        model = LlmModel(model_name=opt_1_3_model)
+        model = LlmModel(model_name=mistral_model)
         langchain_wrapper = LangWrapper(model=model)
         context = ""
         question = """
