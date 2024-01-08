@@ -12,9 +12,8 @@ class LlmModel:
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
-            max_new_tokens=300,
+            max_new_tokens=3000,
             device_map="auto",
-            return_full_text=False,
         )
 
     def generate_text(self, input_text: str):
@@ -22,10 +21,8 @@ class LlmModel:
             text=input_text,
             return_tensors="pt",
         )
-        output = self.model.generate(inputs, max_new_tokens=2000)  # type: ignore
-        generated_text = self.tokenizer.batch_decode(
-            output[0], skip_special_tokens=False
-        )
+        output = self.model.generate(inputs, max_new_tokens=3000)  # type: ignore
+        generated_text = self.tokenizer.decode(output[0], skip_special_tokens=True)
         return generated_text
 
     def cleanup(self):
