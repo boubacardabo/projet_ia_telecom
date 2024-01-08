@@ -49,7 +49,6 @@ def main():
             """
         generated_text = langchain_wrapper.invoke_llm_chain(context, question)
         print(generated_text)
-        print(model.generate_text(question))
 
         langchain_wrapper.cleanup()
 
