@@ -44,7 +44,7 @@ def main():
         langchain_wrapper = LangWrapper(model=model)
         context = ""
         question = """
-            write a c++ function to interface with gpio pins of a raspberry pi. 
+            write a python function to interface with gpio pins of a raspberry pi. 
             GPIO0 adn GPIO1 are LEDs. Make them blink at a two seconds interval
             """
         generated_text = langchain_wrapper.invoke_llm_chain(context, question)
