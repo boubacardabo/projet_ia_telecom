@@ -5,7 +5,7 @@ from langchain.chains import LLMChain
 import langchain
 
 # uncomment for debug
-# langchain.debug = True  # type: ignore
+langchain.debug = True  # type: ignore
 
 
 class LangWrapper:
@@ -13,8 +13,8 @@ class LangWrapper:
     llmChain: LLMChain
     template_text = """
                     Instruction: Your job is to be write or correct code depending 
-                    on the instruction, the context and the context given to you.
-                    Do your BEST to write ABSOLUTELY CORRECT CODE.
+                    on this instruction, the question and the context given to you.
+                    Do your BEST to write CORRECT CODE.
                     
                     Here is context to help:
                     {context}
@@ -31,7 +31,9 @@ class LangWrapper:
         )
 
         self.llmChain = LLMChain(
-            prompt=prompt, llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline)
+            prompt=prompt,
+            llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline),
+            verbose=True,
         )
 
     def invoke_llm_chain(self, context, question: str):
