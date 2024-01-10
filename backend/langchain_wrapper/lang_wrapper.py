@@ -31,7 +31,7 @@ class LangWrapper:
             input_variables=["context", "question"],
             template=self.template_text,
         )
-        if model is LlmModel:
+        if isinstance(model, LlmModel):
             self.llmModel = model
             self.llmChain = LLMChain(
                 prompt=prompt,
@@ -50,7 +50,7 @@ class LangWrapper:
         response = self.llmChain.invoke(
             input={"context": context, "question": question}
         )
-        if self.llmChain is LLMChain:
+        if isinstance(self.llmChain, LLMChain):
             return response["text"]
         else:
             return response
