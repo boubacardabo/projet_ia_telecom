@@ -1,5 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from llm.model_names import dolly_model, mistral_model
+import torch
 
 
 class LlmModel:
@@ -8,7 +9,10 @@ class LlmModel:
             model_name,
             trust_remote_code=True,
         )
-        self.model = AutoModelForCausalLM.from_pretrained(model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16,
+        )
         self.pipeline = pipeline(
             task="text-generation",
             model=self.model,

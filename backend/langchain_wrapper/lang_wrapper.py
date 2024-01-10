@@ -2,14 +2,16 @@ from llm.llm_model import LlmModel
 from langchain.prompts import PromptTemplate
 from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain.chains import LLMChain
-import langchain
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+
 
 # uncomment for debug
 # langchain.debug = True  # type: ignore
 
 
 class LangWrapper:
-    llmModel: LlmModel
+    llmModel: LlmModel | ChatOpenAI
     llmChain: LLMChain
     template_text = """
                     Instruction: Your job is to be write or correct code depending 
@@ -24,24 +26,36 @@ class LangWrapper:
                     {question} 
                     """
 
-    def __init__(self, model: LlmModel):
-        self.llmModel = model
+    def __init__(self, model: LlmModel | str):
         prompt = PromptTemplate(
             input_variables=["context", "question"],
             template=self.template_text,
         )
-
-        self.llmChain = LLMChain(
-            prompt=prompt,
-            llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline),
-            # verbose=True,
-        )
+        if model is LlmModel:
+            self.llmModel = model
+            self.llmChain = LLMChain(
+                prompt=prompt,
+                llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline),
+                # verbose=True,
+            )
+        elif model != "openai" or "mistralapi":
+            print("Error: For API models, please choose openai or mistralapi")
+        else:
+            if model == "openai":
+                self.llmModel = ChatOpenAI(model="gpt-4")
+                output_parser = StrOutputParser()
+                self.llmChain = prompt | self.llmModel | output_parser  # type: ignore
 
     def invoke_llm_chain(self, context, question: str):
-        return self.llmChain.invoke(input={"context": context, "question": question})[
-            "text"
-        ]
+        response = self.llmChain.invoke(
+            input={"context": context, "question": question}
+        )
+        if self.llmChain is LLMChain:
+            return response["text"]
+        else:
+            return response
 
     def cleanup(self):
         del self.llmChain
-        self.llmModel.cleanup()
+        if self.llmModel is LlmModel:
+            self.llmModel.cleanup()
