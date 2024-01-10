@@ -14,7 +14,8 @@ class LangWrapper:
     template_text = """
                     Instruction: Your job is to be write or correct code depending 
                     on this instruction, the question and the context given to you.
-                    Do your BEST to write CORRECT CODE.
+                    Do your BEST to write CORRECT CODE. Do not include any test results
+                    or comments. As an output only give me the code requested
                     
                     Here is context to help:
                     {context}
@@ -37,7 +38,9 @@ class LangWrapper:
         )
 
     def invoke_llm_chain(self, context, question: str):
-        return self.llmChain.invoke(input={"context": context, "question": question})
+        return self.llmChain.invoke(input={"context": context, "question": question})[
+            "text"
+        ]
 
     def cleanup(self):
         del self.llmChain
