@@ -6,18 +6,19 @@ import torch
 class LlmModel:
     def __init__(self, model_name=mistral_model):
         self.tokenizer = AutoTokenizer.from_pretrained(
-            model_name,
-            trust_remote_code=True,
+            model_name, trust_remote_code=True, use_fast=False
         )
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
             torch_dtype=torch.float16,
+            device_map="auto",
         )
         self.pipeline = pipeline(
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
-            device=0,
+            # device=0,
+            device_map="auto",
             max_new_tokens=2048,
         )
 
