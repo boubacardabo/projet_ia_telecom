@@ -13,7 +13,7 @@ class LlmModel:
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
-            device=0
+            device=0,
             max_new_tokens=2048,
         )
 
