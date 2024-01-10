@@ -4,7 +4,7 @@ from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain.chains import LLMChain
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
-
+import langchain
 
 # uncomment for debug
 langchain.debug = True  # type: ignore
