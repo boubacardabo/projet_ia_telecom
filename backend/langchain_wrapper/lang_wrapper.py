@@ -37,7 +37,9 @@ class LangWrapper:
         )
 
     def invoke_llm_chain(self, context, question: str):
-        return self.llmChain.invoke(input={"context": context, "question": question})
+        return self.llmChain.invoke(
+            input={"context": context, "question": question}, max_new_tokens=2048
+        )
 
     def cleanup(self):
         del self.llmChain

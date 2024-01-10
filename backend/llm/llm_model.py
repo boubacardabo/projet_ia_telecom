@@ -8,9 +8,7 @@ class LlmModel:
             model_name,
             trust_remote_code=True,
         )
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, max_new_tokens=2048
-        )
+        self.model = AutoModelForCausalLM.from_pretrained(model_name)
         self.pipeline = pipeline(
             task="text-generation",
             model=self.model,
