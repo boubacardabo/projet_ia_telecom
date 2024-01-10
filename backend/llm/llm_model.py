@@ -5,6 +5,11 @@ import torch
 
 class LlmModel:
     def __init__(self, model_name=mistral_model):
+        if torch.cuda.is_available():
+            torch.set_default_device("cuda")
+        else:
+            torch.set_default_device("cpu")
+
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_name, trust_remote_code=True, use_fast=False
         )
