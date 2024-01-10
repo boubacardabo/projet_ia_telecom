@@ -14,6 +14,11 @@ Install required packages
 pip install -r requirements.txt
 ```
 
-Find where models are installed
+export API Keys for OpenAI and/or Mistral
+```bash
+export OPENAI_API_KEY=....
+export MISTRAL_API_KEY=....
+```
 
-https://github.com/huggingface/transformers/issues/861
+Models are installed in: ~/.cache/huggingface/hub
+
