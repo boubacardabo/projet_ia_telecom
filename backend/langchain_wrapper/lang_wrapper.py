@@ -7,7 +7,7 @@ from langchain_core.output_parsers import StrOutputParser
 
 
 # uncomment for debug
-# langchain.debug = True  # type: ignore
+langchain.debug = True  # type: ignore
 
 
 class LangWrapper:
