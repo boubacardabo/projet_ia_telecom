@@ -57,5 +57,5 @@ class LangWrapper:
 
     def cleanup(self):
         del self.llmChain
-        if self.llmModel is LlmModel:
+        if isinstance(self.llmModel, LlmModel):
             self.llmModel.cleanup()
