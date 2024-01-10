@@ -5,14 +5,16 @@ from llm.model_names import dolly_model, mistral_model
 class LlmModel:
     def __init__(self, model_name=mistral_model):
         self.tokenizer = AutoTokenizer.from_pretrained(
-            model_name, trust_remote_code=True
+            model_name,
+            trust_remote_code=True,
         )
-        self.model = AutoModelForCausalLM.from_pretrained(model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name, max_new_tokens=2048
+        )
         self.pipeline = pipeline(
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
-            max_new_tokens=1000,
             device_map="auto",
         )
 
@@ -21,9 +23,11 @@ class LlmModel:
             text=input_text,
             return_tensors="pt",
         )
-        output = self.model.generate(inputs, max_new_tokens=3000)  # type: ignore
-        generated_text = self.tokenizer.decode(output[0], skip_special_tokens=True)
-        return generated_text
+        output = self.model.generate(inputs)  # type: ignore
+        generated_text = self.tokenizer.batch_decode(
+            output, skip_special_tokens=True, device_map="auto"
+        )
+        return " ".join(generated_text)
 
     def cleanup(self):
         # If you're using a GPU, make sure to release GPU memory
