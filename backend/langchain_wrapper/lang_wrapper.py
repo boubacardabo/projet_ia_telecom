@@ -51,7 +51,7 @@ class LangWrapper:
             input={"context": context, "question": question}
         )
         if isinstance(self.llmChain, LLMChain):
-            return response
+            return response["text"]
         else:
             return response
 
