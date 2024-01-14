@@ -38,6 +38,7 @@ class LangWrapper:
                 llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline),
                 verbose=True,
             )
+            self.llmChain = prompt | HuggingFacePipeline(pipeline=self.llmModel.pipeline)  # type: ignore
         elif model != "openai" or "mistralapi":
             print("Error: For API models, please choose openai or mistralapi")
         else:
@@ -51,7 +52,7 @@ class LangWrapper:
             input={"context": context, "question": question}
         )
         if isinstance(self.llmChain, LLMChain):
-            return response
+            return response["text"]
         else:
             return response
 
