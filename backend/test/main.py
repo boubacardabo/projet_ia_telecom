@@ -22,9 +22,9 @@ def main():
             write a python function to interface with gpio pins of a raspberry pi. 
             GPIO0 adn GPIO1 are LEDs. Make them blink at a two seconds interval
             """
-        # generated_text = langchain_wrapper.invoke_llm_chain(context, question)
-        gen_text = model.generate_text(question)
-        print(gen_text)
+        generated_text = langchain_wrapper.invoke_llm_chain(context, question)
+        # gen_text = model.generate_text(question)
+        print(generated_text)
 
         langchain_wrapper.cleanup()
 
