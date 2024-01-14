@@ -22,7 +22,6 @@ class LlmModel:
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
-            # device=0,
             device_map="auto",
             max_new_tokens=2048,
         )
