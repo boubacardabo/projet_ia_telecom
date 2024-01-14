@@ -24,6 +24,7 @@ class LlmModel:
             tokenizer=self.tokenizer,
             device_map="auto",
             max_new_tokens=2048,
+            return_full_text=False,
         )
 
     def generate_text(self, input_text: str):
