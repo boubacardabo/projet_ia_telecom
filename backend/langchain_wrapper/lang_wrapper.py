@@ -7,7 +7,7 @@ from langchain_core.output_parsers import StrOutputParser
 import langchain
 
 # uncomment for debug
-# langchain.debug = True  # type: ignore
+langchain.debug = True  # type: ignore
 
 
 class LangWrapper:
@@ -36,7 +36,7 @@ class LangWrapper:
             self.llmChain = LLMChain(
                 prompt=prompt,
                 llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline),
-                # verbose=True,
+                verbose=True,
             )
         elif model != "openai" or "mistralapi":
             print("Error: For API models, please choose openai or mistralapi")
