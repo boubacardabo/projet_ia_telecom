@@ -2,3 +2,4 @@
 - you can set langchain.debug=True to enable debug in terminal
 - when you get this message "", this means your propt has too much token and the model might not be able to handle it ===> increase max_new_tokens or reduce prompt content
 - Orca 2 is not yet compatible with langchain
+- how to avoid too much response drift
