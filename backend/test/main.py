@@ -10,12 +10,12 @@ sys.path.append(backend_folder)
 
 from llm.llm_model import LlmModel
 from langchain_wrapper.lang_wrapper import LangWrapper
-from llm.model_names import mistral_model, orca_2_model
+from llm.model_names import mistral_model, code_llama_model_13b
 
 
 def main():
     try:
-        model = LlmModel(model_name=orca_2_model)
+        model = LlmModel(model_name=code_llama_model_13b)
         langchain_wrapper = LangWrapper(model=model)
         context = ""
         question = """
