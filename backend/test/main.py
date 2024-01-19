@@ -10,13 +10,15 @@ sys.path.append(backend_folder)
 
 from llm.llm_model import LlmModel
 from langchain_wrapper.lang_wrapper import LangWrapper
-from llm.model_names import mistral_model
+from llm.model_names import opt_1_3_model
 
 
 def main():
     try:
-        model = LlmModel(model_name=mistral_model)
-        langchain_wrapper = LangWrapper(model=model)
+        model = LlmModel(model_name=opt_1_3_model)
+        repo_url = "https://github.com/esphome/esphome"
+        branch = "dev"
+        langchain_wrapper = LangWrapper(model=model, repo_url=repo_url, branch=branch)
         context = ""
         question = """
             write a python function to interface with gpio pins of a raspberry pi. 

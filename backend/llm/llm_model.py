@@ -5,8 +5,10 @@ import torch
 
 class LlmModel:
     def __init__(self, model_name=mistral_model):
+        dtype = torch.float32
         if torch.cuda.is_available():
             torch.set_default_device("cuda")
+            dtype = torch.float16
         else:
             torch.set_default_device("cpu")
 
@@ -15,8 +17,8 @@ class LlmModel:
         )
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype=torch.float16,
-            device_map="auto",
+            torch_dtype=dtype,
+            # device_map="auto",
         )
         self.pipeline = pipeline(
             task="text-generation",
