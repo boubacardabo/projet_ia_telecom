@@ -4,3 +4,4 @@
 - Orca 2 is not yet compatible with langchain
 - how to avoid too much response drift
 - vectorStore is good but multi query retriever might be better
+- add indexing to avoid recomputing embeddings every time
