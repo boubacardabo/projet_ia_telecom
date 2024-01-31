@@ -2,19 +2,22 @@ from git import Repo
 from langchain_community.document_loaders import GitLoader
 import os
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
-from utils import extension_to_language
-from model_names import sentence_t5_base
+from embedding.utils import extension_to_language
+from embedding.model_names import sentence_t5_base
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from typing import Any
+from utils.main import select_gpu_if_available
 
 
 class RagWrapper:
     repo_url: str
     default_branch = "main"
     repo_local_path: str
-    retriever:   # type: ignore
+    retriever: Any  # type: ignore
 
     def __init__(self, repo_url: str, file_type: str, branch: str | None = None):
+        select_gpu_if_available()
         self.downloadRepository(repo_url)
         self.loadSplitEmbedDocs(branch, file_type)
 
@@ -63,7 +66,6 @@ class RagWrapper:
             # embed and save in vector_store
             embeddings = HuggingFaceEmbeddings(
                 model_name=sentence_t5_base,
-                model_kwargs={"device": "cuda"},
                 encode_kwargs={"normalize_embeddings": True},
             )
             db = Chroma.from_documents(texts, embeddings)

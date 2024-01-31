@@ -1,16 +1,11 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from llm.model_names import dolly_model, mistral_model
-import torch
+from utils.main import select_gpu_if_available
 
 
 class LlmModel:
     def __init__(self, model_name=mistral_model):
-        dtype = torch.float32
-        if torch.cuda.is_available():
-            torch.set_default_device("cuda")
-            dtype = torch.float16
-        else:
-            torch.set_default_device("cpu")
+        dtype = select_gpu_if_available()
 
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_name, trust_remote_code=True, use_fast=False
