@@ -2,7 +2,7 @@ from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
 from langchain.prompts import PromptTemplate
 from langchain.llms.huggingface_pipeline import HuggingFacePipeline
-from langchain.chains import (LLMChain, ConversationalRetrievalChain, StuffDocumentsChain)
+from langchain.chains import LLMChain, ConversationalRetrievalChain, StuffDocumentsChain
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 
@@ -43,21 +43,22 @@ class LangWrapper:
                 llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline),
                 # verbose=True,
             )
-            if(self.ragWrapper):
+            if self.ragWrapper:
                 document_prompt = PromptTemplate(
-                    input_variables=["page_content"],
-                    template="{page_content}")
+                    input_variables=["page_content"], template="{page_content}"
+                )
                 document_variable_name = "context"
                 combine_docs_chain = StuffDocumentsChain(
                     llm_chain=primary_chain,
                     document_prompt=document_prompt,
-                    document_variable_name=document_variable_name
+                    document_variable_name=document_variable_name,
                 )
-                self.llmChain = ConversationalRetrievalChain(retriever=self.ragWrapper.retriever, 
-                                                             question_generator=primary_chain, 
-                                                             combine_docs_chain=combine_docs_chain, 
-                                                             response_if_no_docs_found=
-                                                             "The information needed was not found in any file")
+                self.llmChain = ConversationalRetrievalChain(
+                    retriever=self.ragWrapper.retriever,
+                    question_generator=primary_chain,
+                    combine_docs_chain=combine_docs_chain,
+                    response_if_no_docs_found="The information needed was not found in any file",
+                )
             else:
                 self.llmChain = primary_chain
         elif model != "openai" or "mistralapi":
@@ -66,12 +67,10 @@ class LangWrapper:
             if model == "openai":
                 self.llmModel = ChatOpenAI(model="gpt-4")
                 output_parser = StrOutputParser()
-                self.llmChain = prompt | self.llmModel | output_parser | # type: ignore
+                self.llmChain = prompt | self.llmModel | output_parser  # type: ignore
 
     def invoke_llm_chain(self, question: str):
-        response = self.llmChain.invoke(
-            input={"question": question}
-        )
+        response = self.llmChain.invoke(input={"question": question})
         if isinstance(self.llmChain, LLMChain):
             return response["text"]
         else:
