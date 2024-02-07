@@ -73,7 +73,6 @@ class RagWrapper:
                 search_type="mmr",  # Also test "similarity"
                 search_kwargs={"k": 8},
             )
-            print(self.retriever)
 
         except Exception as e:
             print(e)
