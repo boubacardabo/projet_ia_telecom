@@ -9,9 +9,9 @@ from langchain.memory import ConversationBufferMemory
 
 
 # uncomment for debug
-import langchain
+# import langchain
 
-langchain.debug = True  # type: ignore
+# langchain.debug = True  # type: ignore
 
 
 class LangWrapper:

@@ -66,6 +66,7 @@ class RagWrapper:
             embeddings = HuggingFaceEmbeddings(
                 model_name=sentence_t5_base,
                 encode_kwargs={"normalize_embeddings": True},
+                model_kwargs={"device": "cuda"},
             )
             db = Chroma.from_documents(texts, embeddings)
             self.retriever = db.as_retriever(
