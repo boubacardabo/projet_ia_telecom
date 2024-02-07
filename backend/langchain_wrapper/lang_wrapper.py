@@ -25,10 +25,8 @@ class LangWrapper:
                     either answer to questions related to a repository code, generate or
                     correct code. DO your BEST.
 
-                    Here is the chat_history: 
-                    {chat_history}
                     Here is context to help:
-                    {contextual}
+                    {context}
 
                     Here is the question:
                     {question} 
@@ -37,8 +35,9 @@ class LangWrapper:
     def __init__(self, model: LlmModel | str):
         # initialize the LLM
         prompt = PromptTemplate(
-            input_variables=["question", "contextual", "chat_history"],
+            input_variables=["question"],
             template=self.template_text,
+            output_parser=StrOutputParser(),
         )
         if isinstance(model, LlmModel):
             self.llmModel = model
@@ -85,7 +84,7 @@ class LangWrapper:
             input_variables=["page_content"], template="{page_content}"
         )
 
-        document_variable_name = "contextual"
+        document_variable_name = "context"
         combine_docs_chain = StuffDocumentsChain(
             llm_chain=primary_chain,
             document_prompt=document_prompt,
