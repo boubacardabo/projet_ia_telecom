@@ -59,7 +59,7 @@ class LangWrapper:
     def invoke_llm_chain(self, question: str, chat_history: str = ""):
         if self.llmChain:
             response = self.llmChain.invoke(
-                input={"question": question, chat_history: chat_history},
+                input={"question": question, "chat_history": chat_history},
             )
             if isinstance(self.llmChain, LLMChain):
                 return response["text"]
