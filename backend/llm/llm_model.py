@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from llm.model_names import dolly_model, mistral_model
+from llm.model_names import mistral_model
 from utils.main import select_gpu_if_available
 
 
