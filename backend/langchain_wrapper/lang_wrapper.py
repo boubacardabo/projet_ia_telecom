@@ -8,8 +8,9 @@ from langchain_core.output_parsers import StrOutputParser
 
 
 # uncomment for debug
-# import langchain
-# langchain.debug = True  # type: ignore
+import langchain
+
+langchain.debug = True  # type: ignore
 
 
 class LangWrapper:
