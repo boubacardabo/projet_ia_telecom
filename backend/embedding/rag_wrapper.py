@@ -57,8 +57,8 @@ class RagWrapper:
             # Split
             code_splitter = RecursiveCharacterTextSplitter.from_language(
                 language=extension_to_language.get(file_type, Language.PYTHON),
-                chunk_size=2000,
-                chunk_overlap=200,
+                chunk_size=1000,
+                chunk_overlap=0,
             )
             texts = code_splitter.split_documents(docs)
 
@@ -73,6 +73,7 @@ class RagWrapper:
                 search_type="mmr",  # Also test "similarity"
                 search_kwargs={"k": 8},
             )
+            print(self.retriever.get_relevant_documents("iter_components")[0])
             del embeddings
 
         except Exception as e:

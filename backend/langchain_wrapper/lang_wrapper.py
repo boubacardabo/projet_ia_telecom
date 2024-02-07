@@ -25,11 +25,13 @@ class LangWrapper:
                     instruction, the question and the context given to you, you will
                     either answer to questions related to a repository code, generate or
                     correct code. DO your BEST.
-
+                    -----------------------------------------------
                     Here the is context retrieved:
                     {context}
+                    -----------------------------------------------
                     Here is the question to answer:
                     {question} 
+                    -----------------------------------------------
                     [/INST]
                     """
 
@@ -80,7 +82,14 @@ class LangWrapper:
         )
 
         document_prompt = PromptTemplate(
-            input_variables=["page_content"], template="{page_content}"
+            input_variables=["page_content", "file_name", "file_path", "source"], 
+            template="""
+            PAGE_CONTENT
+            {page_content}
+            ----------------------------------
+            METADATA
+            file_name={file_name}, file_path={file_path}, source={source}
+            """
         )
 
         document_variable_name = "context"

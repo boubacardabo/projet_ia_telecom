@@ -20,7 +20,7 @@ class LlmModel:
             model=self.model,
             tokenizer=self.tokenizer,
             device=0,
-            max_new_tokens=2048,
+            max_new_tokens=4096,
             return_full_text=False,
         )
 
