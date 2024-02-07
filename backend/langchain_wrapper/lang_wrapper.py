@@ -76,7 +76,7 @@ class LangWrapper:
         assert isinstance(self.ragWrapper, RagWrapper)
 
         memory = ConversationBufferMemory(
-            memory_key="chat_history", return_messages=True
+            memory_key="chat_history", return_messages=True, output_key="answer"
         )
 
         document_prompt = PromptTemplate(
