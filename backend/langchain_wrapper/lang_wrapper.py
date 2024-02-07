@@ -69,23 +69,28 @@ class LangWrapper:
     def setup_rag_llm_chain(self):
         primary_chain = self.llmChain
         assert primary_chain is LLMChain
-
+        print("rag")
         if self.ragWrapper:
             document_prompt = PromptTemplate(
                 input_variables=["page_content"], template="{page_content}"
             )
+            print("rag")
+
             document_variable_name = "context"
             combine_docs_chain = StuffDocumentsChain(
                 llm_chain=primary_chain,
                 document_prompt=document_prompt,
                 document_variable_name=document_variable_name,
             )
+            print("rag")
+
             self.llmChain = ConversationalRetrievalChain(
                 retriever=self.ragWrapper.retriever,
                 question_generator=primary_chain,
                 combine_docs_chain=combine_docs_chain,
                 response_if_no_docs_found="The information needed was not found in any file",
             )
+            print("rag")
 
     def cleanup(self):
         del self.llmChain
