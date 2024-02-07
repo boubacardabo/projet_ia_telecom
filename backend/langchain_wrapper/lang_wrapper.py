@@ -58,7 +58,7 @@ class LangWrapper:
     def invoke_llm_chain(self, question: str):
         if self.llmChain:
             response = self.llmChain(
-                input={
+                {
                     "question": question,
                 },
             )
