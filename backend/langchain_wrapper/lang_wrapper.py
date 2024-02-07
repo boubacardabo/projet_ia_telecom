@@ -24,11 +24,9 @@ class LangWrapper:
                     instruction, the question and the context given to you, you will
                     either answer to questions related to a repository code, generate or
                     correct code. DO your BEST.
-
-                    Here is context to help:
+                    CONTEXT:
                     {context}
-
-                    Here is the question:
+                    QUESTION:
                     {question} 
                     """
 
@@ -57,7 +55,7 @@ class LangWrapper:
     def invoke_llm_chain(self, question: str):
         if self.llmChain:
             response = self.llmChain.invoke(
-                input={"question": question, "chat_history": ""},
+                input={"question": question, "chat_history": self.llmChain.get_chat_history() or ""},  # type: ignore
             )
             if isinstance(self.llmChain, LLMChain):
                 return response["text"]
