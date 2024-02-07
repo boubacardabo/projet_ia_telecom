@@ -5,6 +5,7 @@ from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain.chains import LLMChain, ConversationalRetrievalChain, StuffDocumentsChain
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
+from langchain.memory import ConversationBufferMemory
 
 
 # uncomment for debug
@@ -23,9 +24,6 @@ class LangWrapper:
                     instruction, the question and the context given to you, you will
                     either answer to questions related to a repository code, generate or
                     correct code. DO your BEST.
-                    
-                    Here is the chat_history: 
-                    {chat_history}
 
                     Here is context to help:
                     {context}
@@ -37,7 +35,7 @@ class LangWrapper:
     def __init__(self, model: LlmModel | str):
         # initialize the LLM
         prompt = PromptTemplate(
-            input_variables=["context", "question", "chat_history"],
+            input_variables=["context", "question"],
             template=self.template_text,
         )
         if isinstance(model, LlmModel):
@@ -75,24 +73,31 @@ class LangWrapper:
     def setup_rag_llm_chain(self):
         primary_chain = self.llmChain
         assert isinstance(primary_chain, LLMChain)
-        if self.ragWrapper:
-            document_prompt = PromptTemplate(
-                input_variables=["page_content"], template="{page_content}"
-            )
+        assert isinstance(self.ragWrapper, RagWrapper)
 
-            document_variable_name = "context"
-            combine_docs_chain = StuffDocumentsChain(
-                llm_chain=primary_chain,
-                document_prompt=document_prompt,
-                document_variable_name=document_variable_name,
-            )
+        memory = ConversationBufferMemory(
+            memory_key="chat_history", return_messages=True
+        )
 
-            self.llmChain = ConversationalRetrievalChain(
-                retriever=self.ragWrapper.retriever,
-                question_generator=primary_chain,
-                combine_docs_chain=combine_docs_chain,
-                response_if_no_docs_found="The information needed was not found in any file",
-            )
+        document_prompt = PromptTemplate(
+            input_variables=["page_content"], template="{page_content}"
+        )
+
+        document_variable_name = "context"
+        combine_docs_chain = StuffDocumentsChain(
+            llm_chain=primary_chain,
+            document_prompt=document_prompt,
+            document_variable_name=document_variable_name,
+        )
+
+        self.llmChain = ConversationalRetrievalChain(
+            retriever=self.ragWrapper.retriever,
+            question_generator=primary_chain,
+            combine_docs_chain=combine_docs_chain,
+            response_if_no_docs_found="The information needed was not found in any file",
+            memory=memory,
+            return_source_documents=True,
+        )
 
     def cleanup(self):
         del self.llmChain
