@@ -97,9 +97,7 @@ class LangWrapper:
             question_generator=primary_chain,
             combine_docs_chain=combine_docs_chain,
             response_if_no_docs_found="The information needed was not found in any file",
-            memory=memory,
             get_chat_history=lambda h: h,  # type: ignore
-            verbose=True,
         )
 
     def cleanup(self):
