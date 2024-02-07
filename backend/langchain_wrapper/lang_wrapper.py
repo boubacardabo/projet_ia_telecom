@@ -35,7 +35,7 @@ class LangWrapper:
     def __init__(self, model: LlmModel | str):
         # initialize the LLM
         prompt = PromptTemplate(
-            input_variables=["context", "question"],
+            input_variables=["question"],
             template=self.template_text,
         )
         if isinstance(model, LlmModel):
