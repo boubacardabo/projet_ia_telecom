@@ -5,3 +5,4 @@
 - how to avoid too much response drift
 - vectorStore is good but multi query retriever might be better
 - add indexing to avoid recomputing embeddings every time
+- to remove model go to ~/.cache/huggingface/hub and rm -r models--

@@ -19,15 +19,18 @@ class LangWrapper:
     llmChain: LLMChain | ConversationalRetrievalChain | None
     ragWrapper: RagWrapper | None
     template_text = """
-                    Instruction: Your job is to be be a personal coding assistant
+                    [INST]
+                    Your job is to be be a personal coding assistant
                     that answers the questions given. Depending on this
                     instruction, the question and the context given to you, you will
                     either answer to questions related to a repository code, generate or
                     correct code. DO your BEST.
-                    CONTEXT:
+
+                    Here the is context retrieved:
                     {context}
-                    QUESTION:
+                    Here is the question to answer:
                     {question} 
+                    [/INST]
                     """
 
     def __init__(self, model: LlmModel | str):
