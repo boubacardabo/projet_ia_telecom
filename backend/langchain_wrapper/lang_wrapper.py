@@ -92,8 +92,10 @@ class LangWrapper:
             question_generator=primary_chain,
             combine_docs_chain=combine_docs_chain,
             response_if_no_docs_found="The information needed was not found in any file",
-            get_chat_history=lambda inputs: "\n".join(
-                [f"Human:{human}\nAI:{ai}" for human, ai in inputs]
+            get_chat_history=lambda inputs=None: (
+                ""
+                if inputs is None
+                else "\n".join([f"Human:{human}\nAI:{ai}" for human, ai in inputs])
             ),
         )
 
