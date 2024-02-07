@@ -11,13 +11,13 @@ sys.path.append(backend_folder)
 from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
-from llm.model_names import opt_1_3_model
+from llm.model_names import mistral_model
 
 
 def main():
     try:
         # model
-        model = LlmModel(model_name=opt_1_3_model)
+        model = LlmModel(model_name=mistral_model)
 
         # rag
         repo_url = "https://github.com/esphome/esphome"
