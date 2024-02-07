@@ -61,7 +61,6 @@ class LangWrapper:
             response = self.llmChain.invoke(
                 input={
                     "question": question,
-                    "chat_history": chat_history,
                     "context": "",
                 },
             )
