@@ -24,6 +24,9 @@ class LangWrapper:
                     either answer to questions related to a repository code, generate or
                     correct code. DO your BEST.
                     
+                    Here is the chat_history: 
+                    {chat_history}
+
                     Here is context to help:
                     {context}
 
@@ -34,7 +37,7 @@ class LangWrapper:
     def __init__(self, model: LlmModel | str):
         # initialize the LLM
         prompt = PromptTemplate(
-            input_variables=["context", "question"],
+            input_variables=["context", "question", "chat_history"],
             template=self.template_text,
         )
         if isinstance(model, LlmModel):
@@ -56,7 +59,9 @@ class LangWrapper:
 
     def invoke_llm_chain(self, question: str):
         if self.llmChain:
-            response = self.llmChain.invoke(input={"question": question})
+            response = self.llmChain.invoke(
+                input={"question": question},
+            )
             if isinstance(self.llmChain, LLMChain):
                 return response["text"]
             else:
@@ -69,11 +74,11 @@ class LangWrapper:
 
     def setup_rag_llm_chain(self):
         primary_chain = self.llmChain
+        assert isinstance(primary_chain, LLMChain)
         if self.ragWrapper:
             document_prompt = PromptTemplate(
                 input_variables=["page_content"], template="{page_content}"
             )
-            print("rag")
 
             document_variable_name = "context"
             combine_docs_chain = StuffDocumentsChain(
@@ -81,7 +86,6 @@ class LangWrapper:
                 document_prompt=document_prompt,
                 document_variable_name=document_variable_name,
             )
-            print("rag")
 
             self.llmChain = ConversationalRetrievalChain(
                 retriever=self.ragWrapper.retriever,
@@ -89,7 +93,6 @@ class LangWrapper:
                 combine_docs_chain=combine_docs_chain,
                 response_if_no_docs_found="The information needed was not found in any file",
             )
-            print("rag")
 
     def cleanup(self):
         del self.llmChain
