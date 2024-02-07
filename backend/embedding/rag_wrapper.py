@@ -73,6 +73,7 @@ class RagWrapper:
                 search_type="mmr",  # Also test "similarity"
                 search_kwargs={"k": 8},
             )
+            del embeddings
 
         except Exception as e:
             print(e)
