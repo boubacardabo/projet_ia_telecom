@@ -35,7 +35,7 @@ class LangWrapper:
     def __init__(self, model: LlmModel | str):
         # initialize the LLM
         prompt = PromptTemplate(
-            input_variables=["question"],
+            input_variables=["question", "context"],
             template=self.template_text,
         )
         if isinstance(model, LlmModel):
@@ -96,7 +96,6 @@ class LangWrapper:
             combine_docs_chain=combine_docs_chain,
             response_if_no_docs_found="The information needed was not found in any file",
             memory=memory,
-            return_source_documents=True,
         )
 
     def cleanup(self):
