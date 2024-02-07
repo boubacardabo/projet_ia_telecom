@@ -11,7 +11,7 @@ sys.path.append(backend_folder)
 from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
-from llm.model_names import mistral_model
+from llm.model_names import mistral_instruct_model
 from utils.main import select_gpu_if_available
 
 
