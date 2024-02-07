@@ -35,8 +35,7 @@ class LangWrapper:
 
     def __init__(self, model: LlmModel | str):
         # initialize the LLM
-        prompt = PromptTemplate(
-            input_variables=["question", "chat_history", "context"],
+        prompt = PromptTemplate.from_template(
             template=self.template_text,
         )
         if isinstance(model, LlmModel):
@@ -56,12 +55,11 @@ class LangWrapper:
                 output_parser = StrOutputParser()
                 self.llmChain = prompt | self.llmModel | output_parser  # type: ignore
 
-    def invoke_llm_chain(self, question: str, chat_history: str = ""):
+    def invoke_llm_chain(self, question: str):
         if self.llmChain:
-            response = self.llmChain.invoke(
+            response = self.llmChain(
                 input={
                     "question": question,
-                    "context": "",
                 },
             )
             if isinstance(self.llmChain, LLMChain):
@@ -101,6 +99,7 @@ class LangWrapper:
             response_if_no_docs_found="The information needed was not found in any file",
             memory=memory,
             get_chat_history=lambda h: h,  # type: ignore
+            verbose=True,
         )
 
     def cleanup(self):
