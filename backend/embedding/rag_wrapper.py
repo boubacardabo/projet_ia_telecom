@@ -17,7 +17,6 @@ class RagWrapper:
     retriever: Any  # type: ignore
 
     def __init__(self, repo_url: str, file_type: str, branch: str | None = None):
-        select_gpu_if_available()
         self.downloadRepository(repo_url)
         self.loadSplitEmbedDocs(branch, file_type)
 

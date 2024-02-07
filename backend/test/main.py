@@ -17,7 +17,6 @@ from utils.main import select_gpu_if_available
 
 def main():
     try:
-        select_gpu_if_available()
         # model
         model = LlmModel(model_name=mistral_model)
 
