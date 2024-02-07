@@ -69,9 +69,6 @@ class LangWrapper:
 
     def setup_rag_llm_chain(self):
         primary_chain = self.llmChain
-        print("rag")
-        assert primary_chain is LLMChain
-        print("rag")
         if self.ragWrapper:
             document_prompt = PromptTemplate(
                 input_variables=["page_content"], template="{page_content}"
