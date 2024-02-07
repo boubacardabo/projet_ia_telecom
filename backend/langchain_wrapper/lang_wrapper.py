@@ -42,7 +42,7 @@ class LangWrapper:
             primary_chain = LLMChain(
                 prompt=prompt,
                 llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline),
-                # verbose=True,
+                verbose=True,
             )
             self.llmChain = primary_chain
         elif model != "openai" or "mistralapi":
