@@ -24,8 +24,7 @@ class LangWrapper:
                     instruction, the question and the context given to you, you will
                     either answer to questions related to a repository code, generate or
                     correct code. DO your BEST.
-                    Here is the chat history: 
-                    {chat_history}
+
                     Here is context to help:
                     {context}
 
