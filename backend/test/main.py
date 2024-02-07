@@ -27,8 +27,12 @@ def main():
 
         # langchain
         langchain_wrapper = LangWrapper(model=model)
+        print("here")
         langchain_wrapper.add_rag_wrapper(ragWrapper)
+        print("here")
         langchain_wrapper.setup_rag_llm_chain()
+        print("here")
+
         question = """
             Briefly tell me what the codegen.py file does
             """
