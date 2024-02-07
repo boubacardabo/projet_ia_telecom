@@ -42,9 +42,7 @@ def main():
         question = """
             Give me the complete code in iter_components function
             """
-        generated_text = langchain_wrapper.invoke_llm_chain(
-            question=question, chat_history=history
-        )
+        generated_text = langchain_wrapper.invoke_llm_chain(question=question)
 
         # gen_text = model.generate_text(question)
         print(generated_text)  # type: ignore
