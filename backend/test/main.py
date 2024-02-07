@@ -35,15 +35,19 @@ def main():
             Briefly tell me what the codegen.py file does
             """
         generated_text = langchain_wrapper.invoke_llm_chain(question)
+        history = generated_text["chat_history"]  # type: ignore
         # gen_text = model.generate_text(question)
-        print(generated_text)
+        print(generated_text["answer"])  # type: ignore
 
         question = """
             Give me the complete code in iter_components function
             """
-        generated_text = langchain_wrapper.invoke_llm_chain(question)
+        generated_text = langchain_wrapper.invoke_llm_chain(
+            question, chat_history=history
+        )
+
         # gen_text = model.generate_text(question)
-        print(generated_text)
+        print(generated_text["answer"])  # type: ignore
 
         langchain_wrapper.cleanup()
 
