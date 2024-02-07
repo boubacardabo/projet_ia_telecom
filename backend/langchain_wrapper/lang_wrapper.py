@@ -45,6 +45,7 @@ class LangWrapper:
                 verbose=True,
             )
             self.llmChain = primary_chain
+            self.ragWrapper = None
         elif model != "openai" or "mistralapi":
             print("Error: For API models, please choose openai or mistralapi")
         else:
