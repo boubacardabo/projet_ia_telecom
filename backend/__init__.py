@@ -1,3 +1,4 @@
 import sys
-
-sys.path.append("/Users/boubacardabo/Desktop/school/projet_ia_telecom/backend")
+import os
+backend_folder = f"{os.getcwd()}/backend"
+sys.path.append(backend_folder)

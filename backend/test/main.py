@@ -3,22 +3,31 @@ import sys
 import torch
 
 
-backend_folder = f"{os.getcwd()}/backend"
+torch.FloatTensor(2).to('cuda') #To change depending of the GPU you are using
 
+backend_folder = f"{os.getcwd()}/backend"
 sys.path.append(backend_folder)
 
 
 from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
-from llm.model_names import code_llama_model_13b_instruct, mistral_model
-from utils.main import select_gpu_if_available
+from llm.model_names import starcoder
+
+model_name = starcoder
+
+os.environ["LANGCHAIN_TRACING_V2"] = 'true'
+os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+os.environ["LANGCHAIN_API_KEY"] = "ls__10ce43b562744edc989ff4dc8ac73e35"
+os.environ["LANGCHAIN_PROJECT"]= "pt-virtual-osmosis-36"  # if not specified, defaults to "default"
 
 
 def main():
-    try:
+    if True : 
+
         # model
-        model = LlmModel(model_name=code_llama_model_13b_instruct)
+        model = LlmModel(model_name=model_name)
+
 
         # rag
         repo_url = "https://github.com/esphome/esphome"
@@ -30,35 +39,22 @@ def main():
         langchain_wrapper = LangWrapper(model=model)
         langchain_wrapper.add_rag_wrapper(ragWrapper)
         langchain_wrapper.setup_rag_llm_chain()
-
-        # question = """
-        #     Briefly tell me what the codegen.py file does
-        #     """
-        # generated_text = langchain_wrapper.invoke_llm_chain(question)
-        # history = generated_text["chat_history"]  # type: ignore
-        # # gen_text = model.generate_text(question)
-        # print(generated_text)  # type: ignore
-
-        # question = """
-        #     output EXATCLY the COMPLETE code of 'iter_components' function AS IS
-        #     """
-        # generated_text = langchain_wrapper.invoke_llm_chain(question=question)
-
-        # # gen_text = model.generate_text(question)
-        # print(generated_text)  # type: ignore
+ 
 
         question = """
-            what is the path of a02yyuw.cpp file in the repository ?
+            Write a unit test for the gpio_base_schema method.
             """
+        
         generated_text = langchain_wrapper.invoke_llm_chain(question=question)
 
         # gen_text = model.generate_text(question)
+
         print(generated_text)  # type: ignore
+
+
 
         langchain_wrapper.cleanup()
 
-    except Exception as e:
-        print(e)
 
 
 if __name__ == "__main__":
