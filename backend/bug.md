@@ -1,0 +1,1 @@
+The problem is that tensors are getting distributed between the cpu and cuda:0, which raises an error.
