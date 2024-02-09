@@ -135,7 +135,7 @@ class LangWrapper:
         
         prompt = PromptTemplate.from_template(template=self.template_text)
         
-        self.llmChain = load_qa_chain(self.model, chain_type="stuff", prompt=prompt)
+        self.llmChain = load_qa_chain(self.llmModel, chain_type="stuff", prompt=prompt)
 
 
     def invoke_llm_chain2(self, question: str):
