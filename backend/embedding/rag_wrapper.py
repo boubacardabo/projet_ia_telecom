@@ -7,7 +7,7 @@ from embedding.model_names import sentence_t5_base
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from typing import Any
-from utils.main import select_gpu_if_available
+
 
 
 class RagWrapper:
