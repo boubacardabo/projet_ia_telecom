@@ -25,7 +25,7 @@ def main():
 
 
 
-        choice = input("Choose HuggingFacePipeline ('h') or OpenLLM ('o'): ").lower().strip()
+        choice = input("Choose HuggingFacePipeline ('h') or OpenLLM ('o'):\n ").lower().strip()
         if choice == 'h':
 
             from llm.llm_model import LlmModel
@@ -88,12 +88,12 @@ def main():
             langchain_wrapper.add_rag_wrapper(ragWrapper)
             langchain_wrapper.setup_rag_llm_chain2()
 
-            #question = input("How can I help you?").strip()
-            question = """Briefly tell me what the codegen.py file does"""
+            question = """Briefly tell me what the codegen.py file does."""
 
             generated_text = langchain_wrapper.invoke_llm_chain2(question)
             print(generated_text['output_text'])
 
+            langchain_wrapper.cleanup()
 
         else:
             print("Invalid choice. Exiting.")
