@@ -17,6 +17,12 @@ def main():
 
         
 
+        os.environ["LANGCHAIN_TRACING_V2"] = 'true'
+        os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+        os.environ["LANGCHAIN_API_KEY"] = "ls__a21c5d9069a442c08645e82f0a7330cc"
+        os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
+
+
 
         choice = input("Choose HuggingFacePipeline ('h') or OpenLLM ('o'): ").lower().strip()
         if choice == 'h':
@@ -101,6 +107,8 @@ def main():
             chain = load_qa_chain(llm, chain_type="stuff", prompt=QA_CHAIN_PROMPT)
             output = chain.invoke({"input_documents": docs, "question": question}, return_only_outputs=True)
             print(output['output_text'])
+
+
 
 
 
