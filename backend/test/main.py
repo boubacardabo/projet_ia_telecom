@@ -31,21 +31,21 @@ def main():
         langchain_wrapper.add_rag_wrapper(ragWrapper)
         langchain_wrapper.setup_rag_llm_chain()
 
-        # question = """
-        #     Briefly tell me what the codegen.py file does
-        #     """
-        # generated_text = langchain_wrapper.invoke_llm_chain(question)
-        # history = generated_text["chat_history"]  # type: ignore
-        # # gen_text = model.generate_text(question)
-        # print(generated_text)  # type: ignore
+        question = """
+            Briefly tell me what the codegen.py file does
+            """
+        generated_text = langchain_wrapper.invoke_llm_chain(question)
+        history = generated_text["chat_history"]  # type: ignore
+        # gen_text = model.generate_text(question)
+        print(generated_text["answer"])  # type: ignore
 
-        # question = """
-        #     output EXATCLY the COMPLETE code of 'iter_components' function AS IS
-        #     """
-        # generated_text = langchain_wrapper.invoke_llm_chain(question=question)
+        question = """
+            output EXATCLY the COMPLETE code of 'iter_components' function AS IS
+            """
+        generated_text = langchain_wrapper.invoke_llm_chain(question=question)
 
-        # # gen_text = model.generate_text(question)
-        # print(generated_text)  # type: ignore
+        # gen_text = model.generate_text(question)
+        print(generated_text["answer"])  # type: ignore
 
         question = """
             what is the path of a02yyuw.cpp file in the repository ?
@@ -53,7 +53,7 @@ def main():
         generated_text = langchain_wrapper.invoke_llm_chain(question=question)
 
         # gen_text = model.generate_text(question)
-        print(generated_text)  # type: ignore
+        print(generated_text["answer"])  # type: ignore
 
         langchain_wrapper.cleanup()
 
