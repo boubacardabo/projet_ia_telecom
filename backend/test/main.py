@@ -88,10 +88,11 @@ def main():
             langchain_wrapper.add_rag_wrapper(ragWrapper)
             langchain_wrapper.setup_rag_llm_chain2()
 
+            #question = input("How can I help you?").strip()
             question = """Briefly tell me what the codegen.py file does"""
 
             generated_text = langchain_wrapper.invoke_llm_chain2(question)
-            print(generated_text['output_text'])  # type: ignore
+            print(generated_text['output_text'])
 
 
         else:

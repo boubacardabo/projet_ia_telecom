@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from llm.model_names import mistral_model, starcoder
+from llm.model_names import starcoder
 from utils.main import select_gpu_if_available
 
 model_name = starcoder
