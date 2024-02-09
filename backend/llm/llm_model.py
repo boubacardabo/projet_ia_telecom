@@ -13,13 +13,12 @@ class LlmModel:
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
             torch_dtype=dtype,
-            # device_map="auto",
+            device_map=0,
         )
         self.pipeline = pipeline(
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
-            device=0,
             max_new_tokens=4096,
             return_full_text=False,
         )
@@ -29,9 +28,10 @@ class LlmModel:
             text=input_text,
             return_tensors="pt",
         )
+
         output = self.model.generate(inputs)  # type: ignore
         generated_text = self.tokenizer.batch_decode(
-            output, skip_special_tokens=True, device_map="auto"
+            output, skip_special_tokens=False, device_map=0
         )
         return " ".join(generated_text)
 

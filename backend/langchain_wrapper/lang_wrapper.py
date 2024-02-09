@@ -60,9 +60,7 @@ class LangWrapper:
             #response = self.llmChain.invoke(
             #    input={"question": question, "chat_history": self.llmChain.get_chat_history() or ""},  # type: ignore
             #)
-            
-            retriever = self.ragWrapper.retriever
-            docs = retriever.get_relevant_documents(question)
+            docs = self.ragWrapper.retriever.get_relevant_documents(question)
 
             response = self.llmChain({"input_documents": docs, "question": question}, return_only_outputs=True)
 
