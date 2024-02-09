@@ -11,14 +11,35 @@ sys.path.append(backend_folder)
 from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
-from llm.model_names import code_llama_model_13b_instruct, mistral_model
+from llm.model_names import code_llama_model_13b_instruct, mistral_model, starcoder
 from utils.main import select_gpu_if_available
+
+model_name = starcoder
+
+def move_tensors_to_gpu(obj):
+    if isinstance(obj, torch.Tensor):
+        if obj.device.type != 'cuda':
+            obj = obj.to('cuda')
+    if hasattr(obj, '__dict__'):
+        for attr_name in obj.__dict__:
+            attr = getattr(obj, attr_name)
+            setattr(obj, attr_name, move_tensors_to_gpu(attr))
+    if hasattr(obj, '__iter__'):
+        if isinstance(obj, dict):
+            for key, value in obj.items():
+                obj[key] = move_tensors_to_gpu(value)
+        else:
+            for i, item in enumerate(obj):
+                obj[i] = move_tensors_to_gpu(item)
+    return obj
+
 
 
 def main():
-    try:
+    while True:
         # model
-        model = LlmModel(model_name=code_llama_model_13b_instruct)
+        model = LlmModel(model_name=model_name)
+        print("model device after init :", model.model.hf_device_map)
 
         # rag
         repo_url = "https://github.com/esphome/esphome"
@@ -30,6 +51,9 @@ def main():
         langchain_wrapper = LangWrapper(model=model)
         langchain_wrapper.add_rag_wrapper(ragWrapper)
         langchain_wrapper.setup_rag_llm_chain()
+
+
+        #move_tensors_to_gpu(langchain_wrapper)
 
         question = """
             Briefly tell me what the codegen.py file does
@@ -56,9 +80,6 @@ def main():
         print(generated_text["answer"])  # type: ignore
 
         langchain_wrapper.cleanup()
-
-    except Exception as e:
-        print(e)
 
 
 if __name__ == "__main__":

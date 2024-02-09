@@ -59,7 +59,9 @@ class LangWrapper:
 
     def invoke_llm_chain(self, question: str):
         if self.llmChain:
+
             response = self.llmChain.invoke(
+                device_map=0,
                 input={"question": question, "chat_history": self.llmChain.get_chat_history() or ""},  # type: ignore
             )
             if isinstance(self.llmChain, LLMChain):

@@ -73,7 +73,7 @@ class RagWrapper:
                 search_type="mmr",  # Also test "similarity"
                 search_kwargs={"k": 8},
             )
-            print(self.retriever.get_relevant_documents("iter_components")[0])
+            #print(self.retriever.get_relevant_documents("iter_components")[0])
             del embeddings
 
         except Exception as e:
