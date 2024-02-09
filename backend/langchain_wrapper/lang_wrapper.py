@@ -49,13 +49,22 @@ class LangWrapper:
             )
             self.llmChain = primary_chain
             self.ragWrapper = None
-        elif model != "openai" or "mistralapi":
-            print("Error: For API models, please choose openai or mistralapi")
         else:
             if model == "openai":
                 self.llmModel = ChatOpenAI(model="gpt-4")
                 output_parser = StrOutputParser()
                 self.llmChain = prompt | self.llmModel | output_parser  # type: ignore
+            else : 
+                #OpenLLM
+                self.llmModel = model
+                primary_chain = LLMChain(
+                    prompt=prompt,
+                    llm=model,
+                    verbose=True,
+                )
+                self.llmChain = primary_chain
+                self.ragWrapper = None
+
 
     def invoke_llm_chain(self, question: str):
         if self.llmChain:
@@ -112,6 +121,32 @@ class LangWrapper:
                 else "\n".join([f"Human:{human}\nAI:{ai}" for human, ai in inputs])
             ),
         )
+
+
+
+
+    def setup_rag_llm_chain2(self):
+
+        primary_chain = self.llmChain
+        assert isinstance(primary_chain, LLMChain)
+        assert isinstance(self.ragWrapper, RagWrapper)
+
+        from langchain.chains.question_answering import load_qa_chain
+        
+        prompt = PromptTemplate.from_template(template=self.template_text)
+        
+        self.llmChain = load_qa_chain(self.model, chain_type="stuff", prompt=prompt)
+
+
+    def invoke_llm_chain2(self, question: str):
+        if self.llmChain:
+
+            docs = self.ragWrapper.retriever.get_relevant_documents(question)
+            response = self.llmChain.invoke({"input_documents": docs, "question": question}, return_only_outputs=True)
+
+            return response
+        return "No LLM Chain instantiated in Langchain"
+
 
     def cleanup(self):
         del self.llmChain
