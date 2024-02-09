@@ -25,12 +25,13 @@ def main():
 
 
 
-        choice = input("Choose HuggingFacePipeline ('h') or OpenLLM ('o'):\n ").lower().strip()
+        choice = input("Choose HuggingFaceAPI ('h') or OpenLLM ('o'):\n ").lower().strip()
         if choice == 'h':
 
-            from llm.llm_model import LlmModel
+            print("You are using the huggingFaceAPI.\n")
 
-            
+
+            from llm.llm_model import LlmModel
             from llm.model_names import code_llama_model_13b_instruct
 
             # model
@@ -76,7 +77,7 @@ def main():
             
         elif choice == 'o':
 
-            print("OpenLLM")
+            print("You are using OpenLLM.\n")
 
 
             from langchain_community.llms import OpenLLM
@@ -88,10 +89,14 @@ def main():
             langchain_wrapper.add_rag_wrapper(ragWrapper)
             langchain_wrapper.setup_rag_llm_chain()
 
-            question = """Briefly tell me what the codegen.py file does"""
+            while True:
+                question = input("Ask a query (type 'q' to quit): \n").strip()
+                if question.lower() == 'q':
+                    break
+                
+                generated_text = langchain_wrapper.invoke_llm_chain(question)
+                print(generated_text['answer'])
 
-            generated_text = langchain_wrapper.invoke_llm_chain(question)
-            print(generated_text['answer'])
 
             langchain_wrapper.cleanup()
 
