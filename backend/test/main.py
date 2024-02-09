@@ -3,6 +3,7 @@ import sys
 backend_folder = f"{os.getcwd()}/backend"
 sys.path.append(backend_folder)
 from embedding.rag_wrapper import RagWrapper
+from langchain_wrapper.lang_wrapper import LangWrapper
 
 
 def main():
@@ -29,7 +30,7 @@ def main():
 
             from llm.llm_model import LlmModel
 
-            from langchain_wrapper.lang_wrapper import LangWrapper
+            
             from llm.model_names import code_llama_model_13b_instruct
 
             # model
@@ -79,41 +80,18 @@ def main():
 
 
             from langchain_community.llms import OpenLLM
-            from langchain.prompts import PromptTemplate
-            from langchain.chains.question_answering import load_qa_chain
-
 
             server_url = "http://localhost:3000"
             llm = OpenLLM(server_url=server_url)
 
+            langchain_wrapper = LangWrapper(model=llm)
+            langchain_wrapper.add_rag_wrapper(ragWrapper)
+            langchain_wrapper.setup_rag_llm_chain2()
 
-            # Prompt
-            template = """Use the following pieces of context to answer the question at the end. 
-            If you don't know the answer, just say that you don't know, don't try to make up an answer. 
-            Keep the answer as concise as possible. 
-            {context}
-            Question: {question}
-            Helpful Answer:"""
-            QA_CHAIN_PROMPT = PromptTemplate(
-                input_variables=["context", "question"],
-                template=template,
-            )
+            question = """Briefly tell me what the codegen.py file does"""
 
-            # Docs
-            question = "Write a unit test for the gpio_base_schema method, based on the specification of gpio_base_schema."
-            docs = ragWrapper.retriever.get_relevant_documents(question)
-
-            # Chain
-            chain = load_qa_chain(llm, chain_type="stuff", prompt=QA_CHAIN_PROMPT)
-            output = chain.invoke({"input_documents": docs, "question": question}, return_only_outputs=True)
-            print(output['output_text'])
-
-
-
-
-
-
-
+            generated_text = langchain_wrapper.invoke_llm_chain2(question)
+            print(generated_text['output_text'])  # type: ignore
 
 
         else:
