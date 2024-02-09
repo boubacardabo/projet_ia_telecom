@@ -75,7 +75,6 @@ def main():
             from langchain_community.llms import OpenLLM
             from langchain.prompts import PromptTemplate
             from langchain.chains.question_answering import load_qa_chain
-            from langchain_community.llms import OpenLLM
 
 
             server_url = "http://localhost:3000"

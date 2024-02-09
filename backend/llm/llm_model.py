@@ -17,7 +17,7 @@ class LlmModel:
             torch_dtype=dtype,
             device_map=0,
         )
-        print("model tensor device:", self.model.device)
+        #print("model tensor device:", self.model.device)
 
         self.pipeline = pipeline(
             task="text-generation",
@@ -27,18 +27,18 @@ class LlmModel:
             return_full_text=False,
         )
 
-        print("pipeline tensor device:", self.pipeline.device)
+        #print("pipeline tensor device:", self.pipeline.device)
 
     def generate_text(self, input_text: str):
         inputs = self.tokenizer.encode(
             text=input_text,
             return_tensors="pt",
         )
-        print("Input tensor device:", inputs.device)
+        #print("Input tensor device:", inputs.device)
 
         output = self.model.generate(inputs)  # type: ignore
 
-        print("Output tensor device:", output.device)
+        #print("Output tensor device:", output.device)
 
 
         generated_text = self.tokenizer.batch_decode(
