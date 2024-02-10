@@ -57,8 +57,8 @@ class RagWrapper:
             # Split
             code_splitter = RecursiveCharacterTextSplitter.from_language(
                 language=extension_to_language.get(file_type, Language.PYTHON),
-                chunk_size=1000,
-                chunk_overlap=0,
+                chunk_size=2000,
+                chunk_overlap=200,
             )
             texts = code_splitter.split_documents(docs)
 
