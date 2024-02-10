@@ -8,6 +8,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.memory import ConversationBufferMemory
 
 
+
 # uncomment for debug
 # import langchain
 
@@ -19,11 +20,10 @@ class LangWrapper:
     llmChain: LLMChain | ConversationalRetrievalChain | None
     ragWrapper: RagWrapper | None
     template_text = """
-                    Your job is to be be a personal coding assistant
-                    that answers the questions given. Depending on this
-                    instruction, the question and the context given to you, you will
-                    either answer to questions related to a repository code, generate or
-                    correct code. DO your BEST.
+                    <s> [INST]
+                    You are an assistant for question-answering tasks. 
+                    Use the following pieces of retrieved context to answer the question. 
+                    If you don't know the answer, just say that you don't know. 
                     -----------------------------------------------
                     Here the is context retrieved:
                     {context}
@@ -31,8 +31,10 @@ class LangWrapper:
                     Here is the question to answer:
                     {question} 
                     -----------------------------------------------
-                    <|endoftext|>
+                    [/INST] </s>
                     """
+
+    
 
     def __init__(self, model: LlmModel | str):
         # initialize the LLM
@@ -95,11 +97,15 @@ class LangWrapper:
             input_variables=["page_content", "file_name", "file_path", "source"], 
             template="""
             PAGE_CONTENT
+            
             {page_content}
+            
             ----------------------------------
             METADATA
-            <filename>{file_name}, filepath= {file_path}, source= {source}
-            <|endoftext|>
+            filename= {file_name}, 
+            filepath= {file_path},
+            source= {source}
+            
             """
         )
 
