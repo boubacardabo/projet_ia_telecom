@@ -19,7 +19,6 @@ class LangWrapper:
     llmChain: LLMChain | ConversationalRetrievalChain | None
     ragWrapper: RagWrapper | None
     template_text = """
-                    [INST]
                     Your job is to be be a personal coding assistant
                     that answers the questions given. Depending on this
                     instruction, the question and the context given to you, you will
@@ -32,7 +31,7 @@ class LangWrapper:
                     Here is the question to answer:
                     {question} 
                     -----------------------------------------------
-                    [/INST]
+                    <|endoftext|>
                     """
 
     def __init__(self, model: LlmModel | str):
@@ -99,7 +98,8 @@ class LangWrapper:
             {page_content}
             ----------------------------------
             METADATA
-            file_name={file_name}, file_path={file_path}, source={source}
+            <filename>{file_name}, filepath= {file_path}, source= {source}
+            <|endoftext|>
             """
         )
 
