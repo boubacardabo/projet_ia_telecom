@@ -74,7 +74,7 @@ def main():
             llm = OpenLLM(server_url=server_url)
 
 
-            from prompt.prompts import prompt1
+            from prompt.prompts import prompt1, prompt_mixtral
 
             langchain_wrapper = LangWrapper(model=llm, prompt=prompt1)
             #langchain_wrapper.add_rag_wrapper(ragWrapper)
