@@ -93,7 +93,7 @@ def main():
 
 
         ####
-        from utils.main import get_functions, extract_function_from_markdown, write_function_to_file
+        from utils.main import get_functions, extract_function_from_markdown, write_function_to_file, get_function_names
         from code_writer_usecase.specification_functions import specification_string
 
 
@@ -110,7 +110,9 @@ def main():
         function_code = extract_function_from_markdown(generated_text)
 
         if function_code:
-            write_function_to_file(function_code, backend_folder + "/code_writer_usecase/function_AI_generated.py")
+            function_names = get_function_names(file_path)
+            function_name = function_names[0]
+            write_function_to_file(function_code, backend_folder + "/code_writer_usecase/function_AI_generated.py", function_name=function_name, backend_folder=backend_folder)
             print("Function code has been written to 'function_AI_generated.py'")
         else:
             print("No function code extracted from the Markdown string.")
