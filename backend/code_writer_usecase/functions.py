@@ -9,7 +9,7 @@ def calculate_rectangle_area(length, width):
     Returns:
         float: The area of the rectangle.
     """
-    if not (isinstance(length, float)) or not (isinstance(width, float)) :
+    if not (isinstance(length, int)) or not (isinstance(width, int)) :
         raise ValueError("Length and width must be numbers")
     if length <= 0 or width <= 0:
         raise ValueError("Length and width must be positive numbers")

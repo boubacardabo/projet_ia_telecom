@@ -1,4 +1,3 @@
-
 import pytest
 from code_writer_usecase.functions import calculate_rectangle_area
 
@@ -39,5 +38,5 @@ def test_calculate_rectangle_area():
         calculate_rectangle_area(length, width)
 
 
-retcode = pytest.main(["-x", "D:\\TSP\\TSP_3A\\projet_AI\\projet_ia_telecom\\backend\\code_writer_usecase"])
+retcode = pytest.main(["-x", "D:/TSP/TSP_3A/projet_AI/projet_ia_telecom/backend/code_writer_usecase/unit_test_functions.py"])
 # The code written by the AI pass sucessfully
