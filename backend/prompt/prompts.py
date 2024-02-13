@@ -10,13 +10,16 @@ prompt1 = ChatPromptTemplate.from_messages([
     ("user", """You will be given a function, and a unit test specification for the function. Your task is to write the implementation of the unit test such that it passes all requirements in the specification.
                 """),
 
-    ("user", " here is the function : \n ------------ {input_function} \n ------------"),
+    ("user", " here is the function : \n ------------\n {input_function} \n ------------\n"),
 
-    ("user", "here is the specification of the unit test : \n ------------ {input_specification} \n ------------ "),
+    ("user", "here is the specification of the unit test : \n ------------\n {input_specification} \n ------------\n "),
 
-    ("system", """Please output EXACTLY the python CODE, and make sure to generate all test cases. Make sure to end the python code with "```". [/INST]""")
-    
-    
+    ("system", """Make sure to generate all test cases. Please output EXACTLY the python CODE in Markdown format, e.g.:
+
+    ```python
+    ....
+    ```
+    and NOTHING else. [/INST]""")
     ])
     
 
