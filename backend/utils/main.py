@@ -33,6 +33,16 @@ def get_functions(file_path):
 # for func in functions:
 #     print(func)
 
+def get_function_names(file_path):
+    with open(file_path, 'r') as file:
+        tree = ast.parse(file.read())
+
+    function_names = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef):
+            function_names.append(node.name)
+
+    return function_names
 
 
 import re
@@ -49,6 +59,12 @@ def extract_function_from_markdown(markdown_string):
         return None
     
 
-def write_function_to_file(function_code, file_path):
+def write_function_to_file(function_code, file_path, function_name, backend_folder):
+
+    test_path = backend_folder + "/code_writer_usecase"
     with open(file_path, 'w') as file:
+        file.write("import pytest\n")
+        file.write(f"from code_writer_usecase.functions import {function_name}\n\n")
         file.write(function_code)
+        file.write("\n\n")
+        file.write(f'retcode = pytest.main(["-x","{test_path}"])')

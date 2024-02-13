@@ -1,15 +1,6 @@
 
-import os
-import sys
-
-backend_folder = f"{os.getcwd()}/backend"
-sys.path.append(backend_folder)
-
-
 import pytest
 from code_writer_usecase.functions import calculate_rectangle_area
-from langchain_experimental.utilities import PythonREPL
-
 
 
 def test_calculate_rectangle_area():
