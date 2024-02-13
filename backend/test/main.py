@@ -25,11 +25,13 @@ def main():
         file_type = ".py"
         ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
 
-
-
-        
-
         choice = input("Choose HuggingFaceAPI ('h') or OpenLLM ('o'):\n ").lower().strip()
+
+
+
+
+
+
         if choice == 'h':
 
             print("You are using the huggingFace pipeline API.\n")
@@ -48,13 +50,13 @@ def main():
             langchain_wrapper.add_rag_wrapper(ragWrapper)
             langchain_wrapper.setup_rag_llm_chain()
 
-            question = """
-                Briefly tell me what the codegen.py file does
-                """
-            generated_text = langchain_wrapper.invoke_llm_chain(question)
-            # history = generated_text["chat_history"]  # type: ignore
-            # gen_text = model.generate_text(question)
-            print(generated_text["answer"])  # type: ignore
+            # question = """
+            #     Briefly tell me what the codegen.py file does
+            #     """
+            # generated_text = langchain_wrapper.invoke_llm_chain(question)
+            # # history = generated_text["chat_history"]  # type: ignore
+            # # gen_text = model.generate_text(question)
+            # print(generated_text["answer"])  # type: ignore
 
 
 
@@ -74,22 +76,31 @@ def main():
             langchain_wrapper.add_rag_wrapper(ragWrapper)
             langchain_wrapper.setup_rag_llm_chain()
 
-            while True:
-                question = input("Ask a query (type 'q' to quit): \n").strip()
-                if question.lower() == 'q':
-                    break
-                
-                generated_text = langchain_wrapper.invoke_llm_chain(question)
-                print(generated_text['answer'])
+
 
 
 
         else:
             print("Invalid choice. Exiting.")
+            langchain_wrapper.cleanup()
             return
     
         langchain_wrapper.cleanup()
             
+
+
+
+
+        while True:
+            question = input("Ask a query (type 'q' to quit): \n").strip()
+            if question.lower() == 'q':
+                break
+                
+            generated_text = langchain_wrapper.invoke_llm_chain(question)
+            print(generated_text['answer'])
+
+
+
 
     except Exception as e:
         print(e)

@@ -1,6 +1,6 @@
 from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
-from langchain.prompts import PromptTemplate
+from langchain.prompts import PromptTemplate, ChatPromptTemplate
 from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain.chains import LLMChain, ConversationalRetrievalChain, StuffDocumentsChain
 from langchain_openai import ChatOpenAI
@@ -20,7 +20,7 @@ class LangWrapper:
     llmChain: LLMChain | ConversationalRetrievalChain | None
     ragWrapper: RagWrapper | None
     template_text = """
-                    <s> [INST]
+                    [INST]
                     You are an assistant for question-answering tasks. 
                     Use the following pieces of retrieved context to answer the question. 
                     If you don't know the answer, just say that you don't know. 
@@ -31,16 +31,19 @@ class LangWrapper:
                     Here is the question to answer:
                     {question} 
                     -----------------------------------------------
-                    [/INST] </s>
+                    [/INST]
                     """
-
     
 
-    def __init__(self, model: LlmModel | str):
+    def __init__(self, model: LlmModel | str, prompt=None):
         # initialize the LLM
-        prompt = PromptTemplate.from_template(
-            template=self.template_text,
-        )
+        if prompt is None :
+            prompt = PromptTemplate.from_template(
+                template=self.template_text,
+            )
+        else :
+            prompt = prompt
+
         if isinstance(model, LlmModel):
             self.llmModel = model
             primary_chain = LLMChain(
@@ -152,6 +155,22 @@ class LangWrapper:
 
             return response
         return "No LLM Chain instantiated in Langchain"
+    
+
+
+    def invoke_llm_chain3(self, function, specification):
+        if self.llmChain:
+
+            response = self.llmChain.invoke(
+                input={"input_function": function, "input_specification": specification}
+
+            )
+            if isinstance(self.llmChain, LLMChain):
+                return response["text"]
+            else:
+                return response
+        return "No LLM Chain instantiated in Langchain"
+
 
 
     def cleanup(self):
