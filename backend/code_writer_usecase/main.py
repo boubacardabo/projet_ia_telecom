@@ -4,6 +4,7 @@ import traceback
 
 backend_folder = f"{os.getcwd()}/backend"
 sys.path.append(backend_folder)
+sys.path.remove(f"{os.getcwd()}/backend/code_writer_usecase")
 
 
 os.environ["LANGCHAIN_TRACING_V2"] = 'true'
@@ -92,7 +93,7 @@ def main():
 
 
         ####
-        from utils.main import get_functions
+        from utils.main import get_functions, extract_function_from_markdown, write_function_to_file
         from code_writer_usecase.specification_functions import specification_string
 
 
@@ -103,6 +104,20 @@ def main():
 
         generated_text = langchain_wrapper.invoke_llm_chain3(function=function_string, specification=specification_string)
         print(generated_text)
+        print("\n --------------------------------------- \n")
+
+
+        function_code = extract_function_from_markdown(generated_text)
+
+        if function_code:
+            write_function_to_file(function_code, backend_folder + "/code_writer_usecase/function_AI_generated.py")
+            print("Function code has been written to 'function_AI_generated.py'")
+        else:
+            print("No function code extracted from the Markdown string.")
+
+
+
+
 
         # from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
         # from functions import function_string

@@ -32,3 +32,23 @@ def get_functions(file_path):
 # functions = get_functions(file_path)
 # for func in functions:
 #     print(func)
+
+
+
+import re
+
+def extract_function_from_markdown(markdown_string):
+    # Define a regular expression pattern to match the code block containing a function
+    pattern = r"```python\s*([\s\S]+?)\s*```"
+    # Search for the code block in the markdown string
+    match = re.search(pattern, markdown_string)
+    # If a match is found, return the content of the code block
+    if match:
+        return match.group(1)
+    else:
+        return None
+    
+
+def write_function_to_file(function_code, file_path):
+    with open(file_path, 'w') as file:
+        file.write(function_code)
