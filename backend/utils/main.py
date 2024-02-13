@@ -52,19 +52,39 @@ def extract_function_from_markdown(markdown_string):
     pattern = r"```python\s*([\s\S]+?)\s*```"
     # Search for the code block in the markdown string
     match = re.search(pattern, markdown_string)
-    # If a match is found, return the content of the code block
+    # If a match is found, extract the content of the code block
     if match:
-        return match.group(1)
+        function_code = match.group(1)
+        # Remove import statements from the function code
+        function_code_cleaned = re.sub(r'^import\s.*?$', '', function_code, flags=re.MULTILINE)
+        function_code_cleaned = re.sub(r'^from\s.*?$', '', function_code_cleaned, flags=re.MULTILINE)
+        return function_code_cleaned.strip()
     else:
         return None
-    
 
 def write_function_to_file(function_code, file_path, function_name, backend_folder):
 
-    test_path = backend_folder + "/code_writer_usecase"
+    test_path = backend_folder + "/code_writer_usecase/function_AI_generated.py"
     with open(file_path, 'w') as file:
         file.write("import pytest\n")
+        file.write("import os\n")
+        file.write("import sys\n")
+        file.write('backend_folder = f"{os.getcwd()}/backend"\n')
+        file.write('sys.path.append(backend_folder)\n')
+        #file.write('sys.path.remove(f"{os.getcwd()}/backend/code_writer_usecase")\n')
         file.write(f"from code_writer_usecase.functions import {function_name}\n\n")
         file.write(function_code)
         file.write("\n\n")
         file.write(f'retcode = pytest.main(["-x","{test_path}"])')
+
+
+
+import subprocess
+
+def execute_generated_file(file_path):
+    result = subprocess.run(["python3", file_path], capture_output=True, text=True)
+    return result.stdout, result.stderr, result.returncode
+
+
+
+
