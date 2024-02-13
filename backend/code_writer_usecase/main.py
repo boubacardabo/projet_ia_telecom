@@ -5,6 +5,7 @@ import traceback
 backend_folder = f"{os.getcwd()}/backend"
 sys.path.append(backend_folder)
 
+
 os.environ["LANGCHAIN_TRACING_V2"] = 'true'
 os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 os.environ["LANGCHAIN_API_KEY"] = "ls__a21c5d9069a442c08645e82f0a7330cc"
@@ -91,8 +92,14 @@ def main():
 
 
         ####
-        from functions import function_string
-        from specification_functions import specification_string
+        from utils.main import get_functions
+        from code_writer_usecase.specification_functions import specification_string
+
+
+        # Example usage:
+        file_path = backend_folder + "/code_writer_usecase/functions.py"
+        functions = get_functions(file_path)
+        function_string = functions[0]
 
         generated_text = langchain_wrapper.invoke_llm_chain3(function=function_string, specification=specification_string)
         print(generated_text)
