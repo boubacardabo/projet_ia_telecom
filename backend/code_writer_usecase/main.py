@@ -49,17 +49,17 @@ def main():
 
 
             # langchain
-            # langchain_wrapper = LangWrapper(model=model)
-            # langchain_wrapper.add_rag_wrapper(ragWrapper)
-            # langchain_wrapper.setup_rag_llm_chain()
+            langchain_wrapper = LangWrapper(model=model)
+            #langchain_wrapper.add_rag_wrapper(ragWrapper)
+            langchain_wrapper.setup_rag_llm_chain()
 
-            # question = """
-            #     Briefly tell me what the codegen.py file does
-            #     """
-            # generated_text = langchain_wrapper.invoke_llm_chain(question)
-            # # history = generated_text["chat_history"]  # type: ignore
-            # # gen_text = model.generate_text(question)
-            # print(generated_text["answer"])  # type: ignore
+            question = """
+                Briefly tell me what the codegen.py file does
+                """
+            generated_text = langchain_wrapper.invoke_llm_chain(question)
+            history = generated_text["chat_history"]  # type: ignore
+            gen_text = model.generate_text(question)
+            print(generated_text["answer"])  # type: ignore
 
 
 
@@ -76,12 +76,9 @@ def main():
             llm = OpenLLM(server_url=server_url)
 
 
-            from prompt.prompts import prompt1, prompt_mixtral
+            from prompt.prompts import prompt1
 
             langchain_wrapper = LangWrapper(model=llm, prompt=prompt1)
-            #langchain_wrapper.add_rag_wrapper(ragWrapper)
-            #langchain_wrapper.setup_rag_llm_chain()
-
 
 
 
@@ -97,19 +94,23 @@ def main():
         from code_writer_usecase.specification_functions import specification_string
 
 
-        # Example usage:
+        #fetching the function as a string
         file_path = backend_folder + "/code_writer_usecase/functions.py"
         functions = get_functions(file_path)
         function_string = functions[0]
 
+        #generating output of LLM
         generated_text = langchain_wrapper.invoke_llm_chain3(function=function_string, specification=specification_string)
         print(generated_text)
         print("\n --------------------------------------- \n")
 
-
+        #extract the Python code out of the output
         function_code = extract_function_from_markdown(generated_text)
 
-        if function_code:
+
+        #Write the function in the file function_AI_generated.py, containing import and PyTest launch
+        if function_code: #if a some code has been found
+
             function_names = get_function_names(file_path)
             function_name = function_names[0]
             write_function_to_file(function_code, backend_folder + "/code_writer_usecase/function_AI_generated.py", function_name=function_name, backend_folder=backend_folder)
@@ -128,43 +129,6 @@ def main():
         print(returncode)
 
 
-
-
-
-
-        # from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
-        # from functions import function_string
-        # from specification_functions import specification_string
-
-        # def get_completion(messages):
-        #     chat_response = llm.generate(messages)
-        #     return chat_response
-        
-        # messages = [
-        #     SystemMessage(content="""
-        #         You are a helpful code assistant that help with writing Python code for a user requests.
-        #         Please only produce the function and avoid explaining.
-        #         """),
-            
-        #     HumanMessage(content="""
-        #         You will be given a function, and a unit test specification for the function. 
-        #         our task is to write the implementation of the function such that it passes all requirements in the specification.
-        #                  """),
-
-        #     AIMessage(content="Please provide the function."),
-        #     HumanMessage(content=function_string),
-
-        #     AIMessage(content="Thank you. Now, please provide the unit test specification."),
-        #     HumanMessage(content=specification_string),
-
-        #         ]
-
-        # chat_response = get_completion(messages)
-        # print(chat_response)
-
-        # # Doesn't work : TypeError: Object of type method is not JSON serializable
-
-        ####
 
         langchain_wrapper.cleanup()
 
