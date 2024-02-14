@@ -1,6 +1,6 @@
 from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
-from langchain.prompts import PromptTemplate, ChatPromptTemplate
+from langchain.prompts import PromptTemplate
 from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain.chains import LLMChain, ConversationalRetrievalChain, StuffDocumentsChain
 from langchain_openai import ChatOpenAI
@@ -136,6 +136,8 @@ class LangWrapper:
 
     def setup_rag_llm_chain2(self):
 
+        """ An alternative RAG chain setup"""
+
         primary_chain = self.llmChain
         assert isinstance(primary_chain, LLMChain)
         assert isinstance(self.ragWrapper, RagWrapper)
@@ -148,6 +150,7 @@ class LangWrapper:
 
 
     def invoke_llm_chain2(self, question: str):
+        """ An alternative RAG chain"""
         if self.llmChain:
 
             docs = self.ragWrapper.retriever.get_relevant_documents(question)
@@ -159,6 +162,7 @@ class LangWrapper:
 
 
     def invoke_llm_chain3(self, function, specification):
+        """For the 'code writer' usecase"""
         if self.llmChain:
 
             response = self.llmChain.invoke(

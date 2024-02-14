@@ -1,4 +1,7 @@
 import torch
+import ast
+import re
+import subprocess
 
 
 def select_gpu_if_available():
@@ -10,9 +13,6 @@ def select_gpu_if_available():
         torch.set_default_device("cpu")
     return dtype
 
-
-
-import ast
 
 def get_functions(file_path):
     with open(file_path, 'r') as file:
@@ -33,6 +33,7 @@ def get_functions(file_path):
 # for func in functions:
 #     print(func)
 
+
 def get_function_names(file_path):
     with open(file_path, 'r') as file:
         tree = ast.parse(file.read())
@@ -45,7 +46,6 @@ def get_function_names(file_path):
     return function_names
 
 
-import re
 
 def extract_function_from_markdown(markdown_string):
     # Define a regular expression pattern to match the code block containing a function
@@ -61,6 +61,9 @@ def extract_function_from_markdown(markdown_string):
         return function_code_cleaned.strip()
     else:
         return None
+    
+
+
 
 def write_function_to_file(function_code, file_path, function_name, backend_folder):
 
@@ -71,7 +74,6 @@ def write_function_to_file(function_code, file_path, function_name, backend_fold
         file.write("import sys\n")
         file.write('backend_folder = f"{os.getcwd()}/backend"\n')
         file.write('sys.path.append(backend_folder)\n')
-        #file.write('sys.path.remove(f"{os.getcwd()}/backend/code_writer_usecase")\n')
         file.write(f"from code_writer_usecase.functions import {function_name}\n\n")
         file.write(function_code)
         file.write("\n\n")
@@ -79,7 +81,7 @@ def write_function_to_file(function_code, file_path, function_name, backend_fold
 
 
 
-import subprocess
+
 
 def execute_generated_file(file_path):
     result = subprocess.run(["python3", file_path], capture_output=True, text=True)
