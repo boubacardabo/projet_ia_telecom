@@ -1,5 +1,6 @@
 import os
 import sys
+import traceback
 
 backend_folder = f"{os.getcwd()}/backend"
 sys.path.append(backend_folder)
@@ -85,10 +86,6 @@ def main():
             langchain_wrapper.cleanup()
             return
     
-        langchain_wrapper.cleanup()
-            
-
-
 
 
         while True:
@@ -101,9 +98,10 @@ def main():
 
 
 
-
+        langchain_wrapper.cleanup()
+    
     except Exception as e:
-        print(e)
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
