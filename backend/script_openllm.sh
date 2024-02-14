@@ -23,7 +23,7 @@ if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Kill the process listening on port 3000
+# Kill the process listening on port 3000. Somehow it doesn't work if you don't kill them. 
 lsof -t -i:3000 | xargs kill -9
 
 # Set CUDA_VISIBLE_DEVICES environment variable
