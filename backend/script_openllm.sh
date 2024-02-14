@@ -10,6 +10,14 @@
 #Make the script executable by running the following command in your terminal:
 #chmod +x script_openllm.sh
 
+#script usage : 
+#./script_openllm.sh <CUDA_VISIBLE_DEVICES>
+
+
+
+###################################################################################################
+
+
 # Check if openllm is already installed
 if ! command -v openllm &> /dev/null; then
     # openllm is not installed, so install it using pip
@@ -37,6 +45,8 @@ export CUDA_VISIBLE_DEVICES="$1"
 # Execute the command
 openllm start mistralai/Mixtral-8x7B-Instruct-v0.1 --backend pt --quantize int4 --max_new_tokens 2048
 
+
+###################################################################################################
 
 # For some reason, it only works when CUDA_VISIBLE_DEVICES=0 (and not 1 or 2) on Télécom GPUs. 
 #I haven't find a way to solve this problem yet.
