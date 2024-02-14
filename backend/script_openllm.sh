@@ -2,6 +2,11 @@
 
 #This script is to launch an OpenLLM server with Mixtral.
 
+#Connect to Télécom Paris network using OpenVPN GUI. Follow the steps here :
+#https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows
+
+#Connect by SSH to Télécom GPUs
+
 #Make the script executable by running the following command in your terminal:
 #chmod +x script_openllm.sh
 
@@ -44,3 +49,7 @@ openllm start mistralai/Mixtral-8x7B-Instruct-v0.1 --backend pt --quantize int4 
 #at "~/.local/lib/python3.10/site-packages/openllm_client/_http.py", for the `timeout` argument 
 #in the __init__ method of the HTTPClient Python class.
 
+
+### If it doesn't work, try to
+#modify the file  ~/.local/lib/python3.10/site-packages/langchain_community/llms/openllm.py by replacing it by the code at https://github.com/langchain-ai/langchain/blob/3d94cfdaf0c82ab67849f9e0b6a120654193025c/libs/community/langchain_community/llms/openllm.py
+#Back at the time, I had to do that, but maybe they patched the issue within the last updates.
