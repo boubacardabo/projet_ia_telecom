@@ -1,11 +1,16 @@
 import os
 import sys
-import traceback
 
 backend_folder = f"{os.getcwd()}/backend"
-sys.path.append(backend_folder)
-sys.path.remove(f"{os.getcwd()}/backend/code_writer_usecase")
+if backend_folder not in sys.path:
+    sys.path.append(backend_folder)
 
+path_to_remove = f"{os.getcwd()}/backend/code_writer_usecase"
+if path_to_remove in sys.path:
+    sys.path.remove(path_to_remove)
+
+
+import traceback
 
 os.environ["LANGCHAIN_TRACING_V2"] = 'true'
 os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
