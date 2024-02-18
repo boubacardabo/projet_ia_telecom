@@ -3,12 +3,13 @@ from langchain_community.document_loaders import GitLoader
 import os
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 from embedding.utils import extension_to_language
-from embedding.model_names import sentence_t5_base
+from embedding.model_names import sentence_t5_base, codet5_base, all_MiniLM_L6_v2
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from typing import Any
 
 
+model_name = all_MiniLM_L6_v2
 
 class RagWrapper:
     repo_url: str
@@ -64,7 +65,7 @@ class RagWrapper:
 
             # embed and save in vector_store
             embeddings = HuggingFaceEmbeddings(
-                model_name=sentence_t5_base,
+                model_name=model_name,
                 encode_kwargs={"normalize_embeddings": True},
                 model_kwargs={"device": "cuda"},
             )
