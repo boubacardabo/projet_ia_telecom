@@ -1,16 +1,31 @@
-def calculate_rectangle_area(length, width):
+def show_prediction_labels_on_image(img_path, predictions):
     """
-    Calculates the area of a rectangle.
+    Shows the face recognition results visually.
 
-    Parameters:
-        length (float): The length of the rectangle.
-        width (float): The width of the rectangle.
-
-    Returns:
-        float: The area of the rectangle.
+    :param img_path: path to image to be recognized
+    :param predictions: results of the predict function
+    :return:
     """
-    if not (isinstance(length, int)) or not (isinstance(width, int)) :
-        raise ValueError("Length and width must be numbers")
-    if length <= 0 or width <= 0:
-        raise ValueError("Length and width must be positive numbers")
-    return length * width
+    pil_image = Image.open(img_path).convert("RGB")
+    draw = ImageDraw.Draw(pil_image)
+
+    for name, (top, right, bottom, left) in predictions:
+        # Draw a box around the face using the Pillow module
+        draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
+
+        # There's a bug in Pillow where it blows up with non-UTF-8 text
+        # when using the default bitmap font
+        name = name.encode("UTF-8")
+
+        # Draw a label with a name below the face
+        text_width, text_height = draw.textsize(name)
+        draw.rectangle(((left, bottom - text_height - 10), (right, bottom)), fill=(0, 0, 255), outline=(0, 0, 255))
+        draw.text((left + 6, bottom - text_height - 5), name, fill=(255, 255, 255, 255))
+
+    # Remove the drawing library from memory as per the Pillow docs
+    del draw
+
+    # Display the resulting image
+    pil_image.show()
+
+retcode = pytest.main(["-x","D:\TSP\TSP_3A\projet_AI\projet_ia_telecom/backend/code_writer_usecase/function_AI_generated.py"])

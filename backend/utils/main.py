@@ -13,7 +13,7 @@ def select_gpu_if_available():
         torch.set_default_device("cpu")
     return dtype
 
-
+#Get the whole functions in a file as a string
 def get_functions(file_path):
     with open(file_path, 'r') as file:
         tree = ast.parse(file.read())
@@ -33,7 +33,7 @@ def get_functions(file_path):
 # for func in functions:
 #     print(func)
 
-
+#Get the function names in a file
 def get_function_names(file_path):
     with open(file_path, 'r') as file:
         tree = ast.parse(file.read())
@@ -46,7 +46,7 @@ def get_function_names(file_path):
     return function_names
 
 
-
+#extract Python code from LLM output
 def extract_function_from_markdown(markdown_string):
     # Define a regular expression pattern to match the code block containing a function
     pattern = r"```python\s*([\s\S]+?)\s*```"
@@ -64,7 +64,7 @@ def extract_function_from_markdown(markdown_string):
     
 
 
-
+#write in the a file
 def write_function_to_file(function_code, file_path, function_name, backend_folder):
 
     test_path = backend_folder + "/code_writer_usecase/function_AI_generated.py"
@@ -80,9 +80,19 @@ def write_function_to_file(function_code, file_path, function_name, backend_fold
         file.write(f'retcode = pytest.main(["-x","{test_path}"])')
 
 
+#write in the a file
+def write_function_to_file2(function_string_whole, file_path, backend_folder):
+
+    test_path = backend_folder + "/code_writer_usecase/function_AI_generated.py"
+    with open(file_path, 'w') as file:
+        file.write(function_string_whole)
+        file.write("\n\n")
+        file.write(f'retcode = pytest.main(["-x","{test_path}"])')
 
 
 
+
+#To execute a python file from a call of this function
 def execute_generated_file(file_path):
     result = subprocess.run(["python3", file_path], capture_output=True, text=True)
     return result.stdout, result.stderr, result.returncode
