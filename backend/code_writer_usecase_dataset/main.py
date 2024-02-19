@@ -104,7 +104,7 @@ def main():
         retriever_tool = create_retriever_tool(
             retriever,
             "RAG-search",
-            "This is a tool to search relevant information about the class before writing a system test for it."
+            "This is a RAG tool to search relevant information about the class before writing a system test for it."
         )
 
 
@@ -119,9 +119,40 @@ def main():
 
         # Create an agent executor by passing in the agent and tools
         agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+        #Run agent
         input_query = "class PinRegistry"
         print(f"input : {input_query}\n")
-        print(agent_executor.invoke({"input": input_query}))
+        generated_output = agent_executor.invoke({"input": input_query})
+        print(generated_output["output"])
+
+
+
+        print("\n --------------------------------------- \n")
+
+        from utils.main import extract_function_from_markdown2, write_function_to_file2, execute_generated_file
+       
+        #extract the Python code out of the output
+        function_code = extract_function_from_markdown2(generated_output["output"])
+
+
+        #Write the function in the file function_AI_generated.py, containing import and PyTest launch
+        if function_code: #if a some code has been found
+
+            write_function_to_file2(function_code, backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py", backend_folder=backend_folder)
+            print("Function code has been written to 'function_AI_generated.py'")
+        else:
+            print("No function code extracted from the Markdown string.")
+
+    
+        #file execution
+        stdout, stderr, returncode = execute_generated_file(backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py")
+        print("Standard output:")
+        print(stdout)
+        print("Standard error:")
+        print(stderr)
+        print("Return code:")
+        print(returncode)
 
         ####
 
