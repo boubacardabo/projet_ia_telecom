@@ -17,7 +17,7 @@ os.environ["LANGCHAIN_TRACING_V2"] = 'true'
 os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 os.environ["LANGCHAIN_API_KEY"] = "ls__a21c5d9069a442c08645e82f0a7330cc"
 os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
-os.environ["TAVILY_API_KEY"]= "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"
+
 
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
@@ -96,7 +96,7 @@ def main():
 
 
         ####
-        print(os.path)
+        #print(os.path)
 
         from langchain.tools.retriever import create_retriever_tool
         from langchain import hub
