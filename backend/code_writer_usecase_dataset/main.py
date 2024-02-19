@@ -96,18 +96,28 @@ def main():
 
 
         ####
-        #print(os.path)
+
+        # Get the path of the currently executing script
+        script_path = os.path.abspath(__file__)
+
+        # Split the script directory path into its components
+        directory_components = script_path.split(os.path.sep)
+
+        # Join the first three components back together (Télécom GPU : /home/infres/<name>)
+        parent_directories = os.path.sep.join(directory_components[:3])
+
+
 
         from langchain.tools.retriever import create_retriever_tool
-        from langchain import hub
         from langchain.agents import AgentExecutor, create_react_agent
+        from prompt.prompts import prompt_usecase_test_system
 
         retriever = langchain_wrapper.ragWrapper.retriever
 
         retriever_tool = create_retriever_tool(
             retriever,
             "RAG-search",
-            "This is a RAG tool to search relevant information about the class before writing a system test for it."
+            "This is a RAG tool to search relevant information about the object before writing a system test for it. It should take in input name of files, name of functions, name of classes, each separated with blank spaces."
         )
 
 
@@ -115,7 +125,7 @@ def main():
         tools = [retriever_tool]
 
         # Get the prompt to use
-        prompt = hub.pull("parrottheparrot/prim-test-react")
+        prompt = prompt_usecase_test_system
 
         # Construct the ReAct agent
         agent = create_react_agent(llm, tools, prompt)
@@ -124,7 +134,7 @@ def main():
         agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
         #Run agent
-        input_query = "class PinRegistry"
+        input_query = "method iter_component_configs at config.py"
         print(f"input : {input_query}\n")
         generated_output = agent_executor.invoke({"input": input_query})
         print(generated_output["output"])
@@ -142,7 +152,7 @@ def main():
         #Write the function in the file function_AI_generated.py, containing import and PyTest launch
         if function_code: #if a some code has been found
 
-            write_function_to_file2(function_code, "/home/infres/mcaillard-23/remote_code/esphome/function_AI_generated.py", backend_folder=backend_folder)
+            write_function_to_file2(function_code, parent_directories + "/remote_code/esphome/function_AI_generated.py", backend_folder=backend_folder)
             #write_function_to_file2(function_code, backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py", backend_folder=backend_folder)
             print("Function code has been written to 'function_AI_generated.py'")
         else:
@@ -151,7 +161,7 @@ def main():
     
         #file execution
         # stdout, stderr, returncode = execute_generated_file(backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py")
-        stdout, stderr, returncode = execute_generated_file("/home/infres/mcaillard-23/remote_code/esphome/function_AI_generated.py")
+        stdout, stderr, returncode = execute_generated_file(parent_directories + "remote_code/esphome/function_AI_generated.py")
         print("Standard output:")
         print(stdout)
         print("Standard error:")

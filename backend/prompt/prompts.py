@@ -24,18 +24,27 @@ prompt1 = ChatPromptTemplate.from_messages([
     
 
 
-prompt_mixtral = ChatPromptTemplate.from_messages([
+prompt_usecase_test_system = PromptTemplate.from_template(
+"""
+You'll be given an object to test by the user. This object could be a class or a function. The user might also give you the name of a relevant file. Your goal is to write a system or unit test of that object. Use the PyTest module. Make sure to properly import all the necessary modules. Your final answer must be your code. Be concise, answer the request as best you can. You have access to the following tool:
 
-    ChatMessage(role="user", content="You will be given a function, and a unit test specification for the function. Your task is to write the implementation of the function such that it passes all requirements in the specification."),
+{tools}
 
-    ChatMessage(role="assistant", content="Please provide the function."),
+Use the following format:
 
-    ChatMessage(role="user", content="{input_function}"),
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
 
-    ChatMessage(role="assistant", content="Thank you. Now, please provide the unit test specification."),
 
-    ChatMessage(role="user", content="{input_specification}")
-    
-])
-#prompt mixtral doesn't work because {...} don't get replaced
+Begin!
 
+Question: {input}
+Thought:{agent_scratchpad}
+"""
+)
