@@ -81,13 +81,13 @@ def write_function_to_file(function_code, file_path, function_name, backend_fold
 
 
 #write in the a file
-def write_function_to_file2(function_string_whole, file_path, backend_folder):
+def write_function_to_file2(function_string_whole, file_path):
 
-    test_path = backend_folder + "/code_writer_usecase/function_AI_generated.py"
+    
     with open(file_path, 'w') as file:
         file.write(function_string_whole)
-        file.write("\n\n")
-        file.write(f'retcode = pytest.main(["-x","{test_path}"])')
+        
+        
 
 
 
@@ -99,4 +99,61 @@ def execute_generated_file(file_path):
 
 
 
+def extract_imports(file_path):
+    imports = set()
+    with open(file_path, 'r') as file:
+        tree = ast.parse(file.read(), filename=file_path)
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    imports.add(alias.name)
+            elif isinstance(node, ast.ImportFrom):
+                imports.add(node.module)
+    return imports
 
+
+def add_imports_to_file(file_path, imports):
+    with open(file_path, 'r+') as file:
+        content = file.read()
+        file.seek(0, 0)
+        for package in imports:
+            import_statement = f"import {package}\n"
+            if import_statement not in content:
+                file.write(import_statement)
+        file.write(content)
+    
+
+
+
+
+
+def add_missing_imports(file_path):
+    # Read the content of the file
+    with open(file_path, 'r') as file:
+        content = file.read()
+
+    # Extract all the used but not imported modules
+    used_modules = set()
+    for line in content.split('\n'):
+        # Check for modules used in the code
+        if line.strip().startswith(('import ', 'from ')):
+            continue  # Skip import lines
+        for word in line.split():
+            if word.isidentifier():
+                # Add the word as a potential module
+                used_modules.add(word)
+
+    # Check if any used modules are not imported
+    modules_to_import = set()
+    for module in used_modules:
+        if f"import {module}" not in content and f"from {module}" not in content:
+            modules_to_import.add(f"import {module}")
+
+    # Append the missing import statements to the beginning of the file's content
+    if modules_to_import:
+        import_statements = "\n".join(modules_to_import) + "\n"
+        content = import_statements + content
+
+    # Write the updated content back to the file
+    with open(file_path, 'w') as file:
+        file.write(content)
