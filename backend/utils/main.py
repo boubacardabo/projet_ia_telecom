@@ -94,7 +94,8 @@ def write_function_to_file(function_code, file_path, function_name, backend_fold
 #write in the a file
 def write_function_to_file2(function_string_whole, file_path, backend_folder):
 
-    test_path = backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py"
+    #test_path = backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py"
+    test_path = "/home/infres/mcaillard-23/remote_code/esphome/function_AI_generated.py"
     with open(file_path, 'w') as file:
         file.write(function_string_whole)
         file.write("\n\n")

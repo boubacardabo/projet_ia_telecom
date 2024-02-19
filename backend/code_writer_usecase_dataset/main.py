@@ -1,6 +1,7 @@
 import os
 import sys
 
+
 backend_folder = f"{os.getcwd()}/backend"
 if backend_folder not in sys.path:
     sys.path.append(backend_folder)
@@ -20,6 +21,8 @@ os.environ["TAVILY_API_KEY"]= "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"
 
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
+
+
 
 
 
@@ -93,7 +96,7 @@ def main():
 
 
         ####
-        
+        print(os.path)
 
         from langchain.tools.retriever import create_retriever_tool
         from langchain import hub
@@ -139,14 +142,16 @@ def main():
         #Write the function in the file function_AI_generated.py, containing import and PyTest launch
         if function_code: #if a some code has been found
 
-            write_function_to_file2(function_code, backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py", backend_folder=backend_folder)
+            write_function_to_file2(function_code, "/home/infres/mcaillard-23/remote_code/esphome/function_AI_generated.py", backend_folder=backend_folder)
+            #write_function_to_file2(function_code, backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py", backend_folder=backend_folder)
             print("Function code has been written to 'function_AI_generated.py'")
         else:
             print("No function code extracted from the Markdown string.")
 
     
         #file execution
-        stdout, stderr, returncode = execute_generated_file(backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py")
+        # stdout, stderr, returncode = execute_generated_file(backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py")
+        stdout, stderr, returncode = execute_generated_file("/home/infres/mcaillard-23/remote_code/esphome/function_AI_generated.py")
         print("Standard output:")
         print(stdout)
         print("Standard error:")
