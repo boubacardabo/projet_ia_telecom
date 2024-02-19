@@ -32,7 +32,7 @@ def main():
         repo_url = "https://github.com/esphome/esphome"
         branch = "dev"
         file_type = ".py"
-        # ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
+        ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
 
         choice = input("Choose HuggingFaceAPI ('h') or OpenLLM ('o'):\n ").lower().strip()
 
@@ -81,12 +81,9 @@ def main():
             server_url = "http://localhost:3000"
             llm = OpenLLM(server_url=server_url)
 
-
-            from prompt.prompts import prompt1
-
-            langchain_wrapper = LangWrapper(model=llm, prompt=prompt1)
-
-
+            langchain_wrapper = LangWrapper(model=llm)
+            langchain_wrapper.add_rag_wrapper(ragWrapper)
+            langchain_wrapper.setup_rag_llm_chain()
 
 
         else:
@@ -96,72 +93,35 @@ def main():
 
 
         ####
-        from dataset import dataset
-        from utils.main import write_function_to_file2
-
-
-        id = 8
-        function_string_whole = dataset[id][ 'whole_func_string']
-        func_code_url = dataset[id]["func_code_url"]
-
-        # write_function_to_file2(function_string_whole, backend_folder + "\\code_writer_usecase_dataset\\functions.py")
-
-
-        os.environ["TAVILY_API_KEY"]= "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"
-        from langchain_community.tools.tavily_search import TavilySearchResults
-        search = TavilySearchResults()
-
-
-        from langchain.text_splitter import RecursiveCharacterTextSplitter
-        from langchain_community.document_loaders import WebBaseLoader
-        from langchain_community.vectorstores import FAISS
-        from langchain_community.embeddings import HuggingFaceEmbeddings
-        from embedding.model_names import all_MiniLM_L6_v2
-
-        loader = WebBaseLoader(func_code_url)
-        docs = loader.load()
-        documents = RecursiveCharacterTextSplitter(
-            chunk_size=1000, chunk_overlap=200
-        ).split_documents(docs)
-
-
-        model_name = all_MiniLM_L6_v2
-
-
-        embeddings = HuggingFaceEmbeddings(
-            model_name=model_name,
-            encode_kwargs={"normalize_embeddings": True},
-            model_kwargs={"device": "cuda"},
-                    )
-        vector = FAISS.from_documents(documents, embeddings)
-        retriever = vector.as_retriever()
-
+        
 
         from langchain.tools.retriever import create_retriever_tool
+        from langchain import hub
+        from langchain.agents import AgentExecutor, create_react_agent
+
+        retriever = langchain_wrapper.ragWrapper.retriever
 
         retriever_tool = create_retriever_tool(
             retriever,
-            "langsmith_search",
-            "Search for information about a function.",
+            "RAG-search",
+            "This is a tool to search relevant information about the class before writing a system test for it."
         )
 
-        tools = [search, retriever_tool]
 
-        from langchain import hub
 
-        # Get the prompt to use - you can modify this!
-        prompt = hub.pull("hwchase17/openai-functions-agent")
-        from langchain.agents import create_openai_functions_agent
+        tools = [retriever_tool]
 
-        agent = create_openai_functions_agent(llm, tools, prompt)
+        # Get the prompt to use
+        prompt = hub.pull("parrottheparrot/prim-test-react")
 
-        from langchain.agents import AgentExecutor
+        # Construct the ReAct agent
+        agent = create_react_agent(llm, tools, prompt)
 
+        # Create an agent executor by passing in the agent and tools
         agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-
-        print(agent_executor.invoke({"input": "What are the modules and function depending of face_locations?"}))
-
-
+        input_query = "class PinRegistry"
+        print(f"input : {input_query}\n")
+        print(agent_executor.invoke({"input": input_query}))
 
         ####
 
