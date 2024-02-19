@@ -62,7 +62,18 @@ def extract_function_from_markdown(markdown_string):
     else:
         return None
     
-
+#extract Python code from LLM output
+def extract_function_from_markdown2(markdown_string):
+    # Define a regular expression pattern to match the code block containing a function
+    pattern = r"```python\s*([\s\S]+?)\s*```"
+    # Search for the code block in the markdown string
+    match = re.search(pattern, markdown_string)
+    # If a match is found, extract the content of the code block
+    if match:
+        function_code = match.group(1)
+        return function_code.strip()
+    else:
+        return None
 
 #write in the a file
 def write_function_to_file(function_code, file_path, function_name, backend_folder):
@@ -81,11 +92,13 @@ def write_function_to_file(function_code, file_path, function_name, backend_fold
 
 
 #write in the a file
-def write_function_to_file2(function_string_whole, file_path):
+def write_function_to_file2(function_string_whole, file_path, backend_folder):
 
-    
+    test_path = backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py"
     with open(file_path, 'w') as file:
         file.write(function_string_whole)
+        file.write("\n\n")
+        file.write(f'retcode = pytest.main(["-x","{test_path}"])')
         
         
 
