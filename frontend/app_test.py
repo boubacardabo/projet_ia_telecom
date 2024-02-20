@@ -42,7 +42,6 @@ def test_Chatbot(openai_create):
     assert at.chat_message[2].avatar == "assistant"
     assert not at.exception
 
-
 @patch("langchain.llms.OpenAI.__call__")
 def test_Langchain_Quickstart(langchain_llm):
     at = AppTest.from_file("pages/3_Langchain_Quickstart.py").run()
