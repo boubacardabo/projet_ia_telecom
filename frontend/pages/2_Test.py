@@ -1,7 +1,7 @@
 import streamlit as st
-from langchain.llms import OpenAI
+from langchain_community.llms import OpenLLM
 
-st.title("🦜🔗 Langchain Quickstart App")
+st.title("Test")
 
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", type="password")
@@ -9,14 +9,13 @@ with st.sidebar:
 
 
 def generate_response(input_text):
-    llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
+    server_url = "http://localhost:3000"
+    llm = OpenLLM(server_url=server_url, timeout=360)
     st.info(llm(input_text))
 
 
 with st.form("my_form"):
     text = st.text_area("Enter text:", "What are 3 key advice for learning how to code?")
     submitted = st.form_submit_button("Submit")
-    if not openai_api_key:
-        st.info("Please add your OpenAI API key to continue.")
-    elif submitted:
+    if submitted:
         generate_response(text)
