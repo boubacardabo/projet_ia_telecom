@@ -1,8 +1,6 @@
 import streamlit as st
-
 from langchain.agents import initialize_agent, AgentType
 from langchain.callbacks import StreamlitCallbackHandler
-from langchain.tools import DuckDuckGoSearchRun
 from langchain_community.llms import OpenLLM
 
 with st.sidebar:
@@ -31,9 +29,9 @@ if prompt := st.chat_input(placeholder="What does the class PinRegistry do ?"):
     server_url = "http://localhost:3000"
     llm = OpenLLM(server_url=server_url, timeout=360)
 
-    search = DuckDuckGoSearchRun(name="Search")
+    retriever = ...
     search_agent = initialize_agent(
-        [search], llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, handle_parsing_errors=True
+        [retriever], llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, handle_parsing_errors=True
     )
     with st.chat_message("assistant"):
         st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)

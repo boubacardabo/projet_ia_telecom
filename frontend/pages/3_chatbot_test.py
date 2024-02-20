@@ -1,11 +1,7 @@
 import streamlit as st
-from langchain.llms import LlamaCpp
 from langchain.prompts import PromptTemplate
-# from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.base import BaseCallbackHandler
-from huggingface_hub import hf_hub_download
-import os
-import sys
 from langchain_community.llms import OpenLLM
 
 
@@ -35,17 +31,6 @@ def create_chain(system_prompt):
     # responses in real-time.
     # callback_manager = CallbackManager([stream_handler])
 
-    (repo_id, model_file_name) = ("TheBloke/Mistral-7B-Instruct-v0.1-GGUF",
-                                  "mistral-7b-instruct-v0.1.Q4_0.gguf")
-
-    model_path = hf_hub_download(repo_id=repo_id,
-                                 filename=model_file_name,
-                                 repo_type="model")
-
-    # initialize LlamaCpp LLM model
-    # n_gpu_layers, n_batch, and n_ctx are for GPU support.
-    # When not set, CPU will be used.
-    # set 1 for Mac m2, and higher numbers based on your GPU support
     server_url = "http://localhost:3000"
     llm = OpenLLM(server_url=server_url, timeout=360)
 
