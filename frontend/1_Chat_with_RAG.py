@@ -11,7 +11,7 @@ with st.sidebar:
     )
 
 
-st.title("🔎 Log reader with RAG")
+st.title("Chat with RAG🔎")
 
 
 
