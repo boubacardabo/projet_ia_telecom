@@ -82,9 +82,9 @@ def main():
             from langchain_community.llms import OpenLLM
 
             server_url = "http://localhost:3000"
-            llm = OpenLLM(server_url=server_url)
+            model = OpenLLM(server_url=server_url)
 
-            langchain_wrapper = LangWrapper(model=llm)
+            langchain_wrapper = LangWrapper(model=model)
             langchain_wrapper.add_rag_wrapper(ragWrapper)
             langchain_wrapper.setup_rag_llm_chain()
 
@@ -104,7 +104,7 @@ def main():
         directory_components = script_path.split(os.path.sep)
 
         # Join the first three components back together (Télécom GPU : /home/infres/<name>)
-        parent_directories = os.path.sep.join(directory_components[:3])
+        parent_directories = os.path.sep.join(directory_components[:4])
 
 
 
@@ -117,7 +117,7 @@ def main():
         retriever_tool = create_retriever_tool(
             retriever,
             "RAG-search",
-            "This is a RAG tool to search relevant information about the object before writing a system test for it. It should take in input name of files, name of functions, name of classes, each separated with blank spaces."
+            "This is a RAG tool to search relevant information about the object before writing a system test for it. To use it, It should take in input keywords such as name of files, name of functions, name of classes, each separated with blank spaces."
         )
 
 
@@ -128,7 +128,7 @@ def main():
         prompt = prompt_usecase_test_system
 
         # Construct the ReAct agent
-        agent = create_react_agent(llm, tools, prompt)
+        agent = create_react_agent(model, tools, prompt)
 
         # Create an agent executor by passing in the agent and tools
         agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
@@ -161,7 +161,7 @@ def main():
     
         #file execution
         # stdout, stderr, returncode = execute_generated_file(backend_folder + "/code_writer_usecase_dataset/function_AI_generated.py")
-        stdout, stderr, returncode = execute_generated_file(parent_directories + "remote_code/esphome/function_AI_generated.py")
+        stdout, stderr, returncode = execute_generated_file(parent_directories + "/remote_code/esphome/function_AI_generated.py")
         print("Standard output:")
         print(stdout)
         print("Standard error:")
