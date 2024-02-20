@@ -28,5 +28,5 @@ with st.form("myform"):
     submitted = st.form_submit_button("Submit")
     if not openai_api_key:
         st.info("You can add your Langsmith API key to continue to monitoring and debugging.")
-    elif submitted:
+    if submitted:
         blog_outline(topic_text)
