@@ -1,11 +1,10 @@
 import streamlit as st
-from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain_community.llms import OpenLLM
 
-st.title("🦜🔗 Langchain - Blog Outline Generator App")
+st.title("PRIM - NXP 🦜🔗")
 
-openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+openai_api_key = st.sidebar.text_input("Langsmith API Key", type="password")
 
 
 def blog_outline(topic):
@@ -22,10 +21,12 @@ def blog_outline(topic):
     return st.info(response)
 
 
+
+
 with st.form("myform"):
     topic_text = st.text_input("Enter prompt:", "")
     submitted = st.form_submit_button("Submit")
     if not openai_api_key:
-        st.info("Please add your OpenAI API key to continue.")
+        st.info("You can add your Langsmith API key to continue to monitoring and debugging.")
     elif submitted:
         blog_outline(topic_text)
