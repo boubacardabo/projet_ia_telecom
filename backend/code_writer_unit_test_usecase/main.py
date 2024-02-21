@@ -92,7 +92,8 @@ def main():
 
             function_names = get_function_names(file_path)
             function_name = function_names[0]
-            write_function_to_file(function_code, backend_folder + "/code_writer_unit_test_usecase/function_AI_generated.py", function_name=function_name, backend_folder=backend_folder)
+            file_path = backend_folder + "/code_writer_unit_test_usecase/function_AI_generated.py"
+            write_function_to_file(function_code, file_path=file_path, function_name=function_name)
             print("Function code has been written to 'function_AI_generated.py'")
         else:
             print("No function code extracted from the Markdown string.")

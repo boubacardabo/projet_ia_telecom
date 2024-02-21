@@ -65,9 +65,8 @@ def extract_function_from_markdown(markdown_string, remove_imports=True):
     
 
 
-def write_function_to_file(function_code, file_path, function_name, backend_folder):
-    """write in a file"""
-    test_path = backend_folder + "/code_writer_unit_test_usecase/function_AI_generated.py"
+def write_function_to_file(function_code, file_path, function_name):
+    """write in a file (used by code_writer_unit_test_usecase)"""
     with open(file_path, 'w') as file:
         file.write("import pytest\n")
         file.write("import os\n")
@@ -77,18 +76,16 @@ def write_function_to_file(function_code, file_path, function_name, backend_fold
         file.write(f"from code_writer_unit_test_usecase.functions import {function_name}\n\n")
         file.write(function_code)
         file.write("\n\n")
-        file.write(f'retcode = pytest.main(["-x","{test_path}"])')
+        file.write(f'retcode = pytest.main(["-x","{file_path}"])')
 
 
-#write in the a file
-def write_function_to_file2(function_string_whole, file_path, backend_folder):
 
-    #test_path = backend_folder + "/code_writer_system_test_usecase/function_AI_generated.py"
-    test_path = "/home/infres/mcaillard-23/remote_code/esphome/function_AI_generated.py"
+def write_function_to_file2(function_string_whole, file_path):
+    """write in a file (used by code_writer_system_test_usecase)"""
     with open(file_path, 'w') as file:
         file.write(function_string_whole)
         file.write("\n\n")
-        file.write(f'retcode = pytest.main(["-x","{test_path}"])')
+        file.write(f'retcode = pytest.main(["-x","{file_path}"])')
         
         
 
