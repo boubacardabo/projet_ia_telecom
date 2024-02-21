@@ -1,0 +1,14 @@
+
+duckduckgo-search
+anthropic>=0.3.0
+trubrics>=1.4.3
+streamlit-feedback
+
+beautifulsoup4==4.12.2
+docarray==0.39.1
+langchain==0.0.321
+llama_cpp_python==0.2.11
+pydantic==1.10.8
+PyMuPDF==1.23.5
+sentence-transformers==2.2.2
+streamlit==1.27.2
