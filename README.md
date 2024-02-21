@@ -93,13 +93,13 @@ Normally, you should now ready to use the application.
 
 ## Developer mode and development recommendation
 
-to test the backend, you can upload the `backend` folder to the remote machine using the *Secure Copy Protocol* :
+to test the backend, you can upload the `backend` folder to the remote machine using the *Secure Copy Protocol* on your local machine:
 
 ```bash
 scp -r <absolute_path_of_backend_folder> <your_id>3@gpu<number_cluster_gpu>.enst.fr:/home/infres/<your_id>
 ```
 
-and then launch an entrypoint file :
+and then launch an entrypoint file on the remote machine:
 
 ```bash
 CUDA_VISIBLE_DEIVCES=<ID_OF_YOUR_GPU>, python3 ./backend/test/main.py
@@ -110,14 +110,6 @@ for example.
 
  After you're done, make sure to kill your process (`Ctrl + D` should be enough) to free the memory of the GPU.
 
-
-### optional features
-
-export API Keys for OpenAI and/or Mistral AI if you want to use those APIs :
-```bash
-export OPENAI_API_KEY= ...
-export MISTRAL_API_KEY= ...
-```
 
 ### additional information 
 If you install models on télécom GPUs using HuggingFace, they will be in: 
