@@ -6,6 +6,7 @@ from langchain.chains import LLMChain, ConversationalRetrievalChain, StuffDocume
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain.memory import ConversationBufferMemory
+from prompt.prompts import prompt_template_RAG
 
 
 
@@ -19,28 +20,13 @@ class LangWrapper:
     llmModel: LlmModel | ChatOpenAI
     llmChain: LLMChain | ConversationalRetrievalChain | None
     ragWrapper: RagWrapper | None
-    template_text = """
-                    [INST]
-                    You are an assistant for question-answering tasks. 
-                    Use the following pieces of retrieved context to answer the question. 
-                    If you don't know the answer, just say that you don't know. 
-                    -----------------------------------------------
-                    Here the is context retrieved:
-                    {context}
-                    -----------------------------------------------
-                    Here is the question to answer:
-                    {question} 
-                    -----------------------------------------------
-                    [/INST]
-                    """
+    promptTemplate = prompt_template_RAG
     
 
     def __init__(self, model: LlmModel | str, prompt=None):
         # initialize the LLM
         if prompt is None :
-            prompt = PromptTemplate.from_template(
-                template=self.template_text,
-            )
+            prompt = self.promptTemplate
         else :
             prompt = prompt
 

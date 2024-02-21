@@ -65,8 +65,8 @@ def main():
             print("Invalid choice. Exiting.")
             return
     
-        from prompt.prompts import prompt1
-        langchain_wrapper = LangWrapper(model=model, prompt=prompt1)
+        from prompt.prompts import prompt_usecase_test_unit
+        langchain_wrapper = LangWrapper(model=model, prompt=prompt_usecase_test_unit)
         
         ####
         from utils.utils import get_functions, extract_function_from_markdown, write_function_to_file, get_function_names, execute_generated_file
