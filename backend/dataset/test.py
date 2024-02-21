@@ -17,7 +17,7 @@ id = 8
 function_string_whole = dataset[id][ 'whole_func_string']
 func_code_url = dataset[id]["func_code_url"]
 
-# write_function_to_file2(function_string_whole, backend_folder + "\\code_writer_usecase_dataset\\functions.py")
+# write_function_to_file2(function_string_whole, backend_folder + "\\code_writer_system_test_usecase\\functions.py")
 
 
 os.environ["TAVILY_API_KEY"]= "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"
