@@ -8,6 +8,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.memory import ConversationBufferMemory
 
 
+
 # uncomment for debug
 # import langchain
 
@@ -20,11 +21,9 @@ class LangWrapper:
     ragWrapper: RagWrapper | None
     template_text = """
                     [INST]
-                    Your job is to be be a personal coding assistant
-                    that answers the questions given. Depending on this
-                    instruction, the question and the context given to you, you will
-                    either answer to questions related to a repository code, generate or
-                    correct code. DO your BEST.
+                    You are an assistant for question-answering tasks. 
+                    Use the following pieces of retrieved context to answer the question. 
+                    If you don't know the answer, just say that you don't know. 
                     -----------------------------------------------
                     Here the is context retrieved:
                     {context}
@@ -34,12 +33,17 @@ class LangWrapper:
                     -----------------------------------------------
                     [/INST]
                     """
+    
 
-    def __init__(self, model: LlmModel | str):
+    def __init__(self, model: LlmModel | str, prompt=None):
         # initialize the LLM
-        prompt = PromptTemplate.from_template(
-            template=self.template_text,
-        )
+        if prompt is None :
+            prompt = PromptTemplate.from_template(
+                template=self.template_text,
+            )
+        else :
+            prompt = prompt
+
         if isinstance(model, LlmModel):
             self.llmModel = model
             primary_chain = LLMChain(
@@ -49,17 +53,28 @@ class LangWrapper:
             )
             self.llmChain = primary_chain
             self.ragWrapper = None
-        elif model != "openai" or "mistralapi":
-            print("Error: For API models, please choose openai or mistralapi")
         else:
             if model == "openai":
                 self.llmModel = ChatOpenAI(model="gpt-4")
                 output_parser = StrOutputParser()
                 self.llmChain = prompt | self.llmModel | output_parser  # type: ignore
+            else : 
+                #OpenLLM
+                self.llmModel = model
+                primary_chain = LLMChain(
+                    prompt=prompt,
+                    llm=model,
+                    verbose=True,
+                )
+                self.llmChain = primary_chain
+                self.ragWrapper = None
+
 
     def invoke_llm_chain(self, question: str):
         if self.llmChain:
+
             response = self.llmChain.invoke(
+                device_map=0,
                 input={"question": question, "chat_history": self.llmChain.get_chat_history() or ""},  # type: ignore
             )
             if isinstance(self.llmChain, LLMChain):
@@ -85,10 +100,15 @@ class LangWrapper:
             input_variables=["page_content", "file_name", "file_path", "source"], 
             template="""
             PAGE_CONTENT
+            
             {page_content}
+            
             ----------------------------------
             METADATA
-            file_name={file_name}, file_path={file_path}, source={source}
+            filename= {file_name}, 
+            filepath= {file_path},
+            source= {source}
+            
             """
         )
 
@@ -110,6 +130,52 @@ class LangWrapper:
                 else "\n".join([f"Human:{human}\nAI:{ai}" for human, ai in inputs])
             ),
         )
+
+
+
+
+    def setup_rag_llm_chain2(self):
+
+        """ An alternative RAG chain setup"""
+
+        primary_chain = self.llmChain
+        assert isinstance(primary_chain, LLMChain)
+        assert isinstance(self.ragWrapper, RagWrapper)
+
+        from langchain.chains.question_answering import load_qa_chain
+        
+        prompt = PromptTemplate.from_template(template=self.template_text)
+        
+        self.llmChain = load_qa_chain(self.llmModel, chain_type="stuff", prompt=prompt)
+
+
+    def invoke_llm_chain2(self, question: str):
+        """ An alternative RAG chain"""
+        if self.llmChain:
+
+            docs = self.ragWrapper.retriever.get_relevant_documents(question)
+            response = self.llmChain.invoke({"input_documents": docs, "question": question}, return_only_outputs=True)
+
+            return response
+        return "No LLM Chain instantiated in Langchain"
+    
+
+
+    def invoke_llm_chain3(self, function, specification):
+        """For the 'code writer' usecase"""
+        if self.llmChain:
+
+            response = self.llmChain.invoke(
+                input={"input_function": function, "input_specification": specification}
+
+            )
+            if isinstance(self.llmChain, LLMChain):
+                return response["text"]
+            else:
+                return response
+        return "No LLM Chain instantiated in Langchain"
+
+
 
     def cleanup(self):
         del self.llmChain
