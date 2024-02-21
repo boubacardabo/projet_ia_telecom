@@ -46,7 +46,9 @@ fi
 export CUDA_VISIBLE_DEVICES="$1"
 
 # Execute the command
-openllm start mistralai/Mixtral-8x7B-Instruct-v0.1 --backend pt --quantize int4 --max_new_tokens 2048
+model="mistralai/Mixtral-8x7B-Instruct-v0.1"
+openllm start "$model" --backend pt --quantize int4 --max_new_tokens 2048
+
 
 pkill -f 'bentoml|openllm'
 

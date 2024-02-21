@@ -14,11 +14,10 @@ Install required packages
 pip install -r requirements.txt
 ```
 
-export API Keys for OpenAI and/or Mistral
+export API Keys for OpenAI and/or Mistral if you want to use those it
 ```bash
-export OPENAI_API_KEY=....
-export MISTRAL_API_KEY=....
+export OPENAI_API_KEY= ...
+export MISTRAL_API_KEY= ...
 ```
 
-Models are installed in: ~/.cache/huggingface/hub
-
+Models are installed in: `~/.cache/huggingface/hub`
