@@ -101,7 +101,7 @@ def main():
 
 
         ####
-        from utils.main import get_functions, extract_function_from_markdown, write_function_to_file, get_function_names, execute_generated_file
+        from backend.utils.utils import get_functions, extract_function_from_markdown, write_function_to_file, get_function_names, execute_generated_file
         from code_writer_usecase.specification_functions import specification_string
 
 

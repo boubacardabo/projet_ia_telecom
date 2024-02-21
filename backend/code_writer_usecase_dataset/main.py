@@ -148,7 +148,7 @@ def main():
 
         print("\n --------------------------------------- \n")
 
-        from utils.main import extract_function_from_markdown2, write_function_to_file2, execute_generated_file
+        from backend.utils.utils import extract_function_from_markdown2, write_function_to_file2, execute_generated_file
        
         #extract the Python code out of the output
         function_code = extract_function_from_markdown2(generated_output["output"])
