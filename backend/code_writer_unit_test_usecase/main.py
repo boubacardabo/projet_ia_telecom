@@ -8,7 +8,7 @@ backend_folder = f"{os.getcwd()}/backend"
 if backend_folder not in sys.path:
     sys.path.append(backend_folder)
 
-path_to_remove = f"{os.getcwd()}/backend/code_writer_usecase"
+path_to_remove = f"{os.getcwd()}/backend/code_writer_unit_test_usecase"
 if path_to_remove in sys.path:
     sys.path.remove(path_to_remove)
 
@@ -70,11 +70,11 @@ def main():
         
         ####
         from utils.utils import get_functions, extract_function_from_markdown, write_function_to_file, get_function_names, execute_generated_file
-        from code_writer_usecase.specification_functions import specification_string
+        from code_writer_unit_test_usecase.specification_functions import specification_string
 
 
         #fetching the function as a string
-        file_path = backend_folder + "/code_writer_usecase/functions.py"
+        file_path = backend_folder + "/code_writer_unit_test_usecase/functions.py"
         functions = get_functions(file_path)
         function_string = functions[0]
 
@@ -92,14 +92,14 @@ def main():
 
             function_names = get_function_names(file_path)
             function_name = function_names[0]
-            write_function_to_file(function_code, backend_folder + "/code_writer_usecase/function_AI_generated.py", function_name=function_name, backend_folder=backend_folder)
+            write_function_to_file(function_code, backend_folder + "/code_writer_unit_test_usecase/function_AI_generated.py", function_name=function_name, backend_folder=backend_folder)
             print("Function code has been written to 'function_AI_generated.py'")
         else:
             print("No function code extracted from the Markdown string.")
 
     
         #file execution
-        stdout, stderr, returncode = execute_generated_file(backend_folder + "/code_writer_usecase/function_AI_generated.py")
+        stdout, stderr, returncode = execute_generated_file(backend_folder + "/code_writer_unit_test_usecase/function_AI_generated.py")
         print("Standard output:")
         print(stdout)
         print("Standard error:")
