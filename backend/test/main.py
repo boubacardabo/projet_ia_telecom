@@ -1,13 +1,17 @@
 import os
 import sys
 import traceback
+from dotenv import load_dotenv
 
 backend_folder = f"{os.getcwd()}/backend"
 sys.path.append(backend_folder)
 
+# Load variables from the .env file into the environment
+load_dotenv(dotenv_path=os.getcwd())
+
 os.environ["LANGCHAIN_TRACING_V2"] = 'true'
 os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_API_KEY"] = "ls__a21c5d9069a442c08645e82f0a7330cc"
+os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
 os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
 
 from embedding.rag_wrapper import RagWrapper
