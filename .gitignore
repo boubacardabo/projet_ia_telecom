@@ -1,7 +1,7 @@
+
+**/nxp_venv/
 nxp_venv/*/**
 **/nxp_venv/
-
-
 **/venv/
 .idea/
 **/remote_code/
