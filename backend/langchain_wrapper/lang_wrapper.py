@@ -44,7 +44,7 @@ class LangWrapper:
         else :
             prompt = prompt
 
-        if isinstance(model, LlmModel):
+        if isinstance(model, LlmModel) and not model.llm:
             self.llmModel = model
             primary_chain = LLMChain(
                 prompt=prompt,
@@ -63,7 +63,7 @@ class LangWrapper:
                 self.llmModel = model
                 primary_chain = LLMChain(
                     prompt=prompt,
-                    llm=model,
+                    llm=model.llm,
                     verbose=True,
                 )
                 self.llmChain = primary_chain

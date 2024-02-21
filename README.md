@@ -99,6 +99,9 @@ To test the backend, you can upload the `backend` folder to the remote machine u
 scp -r <absolute_path_of_backend_folder> <your_id>3@gpu<number_cluster_gpu>.enst.fr:/home/infres/<your_id>
 ```
 
+don't forget to also sent your `.env`.
+
+
 You can use a *virtual environment* :
 
 ```bash

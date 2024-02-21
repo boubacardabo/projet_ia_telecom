@@ -7,12 +7,13 @@ backend_folder = f"{os.getcwd()}/backend"
 sys.path.append(backend_folder)
 
 # Load variables from the .env file into the environment
-load_dotenv(dotenv_path=os.getcwd())
+load_dotenv()
 
-os.environ["LANGCHAIN_TRACING_V2"] = 'true'
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
-os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
+if "LANGCHAIN_API_KEY" in os.environ:
+    os.environ["LANGCHAIN_TRACING_V2"] = 'true'
+    os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+    os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
+    os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
 
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
@@ -35,8 +36,6 @@ def main():
 
 
 
-
-
         if choice == 'h':
 
             print("You are using the huggingFace pipeline API.\n")
@@ -48,8 +47,6 @@ def main():
             # model
             model_name = code_llama_model_13b_instruct
             model = LlmModel(model_name=model_name)
-
-
 
 
             # question = """
@@ -68,12 +65,7 @@ def main():
 
             print("You are using OpenLLM.\n")
 
-
-            from langchain_community.llms import OpenLLM
-
-            server_url = "http://localhost:3000"
-            llm = OpenLLM(server_url=server_url)
-
+            model = LlmModel(llm_runnable=True)
 
 
         else:
