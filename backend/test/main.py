@@ -46,10 +46,7 @@ def main():
             model = LlmModel(model_name=model_name)
 
 
-            # langchain
-            langchain_wrapper = LangWrapper(model=model)
-            langchain_wrapper.add_rag_wrapper(ragWrapper)
-            langchain_wrapper.setup_rag_llm_chain()
+
 
             # question = """
             #     Briefly tell me what the codegen.py file does
@@ -73,20 +70,18 @@ def main():
             server_url = "http://localhost:3000"
             llm = OpenLLM(server_url=server_url)
 
-            langchain_wrapper = LangWrapper(model=llm)
-            langchain_wrapper.add_rag_wrapper(ragWrapper)
-            langchain_wrapper.setup_rag_llm_chain()
-
-
-
 
 
         else:
             print("Invalid choice. Exiting.")
-            langchain_wrapper.cleanup()
             return
     
 
+
+        # langchain
+        langchain_wrapper = LangWrapper(model=model)
+        langchain_wrapper.add_rag_wrapper(ragWrapper)
+        langchain_wrapper.setup_rag_llm_chain()
 
         while True:
             question = input("Ask a query (type 'q' to quit): \n").strip()
