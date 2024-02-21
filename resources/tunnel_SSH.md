@@ -1,4 +1,4 @@
-# Accessing `0.0.0.0:3000`| of `gpu6.enst.fr` via PuTTy
+# Accessing `0.0.0.0:3000` of `gpu6.enst.fr` via PuTTy
 
 ## Description
 

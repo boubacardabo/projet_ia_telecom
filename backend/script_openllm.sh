@@ -21,7 +21,9 @@
 # Check if openllm is already installed
 if ! command -v openllm &> /dev/null; then
     # openllm is not installed, so install it using pip
-    pip install openllm
+    pip install openllm==0.4.41
+    pip install openllm-client==0.4.41
+    pip install openllm-core==0.4.41
 fi
 
 # Check if the CUDA_VISIBLE_DEVICES argument is provided

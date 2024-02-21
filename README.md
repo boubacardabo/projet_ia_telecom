@@ -43,4 +43,62 @@ Generative AI trained for software debugging:
 
 
 
+# Launching the LLM-powered application
 
+
+
+- Create a venv
+
+```bash
+python3 -m venv venv
+```
+
+
+- Activate the venv
+
+```bash
+source venv/bin/activate
+```
+- Install required packages
+
+```bash
+pip install -r requirements.txt
+```
+
+- Run the application
+```bash
+streamlit run ./frontend/home.py
+```
+
+- Make sure to have a LLM server running. **If there already is a LLM inference server running on the cluster**, skip this step. Otherwise, you can launch a LLM inference server by doing the following :   
+
+
+  1. Connect to Télécom Paris network using OpenVPN GUI. Follow the steps [here](https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows).
+
+  2. Connect by SSH to one of Télécom GPU clusters. See how to do it [here](resources\GPU_access.md).
+   
+
+  3. Launch an LLM inference server. See how to do it [here](OpenLLM\OpenLLM.md).
+   
+
+
+- Now, you need to make an SSH tunnel between your local machine and the remote machine. See how to do it [here](resources\tunnel_SSH.md).
+
+
+Normally, you should now ready to use the application.
+<br>
+<br>
+<br>
+<br>
+
+### optional features
+
+export API Keys for OpenAI and/or Mistral AI if you want to use those APIs :
+```bash
+export OPENAI_API_KEY= ...
+export MISTRAL_API_KEY= ...
+```
+
+### additional information 
+If you install models on télécom GPUs using HuggingFace, they will be in: 
+`~/.cache/huggingface/hub`
