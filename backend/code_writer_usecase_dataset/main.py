@@ -16,16 +16,18 @@ if path_to_remove in sys.path:
 
 
 # Load variables from the .env file into the environment
-load_dotenv(dotenv_path=os.getcwd())
+load_dotenv()
 
-os.environ["LANGCHAIN_TRACING_V2"] = 'true'
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
-os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
+if "LANGCHAIN_API_KEY" in os.environ:
+    os.environ["LANGCHAIN_TRACING_V2"] = 'true'
+    os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+    os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
+    os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
 
 
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
+from llm.llm_model import LlmModel
 
 
 
@@ -53,29 +55,12 @@ def main():
 
             print("You are using the huggingFace pipeline API.\n")
 
-
-            from llm.llm_model import LlmModel
+            
             from llm.model_names import code_llama_model_13b_instruct
 
             # model
             model_name = code_llama_model_13b_instruct
             model = LlmModel(model_name=model_name)
-
-
-            # langchain
-            langchain_wrapper = LangWrapper(model=model)
-            #langchain_wrapper.add_rag_wrapper(ragWrapper)
-            langchain_wrapper.setup_rag_llm_chain()
-
-            question = """
-                Briefly tell me what the codegen.py file does
-                """
-            generated_text = langchain_wrapper.invoke_llm_chain(question)
-            history = generated_text["chat_history"]  # type: ignore
-            gen_text = model.generate_text(question)
-            print(generated_text["answer"])  # type: ignore
-
-
 
 
             
@@ -84,14 +69,8 @@ def main():
             print("You are using OpenLLM.\n")
 
 
-            from langchain_community.llms import OpenLLM
+            model = LlmModel(llm_runnable=True)
 
-            server_url = "http://localhost:3000"
-            model = OpenLLM(server_url=server_url)
-
-            langchain_wrapper = LangWrapper(model=model)
-            langchain_wrapper.add_rag_wrapper(ragWrapper)
-            langchain_wrapper.setup_rag_llm_chain()
 
 
         else:
@@ -99,6 +78,9 @@ def main():
             return
     
 
+        langchain_wrapper = LangWrapper(model=model)
+        langchain_wrapper.add_rag_wrapper(ragWrapper)
+        langchain_wrapper.setup_rag_llm_chain()
 
         ####
 
@@ -133,7 +115,7 @@ def main():
         prompt = prompt_usecase_test_system
 
         # Construct the ReAct agent
-        agent = create_react_agent(model, tools, prompt)
+        agent = create_react_agent(model.llm, tools, prompt)
 
         # Create an agent executor by passing in the agent and tools
         agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
@@ -148,7 +130,7 @@ def main():
 
         print("\n --------------------------------------- \n")
 
-        from backend.utils.utils import extract_function_from_markdown2, write_function_to_file2, execute_generated_file
+        from utils.utils import extract_function_from_markdown2, write_function_to_file2, execute_generated_file
        
         #extract the Python code out of the output
         function_code = extract_function_from_markdown2(generated_output["output"])

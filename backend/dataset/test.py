@@ -10,7 +10,7 @@ if path_to_remove in sys.path:
 
 
 from dataset import dataset
-from backend.utils.utils import write_function_to_file2
+from utils.utils import write_function_to_file2
 
 
 id = 8

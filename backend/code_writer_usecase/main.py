@@ -14,18 +14,16 @@ if path_to_remove in sys.path:
 
 
 # Load variables from the .env file into the environment
-load_dotenv(dotenv_path=os.getcwd())
+load_dotenv()
 
+if "LANGCHAIN_API_KEY" in os.environ:
+    os.environ["LANGCHAIN_TRACING_V2"] = 'true'
+    os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+    os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
+    os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
 
-
-os.environ["LANGCHAIN_TRACING_V2"] = 'true'
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
-os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
-
-from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
-
+from llm.llm_model import LlmModel
 
 
 
@@ -33,16 +31,7 @@ def main():
     try:
 
 
-        # rag
-        repo_url = "https://github.com/esphome/esphome"
-        branch = "dev"
-        file_type = ".py"
-        # ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
-
         choice = input("Choose HuggingFaceAPI ('h') or OpenLLM ('o'):\n ").lower().strip()
-
-
-
 
 
 
@@ -51,28 +40,12 @@ def main():
             print("You are using the huggingFace pipeline API.\n")
 
 
-            from llm.llm_model import LlmModel
+            
             from llm.model_names import code_llama_model_13b_instruct
 
             # model
             model_name = code_llama_model_13b_instruct
             model = LlmModel(model_name=model_name)
-
-
-            # langchain
-            langchain_wrapper = LangWrapper(model=model)
-            #langchain_wrapper.add_rag_wrapper(ragWrapper)
-            langchain_wrapper.setup_rag_llm_chain()
-
-            question = """
-                Briefly tell me what the codegen.py file does
-                """
-            generated_text = langchain_wrapper.invoke_llm_chain(question)
-            history = generated_text["chat_history"]  # type: ignore
-            gen_text = model.generate_text(question)
-            print(generated_text["answer"])  # type: ignore
-
-
 
 
             
@@ -81,15 +54,9 @@ def main():
             print("You are using OpenLLM.\n")
 
 
-            from langchain_community.llms import OpenLLM
+            model = LlmModel(llm_runnable=True)
 
-            server_url = "http://localhost:3000"
-            llm = OpenLLM(server_url=server_url)
-
-
-            from prompt.prompts import prompt1
-
-            langchain_wrapper = LangWrapper(model=llm, prompt=prompt1)
+            
 
 
 
@@ -98,10 +65,11 @@ def main():
             print("Invalid choice. Exiting.")
             return
     
-
-
+        from prompt.prompts import prompt1
+        langchain_wrapper = LangWrapper(model=model, prompt=prompt1)
+        
         ####
-        from backend.utils.utils import get_functions, extract_function_from_markdown, write_function_to_file, get_function_names, execute_generated_file
+        from utils.utils import get_functions, extract_function_from_markdown, write_function_to_file, get_function_names, execute_generated_file
         from code_writer_usecase.specification_functions import specification_string
 
 
