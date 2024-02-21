@@ -93,24 +93,41 @@ Normally, you should now ready to use the application.
 
 ## Developer mode and development recommendation
 
-to test the backend, you can upload the `backend` folder to the remote machine using the *Secure Copy Protocol* on your local machine:
+To test the backend, you can upload the `backend` folder to the remote machine using the *Secure Copy Protocol* on your local machine:
 
 ```bash
 scp -r <absolute_path_of_backend_folder> <your_id>3@gpu<number_cluster_gpu>.enst.fr:/home/infres/<your_id>
 ```
 
-and then launch an entrypoint file on the remote machine:
+You can use a *virtual environment* :
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r ./backend/requirements.txt
+```
+
+
+
+and then launch an entrypoint (`main.py`) file on the remote machine:
 
 ```bash
 CUDA_VISIBLE_DEIVCES=<ID_OF_YOUR_GPU>, python3 ./backend/test/main.py
 ``` 
-for example.
+for example. 
 
  Note that it's important to launch files from the parent directory of backend (because the `os.getcwd` method returns the current working directory of the process and that return value is internally used by Python to manage the paths of imports of modules).
 
  After you're done, make sure to kill your process (`Ctrl + D` should be enough) to free the memory of the GPU.
 
 
-### additional information 
+ ## adding usecase
+
+make one folder `backend` per usecase.
+
+--- 
+<br>
+
+**additional information**
 If you install models on télécom GPUs using HuggingFace, they will be in: 
 `~/.cache/huggingface/hub`

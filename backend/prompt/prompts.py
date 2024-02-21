@@ -1,6 +1,5 @@
-from langchain.prompts import PromptTemplate, ChatPromptTemplate, ChatMessagePromptTemplate
-#from mistralai.models.chat_completion import ChatMessage
-from langchain_mistralai.chat_models import ChatMessage
+from langchain.prompts import PromptTemplate, ChatPromptTemplate
+
 
 
 prompt1 = ChatPromptTemplate.from_messages([

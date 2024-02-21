@@ -1,6 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from llm.model_names import starcoder, mistral_model
-from utils.main import select_gpu_if_available
+from llm.model_names import mistral_model
+from backend.utils.utils import select_gpu_if_available
 
 model_name = mistral_model
 
@@ -50,11 +50,17 @@ class LlmModel:
     def cleanup(self):
         # If you're using a GPU, make sure to release GPU memory
         if self.model.device.type == "cuda":  # type: ignore
+
             self.model = self.model.to("cpu")  # Move model to CPU to release GPU memory
+            #import torch
+            #torch.cuda.empty_cache()
 
         # Delete references to the model
         del self.model
         del self.tokenizer
+
+        
+        
 
         # Perform garbage collection to release memory
         import gc
