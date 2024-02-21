@@ -8,7 +8,7 @@ In this session, we will cover essential commands and guidelines for effectively
 ```shell
 ssh <id-telecom>@gpu6.enst.fr
 ```
-This command allows you to establish a secure connection to Telecom's GPU servers.
+This command allows you to establish a secure connection to Telecom's GPU servers. gpu1, gpu2, gpu3, ... gpu6 are accessible.
 
 **Monitoring GPU Information:**
 ```shell
@@ -27,7 +27,7 @@ The `~` symbol represents your home directory, where you can store your files an
 import torch
 torch.FloatTensor(1).to('cuda')
 ```
-This Python code snippet enables the use of the reserved GPU through CUDA.
+This Python code snippet enables the use of the reserved GPU1 through CUDA.
 
 **Understanding CUDA_VISIBLE_DEVICES:**
 `CUDA_VISIBLE_DEVICES` is a crucial environment variable for GPU reservation. You can specify the GPU you want to use with this variable.
@@ -36,7 +36,7 @@ This Python code snippet enables the use of the reserved GPU through CUDA.
 ```shell
 CUDA_VISIBLE_DEVICES=0 python script.py
 ```
-When running Python scripts, it's essential to reserve GPUs. Using an unreserved GPU may disrupt ongoing processes and result in potential bans.
+When running Python scripts, it's essential to reserve GPUs. Using an unreserved GPU may disrupt ongoing processes and result in potential bans. You can also export the variable : `export CUDA_VISIBLE_DEVICES=0` 
 
 **PyTorch Integration:**
 In PyTorch-based Python code, there's no need to define `CUDA_VISIBLE_DEVICES`. PyTorch manages GPU usage internally.
@@ -66,3 +66,6 @@ For continuous, uninterrupted GPU usage, the Telecom GPUs may not be the ideal c
 To log out of a session, simply press `Ctrl` + `D`.
 
 Thank you for adhering to these guidelines and making the most of Telecom's GPU resources. If you have any questions or require further assistance, please do not hesitate to reach out.
+
+**Check CUDA version:**
+`nvcc --version`
