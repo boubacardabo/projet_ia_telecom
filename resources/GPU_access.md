@@ -1,6 +1,6 @@
 **Date: 25-10-2023**
 
-**Hosted by Nils Holzenberger**
+**Meeting hosted by Nils Holzenberger**
 
 In this session, we will cover essential commands and guidelines for effectively utilizing the GPU resources at Telecom. Please take note of the following commands and recommendations:
 
