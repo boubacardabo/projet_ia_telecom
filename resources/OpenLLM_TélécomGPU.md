@@ -1,4 +1,4 @@
-## In this file we'll see how to install Autogen and use it on Télécom GPUs
+## In this file we'll see how to install OpenLLM and use it on Télécom GPUs
 
 1. Connect to Télécom Paris network using OpenVPN GUI. Follow the steps [here](https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows).
 
