@@ -91,6 +91,26 @@ Normally, you should now ready to use the application.
 <br>
 <br>
 
+## Developer mode and development recommendation
+
+to test the backend, you can upload the `backend` folder to the remote machine using the *Secure Copy Protocol* :
+
+```bash
+scp -r <absolute_path_of_backend_folder> <your_id>3@gpu<number_cluster_gpu>.enst.fr:/home/infres/<your_id>
+```
+
+and then launch an entrypoint file :
+
+```bash
+CUDA_VISIBLE_DEIVCES=<ID_OF_YOUR_GPU>, python3 ./backend/test/main.py
+``` 
+for example.
+
+ Note that it's important to launch files from the parent directory of backend (because the `os.getcwd` method returns the current working directory of the process and that return value is internally used by Python to manage the paths of imports of modules).
+
+ After you're done, make sure to kill your process (`Ctrl + D` should be enough) to free the memory of the GPU.
+
+
 ### optional features
 
 export API Keys for OpenAI and/or Mistral AI if you want to use those APIs :
