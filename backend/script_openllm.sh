@@ -28,7 +28,7 @@ fi
 
 # Check if the CUDA_VISIBLE_DEVICES argument is provided
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 <CUDA_VISIBLE_DEVICES>"
+    echo "Usage: $0 <CUDA_VISIBLE_DEVICES> <MODEL_NAME> (default:mistralai/Mixtral-8x7B-Instruct-v0.1)"
     exit 1
 fi
 
@@ -47,8 +47,15 @@ fi
 # Set CUDA_VISIBLE_DEVICES environment variable
 export CUDA_VISIBLE_DEVICES="$1"
 
-# Execute the command
-model="mistralai/Mixtral-8x7B-Instruct-v0.1"
+
+# Check if the user provided an argument for the model
+if [ $# -eq 2 ]; then
+    model="$2"
+else
+    # Default model if no argument is provided
+    model="mistralai/Mixtral-8x7B-Instruct-v0.1"
+fi
+
 openllm start "$model" --backend pt --quantize int4 --max_new_tokens 2048
 
 

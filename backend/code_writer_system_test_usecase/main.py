@@ -138,8 +138,8 @@ def main():
 
         #Write the function in the file function_AI_generated.py, containing import and PyTest launch
         if function_code: #if a some code has been found
-
-            write_function_to_file2(function_code, parent_directories + "/remote_code/esphome/function_AI_generated.py", backend_folder=backend_folder)
+            file_path = parent_directories + "/remote_code/esphome/function_AI_generated.py"
+            write_function_to_file2(function_code, file_path=file_path)
             #write_function_to_file2(function_code, backend_folder + "/code_writer_system_test_usecase/function_AI_generated.py", backend_folder=backend_folder)
             print("Function code has been written to 'function_AI_generated.py'")
         else:
