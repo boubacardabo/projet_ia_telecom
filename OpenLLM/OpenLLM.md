@@ -1,4 +1,23 @@
+
+
+
+# How to install OpenLLM and launch an LLM inference server on Télécom GPUs
+
+1. Connect to télécom GPUs
+
+2. Make sure the GPU 0 of the cluster is available and run the following
+   
+```bash
+chmod +x ./backend/script_openllm.sh
+./backend/script_openllm.sh 0
+```
+
 **OpenLLM** is an open platform for operating large language models (LLMs) in production. It enables developers to easily run inference with any open-source LLMs, deploy to the cloud or on-premises, and build powerful AI apps.
+
+---------
+
+## OpenLLM tutorial
+
 
 **Prerequisites:**
 - You have installed Python 3.8 (or later) and pip. We highly recommend using a Virtual Environment to prevent package conflicts.
@@ -105,14 +124,3 @@ openllm build dolly-v2
 
 
 
-
-# Now we'll see how to install OpenLLM and use it on Télécom GPUs
-
-1. Connect to Télécom Paris network using OpenVPN GUI. Follow the steps [here](https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows).
-
-2. Connect by SSH to Télécom GPUs. See how to do it [here](https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows).
-
-3. make the script `backend/script_openllm.sh` executable :
-`chmod +x ./script_openllm.sh`
-
-4. launch the script :  `./script_openllm.sh 0`
