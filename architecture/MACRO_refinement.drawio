@@ -1,10 +1,10 @@
-<mxfile host="Electron" modified="2024-02-19T18:45:37.232Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="SUEg46hevwGshY0A9uwP" version="23.1.5" type="device">
+<mxfile host="Electron" modified="2024-02-20T19:25:19.147Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="y0XlgYpm8yRXdwDUW6IT" version="23.1.5" type="device">
   <diagram name="Page-1" id="fIOvvijHxLkieUXg9U--">
-    <mxGraphModel dx="3126" dy="3126" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3811" dy="3126" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="sUPVAXe8qwxZZiAcADtu-3" target="sUPVAXe8qwxZZiAcADtu-20">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sUPVAXe8qwxZZiAcADtu-3" target="sUPVAXe8qwxZZiAcADtu-20" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="sUPVAXe8qwxZZiAcADtu-3" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Generate a test for a specific &lt;br&gt;file or function&lt;br&gt;&lt;/font&gt;&lt;div style=&quot;font-size: 15px;&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 15px;&quot;&gt;&lt;span style=&quot;font-family: Calibri, sans-serif; text-align: left;&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot; color=&quot;#ffffff&quot;&gt;Generate missing tests improving the code coverage (positive and negative tests)&amp;nbsp;&lt;/font&gt;&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -25,10 +25,10 @@
         <mxCell id="sUPVAXe8qwxZZiAcADtu-13" value="Start APP" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="480" y="-1030" width="240" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="sUPVAXe8qwxZZiAcADtu-14" value="Inputs:&amp;nbsp;&lt;br&gt;Repository Link&lt;br&gt;Branch Name&lt;br&gt;File type&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="sUPVAXe8qwxZZiAcADtu-14" value="Inputs:&amp;nbsp;&lt;br&gt;Repository Link&lt;br&gt;Branch Name&lt;br&gt;Language (only one) (Python by default; C++, js, etc)&lt;br&gt;LLM to use (openLLM, or HuggingFace)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="820" y="-1030" width="240" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="sUPVAXe8qwxZZiAcADtu-15" value="Instantiates:&amp;nbsp;&lt;br&gt;RAG&lt;br&gt;LLM&lt;br&gt;Sends:&amp;nbsp;&lt;br&gt;A signal when everything is ready" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="sUPVAXe8qwxZZiAcADtu-15" value="Instantiates:&amp;nbsp;&lt;br&gt;RAG&lt;br&gt;LLM&lt;br&gt;Save/Retriever/Executor Tools&lt;br&gt;Sends:&amp;nbsp;&lt;br&gt;A signal when everything is ready" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1150" y="-1030" width="240" height="100" as="geometry" />
         </mxCell>
         <mxCell id="sUPVAXe8qwxZZiAcADtu-16" value="&lt;h1&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Frontend&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
@@ -49,92 +49,113 @@
         <mxCell id="sUPVAXe8qwxZZiAcADtu-19" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Generate test&lt;br&gt;- RagWrapper&lt;br&gt;- filePath to save the test file in (generated ?)&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLM output&lt;br&gt;- File&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1130" y="-665" width="355" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="sUPVAXe8qwxZZiAcADtu-20" target="sUPVAXe8qwxZZiAcADtu-19">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="sUPVAXe8qwxZZiAcADtu-20" target="sUPVAXe8qwxZZiAcADtu-19" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="sUPVAXe8qwxZZiAcADtu-20" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- File or function in question&lt;/font&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Option or button to save file ?&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;In conversation chain, so we can have upcoming queries&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="580" y="-670" width="330" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-26" target="N27zKwIqAkrmRE_ig5TF-29">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="N27zKwIqAkrmRE_ig5TF-26" target="N27zKwIqAkrmRE_ig5TF-29" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-26" value="Evaluate a test and correct or complete if necessary&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-26" value="Evaluate a test and correct or complete if necessary&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="20" y="-325" width="240" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-27" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Evaluate test&lt;br&gt;- RagWrapper&lt;br&gt;- Code executor tool --&amp;gt; put the output back in conversation &lt;b&gt;loop&lt;/b&gt; and reevaluate&amp;nbsp;&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLM output at each execution stage&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-27" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Evaluate test&lt;br&gt;- RagWrapper&lt;br&gt;- Code executor tool --&amp;gt; put the output back in conversation &lt;b&gt;loop&lt;/b&gt; and reevaluate&amp;nbsp;&lt;br&gt;Save tool&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLM output at each execution stage&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1130" y="-375" width="355" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-29" target="N27zKwIqAkrmRE_ig5TF-27">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="N27zKwIqAkrmRE_ig5TF-29" target="N27zKwIqAkrmRE_ig5TF-27" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-29" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- File or function in question&lt;/font&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;- Dynamically detect all test file then choose a file&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;In conversation chain, so we can have upcoming queries&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-29" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- File or function in question&lt;/font&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;- Dynamically detect all test file then choose a file&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;In conversation chain, so we can have upcoming queries&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="550" y="-380" width="360" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-31" target="N27zKwIqAkrmRE_ig5TF-34">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="N27zKwIqAkrmRE_ig5TF-31" target="N27zKwIqAkrmRE_ig5TF-34" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-31" value="Log reader: read a log and get inforrmation&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-31" value="Log reader: read a log and get inforrmation&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="20" y="-15" width="240" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-32" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Explore log and answer to query&lt;br&gt;- RagWrapper&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLm output&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-32" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Explore log and answer to query&lt;br&gt;- RagWrapper&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLm output&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1130" y="-65" width="355" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-34" target="N27zKwIqAkrmRE_ig5TF-32">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="N27zKwIqAkrmRE_ig5TF-34" target="N27zKwIqAkrmRE_ig5TF-32" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-34" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Filepath of logs in question&lt;br&gt;- Query&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;In conversation chain, so we can have upcoming queries&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-34" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Filepath of logs in question&lt;br&gt;- file format (txt)&lt;br&gt;- Query&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;In conversation chain, so we can have upcoming queries&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="580" y="-70" width="330" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-36" target="N27zKwIqAkrmRE_ig5TF-39">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="N27zKwIqAkrmRE_ig5TF-36" target="N27zKwIqAkrmRE_ig5TF-39" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-36" value="Code reader: Check if a code&amp;nbsp; respects specification" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-36" value="Code reader: Check if a code&amp;nbsp; respects specification" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="12.5" y="285" width="240" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-37" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Check if code is correct as in specification&lt;br&gt;- RagWrapper&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLm output&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-37" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Check if code is correct as in specification&lt;br&gt;- RagWrapper&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLm output&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1122.5" y="235" width="355" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-39" target="N27zKwIqAkrmRE_ig5TF-37">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="N27zKwIqAkrmRE_ig5TF-39" target="N27zKwIqAkrmRE_ig5TF-37" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-39" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- File or function&lt;br&gt;- Specification query&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Bullet point with X or V on specification&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-39" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- File or function&lt;br&gt;- Specification query&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Bullet point with X or V on specification&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="572.5" y="230" width="330" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-42" target="N27zKwIqAkrmRE_ig5TF-45">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="N27zKwIqAkrmRE_ig5TF-42" target="N27zKwIqAkrmRE_ig5TF-45" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-42" value="Code reader: Detect bug in a file&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-42" value="Code reader: Detect bug in a file&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="5" y="575" width="240" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-43" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Check if code is correct as in specification&lt;br&gt;- RagWrapper&lt;br&gt;- Code executor Tool&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLm output&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-43" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Check if code is correct as in specification&lt;br&gt;- RagWrapper&lt;br&gt;- BugNet RagWrapper&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLm output&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1115" y="525" width="355" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-45" target="N27zKwIqAkrmRE_ig5TF-43">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="N27zKwIqAkrmRE_ig5TF-45" target="N27zKwIqAkrmRE_ig5TF-43" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-45" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- File or function&lt;br&gt;- Error output of an execution&lt;br&gt;&lt;br&gt;&lt;/font&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;- Bullet points of potential bugs (with rag)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;- Bullet points of potential causes (if we provide an execution error)&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-45" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- File or function&lt;br&gt;- Error output of an execution&lt;br&gt;&lt;br&gt;&lt;/font&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;- Bullet points of potential bugs (with rag)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;- Bullet points of potential causes (if we provide an execution error)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;- Corrected code in response&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="565" y="520" width="330" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-48" value="Loop, execute and correct code until&amp;nbsp; done" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-48" value="Loop, execute and correct code until&amp;nbsp; done" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1520" y="-375" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-49" value="CONV_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-49" value="CONV_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1500" y="530" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-50" value="CONV_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-50" value="CONV_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1520" y="-290" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-51" value="QA_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-51" value="QA_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1500" y="240" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="N27zKwIqAkrmRE_ig5TF-49" target="N27zKwIqAkrmRE_ig5TF-49">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="N27zKwIqAkrmRE_ig5TF-49" target="N27zKwIqAkrmRE_ig5TF-49" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-53" value="QA_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-53" value="QA_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1510" y="-60" width="280" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="N27zKwIqAkrmRE_ig5TF-54" value="CONV_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="N27zKwIqAkrmRE_ig5TF-54" value="CONV_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="1510" y="-660" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wYpFW-D5isLESgXcwUdo-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="wYpFW-D5isLESgXcwUdo-2" target="wYpFW-D5isLESgXcwUdo-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wYpFW-D5isLESgXcwUdo-2" value="General Chatbot:&amp;nbsp;&lt;br&gt;- Explain code&lt;br&gt;- Check if code is aligned with specification&lt;br&gt;- All other queries" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-10" y="855" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="wYpFW-D5isLESgXcwUdo-3" value="&lt;b style=&quot;color: rgb(2, 184, 21); font-size: 20px;&quot;&gt;Inputs:&lt;br&gt;&lt;/b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question: Check if code is correct as in specification&lt;br&gt;- RagWrapper&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- LLm output&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="805" width="355" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="wYpFW-D5isLESgXcwUdo-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wYpFW-D5isLESgXcwUdo-5" target="wYpFW-D5isLESgXcwUdo-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wYpFW-D5isLESgXcwUdo-5" value="&lt;font color=&quot;#02b815&quot; style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Inputs: &lt;br&gt;&lt;/b&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Question (with file, specification etc)&lt;br&gt;&lt;br&gt;&lt;/font&gt;&lt;div style=&quot;font-size: 17px;&quot;&gt;&lt;font color=&quot;#ff9933&quot; style=&quot;font-size: 17px;&quot;&gt;&lt;b&gt;Output:&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;- LLM output&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="800" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="wYpFW-D5isLESgXcwUdo-6" value="CONV_CHAIN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1485" y="810" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wYpFW-D5isLESgXcwUdo-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="wYpFW-D5isLESgXcwUdo-6" target="wYpFW-D5isLESgXcwUdo-6">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
