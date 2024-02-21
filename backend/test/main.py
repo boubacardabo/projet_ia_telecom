@@ -17,6 +17,7 @@ if "LANGCHAIN_API_KEY" in os.environ:
 
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
+from llm.llm_model import LlmModel
 
 
 
@@ -40,8 +41,6 @@ def main():
 
             print("You are using the huggingFace pipeline API.\n")
 
-
-            from llm.llm_model import LlmModel
             from llm.model_names import code_llama_model_13b_instruct
 
             # model

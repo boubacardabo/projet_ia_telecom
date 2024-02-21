@@ -2,7 +2,7 @@ from langchain.prompts import PromptTemplate, ChatPromptTemplate
 
 
 
-prompt1 = ChatPromptTemplate.from_messages([
+prompt_usecase_test_unit = ChatPromptTemplate.from_messages([
     ("system", """[INST] You are a helpful code assistant that help with writing Python code for a user requests.
                 """),
 
@@ -21,6 +21,7 @@ prompt1 = ChatPromptTemplate.from_messages([
     and NOTHING else. [/INST]""")
     ])
     
+
 
 
 prompt_usecase_test_system = PromptTemplate.from_template(
@@ -45,5 +46,25 @@ Begin!
 
 Question: {input}
 Thought:{agent_scratchpad}
+"""
+)
+
+
+
+
+prompt_template_RAG = PromptTemplate.from_template(
+"""
+[INST]
+You are an assistant for question-answering tasks. 
+    Use the following pieces of retrieved context to answer the question. 
+    If you don't know the answer, just say that you don't know. 
+    -----------------------------------------------
+Here the is context retrieved:
+{context}
+-----------------------------------------------
+Here is the question to answer:
+{question} 
+-----------------------------------------------
+[/INST]
 """
 )
