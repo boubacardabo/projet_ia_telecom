@@ -4,6 +4,11 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain_community.llms import OpenLLM
 
+with st.sidebar:
+    langsmith_api_key = st.text_input(
+        "Langsmith API Key", key="langchain_search_api_key_langsmith", type="password"
+    )
+    
 
 # StreamHandler to intercept streaming output from the LLM.
 # This makes it appear that the Language Model is "typing"
