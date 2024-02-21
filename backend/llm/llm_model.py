@@ -1,21 +1,21 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from llm.model_names import starcoder
+from llm.model_names import starcoder, mistral_model
 from utils.main import select_gpu_if_available
 
-model_name = starcoder
+model_name = mistral_model
 
 class LlmModel:
     def __init__(self, model_name=model_name):
         dtype = select_gpu_if_available()
 
         self.tokenizer = AutoTokenizer.from_pretrained(
-            model_name, trust_remote_code=True, use_fast=False, device_map=0
+            model_name, trust_remote_code=True, use_fast=False
         )
 
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
             torch_dtype=dtype,
-            device_map=0,
+            # device_map= "auto",
         )
         #print("model tensor device:", self.model.device)
 
@@ -23,6 +23,7 @@ class LlmModel:
             task="text-generation",
             model=self.model,
             tokenizer=self.tokenizer,
+            device=0,
             max_new_tokens=4096,
             return_full_text=False,
         )
@@ -42,7 +43,7 @@ class LlmModel:
 
 
         generated_text = self.tokenizer.batch_decode(
-            output, skip_special_tokens=True, device_map=0
+            output, skip_special_tokens=True, device_map="auto"
         )
         return " ".join(generated_text)
 
