@@ -3,12 +3,13 @@ from langchain_community.document_loaders import GitLoader
 import os
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 from embedding.utils import extension_to_language
-from embedding.model_names import sentence_t5_base
+from embedding.model_names import sentence_t5_base, codet5_base, all_MiniLM_L6_v2
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from typing import Any
-from utils.main import select_gpu_if_available
 
+
+model_name = all_MiniLM_L6_v2
 
 class RagWrapper:
     repo_url: str
@@ -57,14 +58,14 @@ class RagWrapper:
             # Split
             code_splitter = RecursiveCharacterTextSplitter.from_language(
                 language=extension_to_language.get(file_type, Language.PYTHON),
-                chunk_size=1000,
-                chunk_overlap=0,
+                chunk_size=2000,
+                chunk_overlap=200,
             )
             texts = code_splitter.split_documents(docs)
 
             # embed and save in vector_store
             embeddings = HuggingFaceEmbeddings(
-                model_name=sentence_t5_base,
+                model_name=model_name,
                 encode_kwargs={"normalize_embeddings": True},
                 model_kwargs={"device": "cuda"},
             )
@@ -73,7 +74,7 @@ class RagWrapper:
                 search_type="mmr",  # Also test "similarity"
                 search_kwargs={"k": 8},
             )
-            print(self.retriever.get_relevant_documents("iter_components")[0])
+            #print(self.retriever.get_relevant_documents("iter_components")[0])
             del embeddings
 
         except Exception as e:
