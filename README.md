@@ -76,13 +76,14 @@ streamlit run ./frontend/home.py
   1. Connect to Télécom Paris network using OpenVPN GUI. Follow the steps [here](https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows).
 
   2. Connect by SSH to one of Télécom GPU clusters. See how to do it [here](resources/GPU_access.md).
-   
 
   3. Launch an LLM inference server. See how to do it [here](OpenLLM/OpenLLM.md).
-   
 
 
 - Now, you need to make an SSH tunnel between your local machine and the remote machine. See how to do it [here](resources/tunnel_SSH.md).
+
+
+⚠️Now, you have the possibility can connect yourself by SSH to the GPU directly from the web interface.⚠️ 
 
 
 Normally, you should now ready to use the application.
