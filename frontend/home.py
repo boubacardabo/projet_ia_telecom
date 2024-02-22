@@ -60,6 +60,13 @@ with st.sidebar:
     password = st.text_input("Password", type="password", value=default_password)
     langsmith_api_key = st.text_input("Langsmith API Key", key="langchain_search_api_key_langsmith", type="password", value=default_langsmith_api_key)
 
+#setting LangSmith API keys
+os.environ["LANGCHAIN_TRACING_V2"] = 'true'
+os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
+os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
+
+
 # Connect to SSH server (establish SSH connection only once)
 client = establish_ssh_connection(hostname, port, username, password)
 
@@ -71,5 +78,6 @@ if st.button("See GPU Status"):
     with st.spinner("Executing command..."):
         output = execute_ssh_command(client, command)
         st.code(output)
+
 
 
