@@ -94,56 +94,54 @@ atexit.register(cleanup)
 
 ##################
 
-# import sys
-# backend_folder = f"{os.getcwd()}/backend"
-# sys.path.append(backend_folder)
+import sys
+backend_folder = f"{os.getcwd()}/backend"
+sys.path.append(backend_folder)
 
-# from langchain.agents import initialize_agent, AgentType
-# from langchain.callbacks import StreamlitCallbackHandler
+from langchain.agents import initialize_agent, AgentType
+from langchain.callbacks import StreamlitCallbackHandler
 
-# from backend.embedding.rag_wrapper import RagWrapper
-# from backend.langchain_wrapper.lang_wrapper import LangWrapper
-# from backend.llm.llm_model import LlmModel
-
+from backend.embedding.rag_wrapper import RagWrapper
+from backend.langchain_wrapper.lang_wrapper import LangWrapper
+from backend.llm.llm_model import LlmModel
 
 # rag
-# repo_url = "https://github.com/esphome/esphome"
-# branch = "dev"
-# file_type = ".py"
-# ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
+repo_url = "https://github.com/esphome/esphome"
+branch = "dev"
+file_type = ".py"
+ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
 
-# model = LlmModel(llm_runnable=True)
-# llm = model.llm
+model = LlmModel(llm_runnable=True)
 
-#  # langchain
-# langchain_wrapper = LangWrapper(model=model)
-# langchain_wrapper.add_rag_wrapper(ragWrapper)
-# langchain_wrapper.setup_rag_llm_chain()
-
-
-# st.title("Chat with RAG🔎")
+ # langchain
+langchain_wrapper = LangWrapper(model=model)
+langchain_wrapper.add_rag_wrapper(ragWrapper)
+langchain_wrapper.setup_rag_llm_chain()
 
 
-# if "messages" not in st.session_state:
-#     st.session_state["messages"] = [
-#         {"role": "assistant", "content": "Hi, I'm a chatbot who can search in the project files with Retrieval Augmented Generation (RAG). How can I help you?"}
-#     ]
+st.title("Chat with RAG🔎")
 
-# for msg in st.session_state.messages:
-#     st.chat_message(msg["role"]).write(msg["content"])
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [
+        {"role": "assistant", "content": "Hi, I'm a chatbot who can search in the project files with Retrieval Augmented Generation (RAG). How can I help you?"}
+    ]
 
-# if prompt := st.chat_input(placeholder="What does the class PinRegistry do ?"):
-#     st.session_state.messages.append({"role": "user", "content": prompt})
-#     st.chat_message("user").write(prompt)
+for msg in st.session_state.messages:
+    st.chat_message(msg["role"]).write(msg["content"])
+
+if prompt := st.chat_input(placeholder="What does the class PinRegistry do ?"):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.chat_message("user").write(prompt)
 
 
-#     retriever = langchain_wrapper.ragWrapper.retriever
+    retriever = langchain_wrapper.ragWrapper.retriever
 
-#     search_agent = initialize_agent(
-#         [retriever], llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, handle_parsing_errors=True
-#     )
-#     with st.chat_message("assistant"):
-#         st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
-#         response = search_agent.run(st.session_state.messages, callbacks=[st_cb])
-#         st.session_state.messages.append({"role": "assistant", "content": response})
-#         st.write(response)
+    search_agent = initialize_agent(
+        [retriever], model.llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, handle_parsing_errors=True
+    )
+    with st.chat_message("assistant"):
+        st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
+        response = search_agent.run(st.session_state.messages, callbacks=[st_cb])
+        st.session_state.messages.append({"role": "assistant", "content": response})
+        st.write(response)
+
