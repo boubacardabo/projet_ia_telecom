@@ -106,7 +106,7 @@ You can use a *virtual environment* :
 
 ```bash
 python3 -m venv venv
-source venv/Scripts/activate
+source venv/bin/activate
 pip install -r ./backend/requirements.txt
 ```
 

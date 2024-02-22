@@ -1,15 +1,64 @@
 import streamlit as st
-import os
+import paramiko
+import traceback
 
+port = 22  # SSH
+
+# Define function to establish SSH connection
+def establish_ssh_connection(hostname, port, username, password):
+    try:
+        # Create SSH client
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        # Connect to SSH server
+        client.connect(hostname, port, username, password)
+
+        st.success("SSH connection established successfully.")
+
+        return client  # Return the SSH client object
+
+    except Exception as e:
+        st.error(f"Error establishing SSH connection: {e}")
+        st.stop()  # Stop Streamlit app if connection fails
+
+
+# Define function to execute command on remote machine
+def execute_ssh_command(client, command):
+    try:
+        # Execute the command on the remote machine
+        stdin, stdout, stderr = client.exec_command(command)
+
+        # Read the output (if any)
+        output = stdout.read().decode('utf-8')
+
+        return output
+
+    except Exception as e:
+        return traceback.format_exc()
+
+
+# Streamlit app
+st.title("GPU access")
+
+# Sidebar inputs for SSH connection parameters
 with st.sidebar:
-    langsmith_api_key = st.text_input(
-        "Langsmith API Key", key="langchain_search_api_key_langsmith", type="password"
-    )
+    st.subheader("SSH Connection Parameters")
+    hostname = st.text_input("Hostname", value="gpu6.enst.fr")
+    username = st.text_input("Username", value="username")
+    password = st.text_input("Password", type="password")
+    langsmith_api_key = st.text_input("Langsmith API Key", key="langchain_search_api_key_langsmith", type="password")
 
-os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
-os.environ["LANGCHAIN_TRACING_V2"] = 'true'
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
+# Connect to SSH server (establish SSH connection only once)
+client = establish_ssh_connection(hostname, port, username, password)
 
-st.title("NXP-PRIM")
+# Input for command to execute remotely
+command = "nvidia-smi"
+
+# Button to execute command
+if st.button("See GPU Status"):
+    with st.spinner("Executing command..."):
+        output = execute_ssh_command(client, command)
+        st.code(output)
+
 
