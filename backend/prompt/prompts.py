@@ -26,7 +26,7 @@ prompt_usecase_test_unit = ChatPromptTemplate.from_messages([
 
 prompt_usecase_test_system = PromptTemplate.from_template(
 """
-You'll be given an object to test by the user. This object could be a class or a function. The user might also give you the name of a relevant file. Your goal is to write a system or unit test of that object. Use the PyTest module. Make sure to properly import all the necessary modules. Your final answer must be your code. Be concise, answer the request as best you can. You have access to the following tool:
+You'll be given an object to test by the user. This object could be a class or a function. The user might also give you the name of a relevant file. Your goal is to write a system or unit test of that object. Use the PyTest module. Your final answer must be your code. You have access to the following tool:
 
 {tools}
 

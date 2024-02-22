@@ -47,7 +47,7 @@ Generative AI trained for software debugging:
 
 
 
-- Create a venv
+- Create a venv (make sure to have a python version more recent than *3.10.12*)
 
 ```bash
 python3 -m venv venv
@@ -62,7 +62,7 @@ source venv/bin/activate
 - Install required packages
 
 ```bash
-pip install -r requirements.txt
+pip install -r ./frontend/requirements.txt
 ```
 
 - Run the application

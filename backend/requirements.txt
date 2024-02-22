@@ -1,3 +1,4 @@
+# python 3.10.12 at least
 accelerate==0.27.2
 aiohttp==3.9.3
 aioprometheus==23.12.0
