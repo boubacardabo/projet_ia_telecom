@@ -59,7 +59,8 @@ def extract_function_from_markdown(markdown_string, remove_imports=True):
         if remove_imports :
             function_code_cleaned = re.sub(r'^import\s.*?$', '', function_code, flags=re.MULTILINE)
             function_code_cleaned = re.sub(r'^from\s.*?$', '', function_code_cleaned, flags=re.MULTILINE)
-        return function_code_cleaned.strip()
+            function_code = function_code_cleaned
+        return function_code.strip()
     else:
         return None
     

@@ -28,7 +28,6 @@ search = TavilySearchResults()
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_community.vectorstores import FAISS
-from langchain_openai import OpenAIEmbeddings
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from embedding.model_names import all_MiniLM_L6_v2
 

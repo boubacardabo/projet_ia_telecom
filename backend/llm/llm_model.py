@@ -35,7 +35,7 @@ class LlmModel:
 
             server_url = "http://localhost:3000"
             from langchain_community.llms import OpenLLM
-            self.llm = OpenLLM(server_url=server_url)
+            self.llm = OpenLLM(server_url=server_url, timout=360)
 
     def generate_text(self, input_text: str):
 
