@@ -57,7 +57,7 @@ python3 -m venv venv
 - Activate the venv
 
 ```bash
-source venv/bin/activate
+source venv/Scripts/activate
 ```
 - Install required packages
 
@@ -106,7 +106,7 @@ You can use a *virtual environment* :
 
 ```bash
 python3 -m venv venv
-source venv/bin/activate
+source venv/Scripts/activate
 pip install -r ./backend/requirements.txt
 ```
 
