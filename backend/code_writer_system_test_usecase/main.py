@@ -118,7 +118,7 @@ def main():
         agent = create_react_agent(model.llm, tools, prompt)
 
         # Create an agent executor by passing in the agent and tools
-        agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+        agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
 
         #Run agent
         input_query = "method iter_component_configs at config.py"
