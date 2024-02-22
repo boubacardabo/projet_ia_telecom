@@ -3,38 +3,16 @@ import paramiko
 import traceback
 from dotenv import load_dotenv
 import os
+import atexit
 
 # Load environment variables from .env file
 load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))  
-
 
 port = 22  # SSH port
 
 
 # Streamlit app
 st.title("GPU access")
-
-
-# Get default values from environment variables or use fallback values
-default_username = os.getenv("SSH_USERNAME", "username")
-default_password = os.getenv("SSH_PASSWORD", "")
-default_langsmith_api_key = os.getenv("LANGCHAIN_API_KEY", "")
-
-# Sidebar inputs for SSH connection parameters
-with st.sidebar:
-    st.subheader("SSH Connection Parameters")
-    hostname = st.text_input("Hostname", value="gpu6.enst.fr")
-    username = st.text_input("Username", value=default_username)
-    password = st.text_input("Password", type="password", value=default_password)
-    langsmith_api_key = st.text_input("Langsmith API Key", key="langchain_search_api_key_langsmith", type="password", value=default_langsmith_api_key)
-
-#setting LangSmith API keys
-os.environ["LANGCHAIN_TRACING_V2"] = 'true'
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
-os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
-
-
 
 # Define function to establish SSH connection
 def establish_ssh_connection(hostname, port, username, password):
@@ -71,11 +49,29 @@ def execute_ssh_command(client, command):
 
 
 
+# Get default values from environment variables or use fallback values
+default_username = os.getenv("SSH_USERNAME", "username")
+default_password = os.getenv("SSH_PASSWORD", "")
+default_langsmith_api_key = os.getenv("LANGCHAIN_API_KEY", "")
+
+# Sidebar inputs for SSH connection parameters
+with st.sidebar:
+    st.subheader("SSH Connection Parameters")
+    hostname = st.text_input("Hostname", value="gpu6.enst.fr")
+    username = st.text_input("Username", value=default_username)
+    password = st.text_input("Password", type="password", value=default_password)
+    langsmith_api_key = st.text_input("Langsmith API Key", key="langchain_search_api_key_langsmith", type="password", value=default_langsmith_api_key)
+
+        
+    
+#setting LangSmith API keys
+os.environ["LANGCHAIN_TRACING_V2"] = 'true'
+os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
+os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
 
 
-
-# Connect to SSH server (establish SSH connection only once)
-client = establish_ssh_connection(hostname, port, username, password)
+ssh_client = establish_ssh_connection(hostname, port, username, password)
 
 # Input for command to execute remotely
 command = "nvidia-smi"
@@ -83,24 +79,31 @@ command = "nvidia-smi"
 # Button to execute command
 if st.button("See GPU Status"):
     with st.spinner("Executing command..."):
-        output = execute_ssh_command(client, command)
+        output = execute_ssh_command(ssh_client, command)
         st.code(output)
 
 
+# Cleanup function to close SSH connection when Streamlit app is stopped
+def cleanup():
+    ssh_client.close()
+    print("SSH connection closed.") #you can verify it in the log of the terminal from which you leaunched streamlit
+
+# Register cleanup function
+atexit.register(cleanup)
 
 
 ##################
 
-import sys
-backend_folder = f"{os.getcwd()}/backend"
-sys.path.append(backend_folder)
+# import sys
+# backend_folder = f"{os.getcwd()}/backend"
+# sys.path.append(backend_folder)
 
-from langchain.agents import initialize_agent, AgentType
-from langchain.callbacks import StreamlitCallbackHandler
+# from langchain.agents import initialize_agent, AgentType
+# from langchain.callbacks import StreamlitCallbackHandler
 
-from backend.embedding.rag_wrapper import RagWrapper
-from backend.langchain_wrapper.lang_wrapper import LangWrapper
-from backend.llm.llm_model import LlmModel
+# from backend.embedding.rag_wrapper import RagWrapper
+# from backend.langchain_wrapper.lang_wrapper import LangWrapper
+# from backend.llm.llm_model import LlmModel
 
 
 # rag
@@ -108,7 +111,6 @@ from backend.llm.llm_model import LlmModel
 # branch = "dev"
 # file_type = ".py"
 # ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
-# choice = input("Choose HuggingFaceAPI ('h') or OpenLLM ('o'):\n ").lower().strip()
 
 # model = LlmModel(llm_runnable=True)
 # llm = model.llm
