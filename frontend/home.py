@@ -74,6 +74,7 @@ os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
 
 
 
+
 #SSH connection
 ssh_client = establish_ssh_connection(hostname, port, username, password)
 
@@ -131,7 +132,7 @@ def create_chain(system_prompt):
     # give to the LLM before in the form of system_prompt pushing the actual
     # prompt from the user. Note that this chatbot doesn't have any memory of
     # the conversation. So we will inject the system prompt for each message.
-    #The template is adapted for Mistral models.
+    # The template is adapted for Mistral models.
 
     template = """
     <s>[INST]{}[/INST]</s>
@@ -152,9 +153,6 @@ def create_chain(system_prompt):
 
 
 
-
-
-
 # Create a header element
 st.header("Chatbot")
 
@@ -163,16 +161,15 @@ st.header("Chatbot")
 # repo_url = "https://github.com/esphome/esphome"
 # branch = "dev"
 # file_type = ".py"
-# ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
 
+# ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
 # model = LlmModel(llm_runnable=True)
 
 # langchain_wrapper = LangWrapper(model=model)
 # langchain_wrapper.add_rag_wrapper(ragWrapper)
 # langchain_wrapper.setup_rag_llm_chain()
 
-# llm = model.llm
-
+# llm = langchain_wrapper.llmModel.llm
 
 
 
