@@ -119,6 +119,7 @@ if f"{backend_folder}\\backend" not in sys.path:
 from backend.embedding.rag_wrapper import RagWrapper
 from backend.langchain_wrapper.lang_wrapper import LangWrapper
 from backend.llm.llm_model import LlmModel
+import pickle
 
 
 @st.cache_resource
@@ -162,7 +163,13 @@ st.header("Chatbot")
 # branch = "dev"
 # file_type = ".py"
 
-# ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
+
+# with ssh_client.open_sftp() as sftp:
+#     with sftp.file('embedding_storage.pkl', 'rb') as remote_file:
+#         embeddings = pickle.load(remote_file)
+
+
+# ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type, save_embeddings=False, embeddings_from_remote_machine = embeddings)
 # model = LlmModel(llm_runnable=True)
 
 # langchain_wrapper = LangWrapper(model=model)
