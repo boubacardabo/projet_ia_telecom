@@ -5,6 +5,7 @@ nxp_venv/*/**
 **/venv/
 .idea/
 **/remote_code/
+**/*.pyc
 
 .venv
 __pycache__/
