@@ -98,46 +98,38 @@ atexit.register(cleanup)
 
 ##################
 
-import streamlit as st
+
 from langchain.prompts import PromptTemplate
-from langchain.callbacks.manager import CallbackManager
-from langchain.callbacks.base import BaseCallbackHandler
-from langchain_community.llms import OpenLLM
+import sys
 
-# StreamHandler to intercept streaming output from the LLM.
-# This makes it appear that the Language Model is "typing"
-# in realtime.
-class StreamHandler(BaseCallbackHandler):
-    def __init__(self, container, initial_text=""):
-        self.container = container
-        self.text = initial_text
+backend_folder = f"{os.getcwd()}"
+if backend_folder not in sys.path:
+    sys.path.append(backend_folder)
 
-    def on_llm_new_token(self, token: str, **kwargs) -> None:
-        self.text += token
-        self.container.markdown(self.text)
+if f"{backend_folder}\\backend" not in sys.path:
+    sys.path.append(f"{backend_folder}\\backend")
+
+st.text(sys.path)
+
+
+from backend.embedding.rag_wrapper import RagWrapper
+from backend.langchain_wrapper.lang_wrapper import LangWrapper
+from backend.llm.llm_model import LlmModel
 
 
 @st.cache_resource
 def create_chain(system_prompt):
-    # A stream handler to direct streaming output on the chat screen.
-    # This will need to be handled somewhat differently.
-    # But it demonstrates what potential it carries.
-    stream_handler = StreamHandler(st.empty())
 
-    # Callback manager is a way to intercept streaming output from the
-    # LLM and take some action on it. Here we are giving it our custom
-    # stream handler to make it appear that the LLM is typing the
-    # responses in real-time.
-    callback_manager = CallbackManager([stream_handler])
-
-    server_url = "http://localhost:3000"
-    llm = OpenLLM(server_url=server_url, timeout=360)
+    model = LlmModel(llm_runnable=True)
+    llm = model.llm
 
     # Template you will use to structure your user input before converting
     # into a prompt. Here, my template first injects the personality I wish to
     # give to the LLM before in the form of system_prompt pushing the actual
     # prompt from the user. Note that this chatbot doesn't have any memory of
     # the conversation. So we will inject the system prompt for each message.
+    #The template is adapted for Mistral models.
+
     template = """
     <s>[INST]{}[/INST]</s>
 
@@ -153,12 +145,17 @@ def create_chain(system_prompt):
 
     return llm_chain
 
+
+
+
+
+
+
+
 # Create a header element
 st.header("Chatbot")
 
 # This sets the LLM's personality for each prompt.
-# The initial personality provided is basic.
-# Try something interesting and notice how the LLM responses are affected.
 system_prompt = st.text_area(
     label="System Prompt",
     value="You are a helpful AI assistant who answers questions in short sentences.",
@@ -197,9 +194,6 @@ if user_prompt := st.chat_input("Your message here", key="user_input"):
         st.markdown(user_prompt)
 
     # Pass our input to the LLM chain and capture the final responses.
-    # It is worth noting that the Stream Handler is already receiving the
-    # streaming response as the llm is generating. We get our response
-    # here once the LLM has finished generating the complete response.
     response = llm_chain.invoke({"question": user_prompt})
 
     # Add the response to the session state
