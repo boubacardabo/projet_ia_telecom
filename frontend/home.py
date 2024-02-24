@@ -103,13 +103,16 @@ from langchain.prompts import PromptTemplate
 import sys
 
 backend_folder = f"{os.getcwd()}"
+
+#To access to backend modules
 if backend_folder not in sys.path:
     sys.path.append(backend_folder)
 
+#for modules in backend to access to other modules
 if f"{backend_folder}\\backend" not in sys.path:
     sys.path.append(f"{backend_folder}\\backend")
 
-st.text(sys.path)
+#st.text(sys.path)
 
 
 from backend.embedding.rag_wrapper import RagWrapper
@@ -154,6 +157,25 @@ def create_chain(system_prompt):
 
 # Create a header element
 st.header("Chatbot")
+
+
+#  # rag
+# repo_url = "https://github.com/esphome/esphome"
+# branch = "dev"
+# file_type = ".py"
+# ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
+
+# model = LlmModel(llm_runnable=True)
+
+# langchain_wrapper = LangWrapper(model=model)
+# langchain_wrapper.add_rag_wrapper(ragWrapper)
+# langchain_wrapper.setup_rag_llm_chain()
+
+# llm = model.llm
+
+
+
+
 
 # This sets the LLM's personality for each prompt.
 system_prompt = st.text_area(
