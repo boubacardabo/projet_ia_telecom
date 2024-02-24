@@ -46,11 +46,24 @@ Generative AI trained for software debugging:
 # Launching the LLM-powered application
 
 
-
-- Create a venv (make sure to have a python version more recent than *3.10.12*)
+Makre sure to use Python *3.10.12*. It might work for similar version, but it's not a guarantee. If you're using conda, you can do the following :
 
 ```bash
-python3 -m venv venv
+conda update conda
+conda create -n conda-env python=3.10.12
+conda activate conda-env
+```
+
+YOu can check the Python version :
+
+```bash
+python --version
+```
+
+- Now, create a venv
+
+```bash
+python -m venv venv
 ```
 
 
