@@ -7,7 +7,7 @@ from embedding.model_names import sentence_t5_base, codet5_base, all_MiniLM_L6_v
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from typing import Any
-
+import traceback
 
 model_name = all_MiniLM_L6_v2
 
@@ -17,9 +17,10 @@ class RagWrapper:
     repo_local_path: str
     retriever: Any  # type: ignore
 
-    def __init__(self, repo_url: str, file_type: str, branch: str | None = None):
+    def __init__(self, repo_url: str, file_type: str, branch: str | None = None, save_embeddings=False):
         self.downloadRepository(repo_url)
-        self.loadSplitEmbedDocs(branch, file_type)
+        self.loadSplitEmbedDocs(branch, file_type, save_embeddings=save_embeddings)
+        
 
     def downloadRepository(
         self,
@@ -30,6 +31,7 @@ class RagWrapper:
             repo_name = repo_name[:-4]
 
         local_path = os.path.join("remote_code", repo_name)
+        
         if not os.path.isdir(local_path):
             print("Cloning repository")
             try:
@@ -45,16 +47,17 @@ class RagWrapper:
             print("Repository already exists")
         self.repo_local_path = local_path
 
-    def loadSplitEmbedDocs(self, branch: str | None = None, file_type: str = ".py"):
+    def loadSplitEmbedDocs(self, branch: str | None = None, file_type: str = ".py", save_embeddings=False):
         try:
             # Load
+            
             loader = GitLoader(
                 repo_path=self.repo_local_path,
                 file_filter=lambda file_path: file_path.endswith(file_type),
                 branch=branch or self.default_branch,
             )
             docs = loader.load()
-
+            
             # Split
             code_splitter = RecursiveCharacterTextSplitter.from_language(
                 language=extension_to_language.get(file_type, Language.PYTHON),
@@ -62,14 +65,26 @@ class RagWrapper:
                 chunk_overlap=200,
             )
             texts = code_splitter.split_documents(docs)
-
+            
             # embed and save in vector_store
             embeddings = HuggingFaceEmbeddings(
                 model_name=model_name,
                 encode_kwargs={"normalize_embeddings": True},
                 model_kwargs={"device": "cuda"},
             )
+        
+            if save_embeddings :
+                import pickle
+                # Serialize the embedding object to a binary file using pickle
+                with open('embedding_storage.pkl', 'wb') as pickle_file:
+                    pickle.dump(embeddings, pickle_file)
+
+
             db = Chroma.from_documents(texts, embeddings)
+
+
+
+
             self.retriever = db.as_retriever(
                 search_type="mmr",  # Also test "similarity"
                 search_kwargs={"k": 8},
@@ -77,5 +92,6 @@ class RagWrapper:
             #print(self.retriever.get_relevant_documents("iter_components")[0])
             del embeddings
 
+
         except Exception as e:
-            print(e)
+            traceback.print_exc()
