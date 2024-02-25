@@ -6,7 +6,7 @@ nxp_venv/*/**
 .idea/
 **/remote_code/
 **/*.pyc/
-
+.vscode
 .venv
 __pycache__/
 .DS_Store
