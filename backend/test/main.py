@@ -25,6 +25,8 @@ from llm.llm_model import LlmModel
 def main():
     try:
 
+        # model
+        model = LlmModel(model_name=mistral_model)
 
         # rag
         repo_url = "https://github.com/esphome/esphome"
@@ -93,6 +95,8 @@ def main():
 
         # gen_text = model.generate_text(question)
         print(generated_text["answer"])  # type: ignore
+
+        langchain_wrapper.llmModel.pipeline.max_new_tokens=30 # type: ignore
 
         question = """
             Can I use the codegen file to generate code in Java ?

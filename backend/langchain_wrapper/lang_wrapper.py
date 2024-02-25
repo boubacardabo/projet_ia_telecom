@@ -17,7 +17,7 @@ class LangWrapper:
     llmChain: LLMChain | ConversationalRetrievalChain | None
     pipeline: HuggingFacePipeline
     someMemory: list[tuple]
-    memory: ConversationSummaryBufferMemory | None
+    memory: ConversationBufferWindowMemory | None
     ragWrapper: RagWrapper | None
     prompt : PromptTemplate
     
@@ -26,6 +26,21 @@ class LangWrapper:
         self.prompt = prompt
         llm_instance = llmModel.model if llmModel.is_open_llm else HuggingFacePipeline(pipeline=llmModel.pipeline)
         
+    template_text = ("""
+                    You are a personal coding assistant that answers the questions given. 
+                    Depending on this instruction, the question and the context and chat history, you will
+                    either answer to questions related to a repository code, generate or
+                    correct code. DO your BEST and be brief. Do not repeat yourself
+      
+                    CONTEXT:
+                    {context}
+                    CHAT HISTORY:
+                    {histo}
+                    Given all of this, answer this question: 
+                    {question} 
+                    """)
+
+    def __init__(self, model: LlmModel | str):
         # initialize the LLM
         prompt = PromptTemplate.from_template(self.template_text)
         if isinstance(model, LlmModel):
@@ -59,7 +74,7 @@ class LangWrapper:
         assert isinstance(primary_chain, LLMChain)
         assert isinstance(self.ragWrapper, RagWrapper)
 
-        self.memory = ConversationSummaryBufferMemory(llm=self.pipeline, max_token_limit=30)
+        self.memory = ConversationBufferWindowMemory(k=1)
 
         document_prompt = PromptTemplate(
             input_variables=["page_content", "file_name", "file_path", "source"], 
@@ -91,10 +106,9 @@ class LangWrapper:
         if self.llmChain:
             # "chat_history": [self.someMemory[-1]]
             response = self.llmChain(
-                    {'question': question, "chat_history":"", "histo":""},  # type: ignore
+                    {'question': question, "chat_history":"", "histo":self.memory.load_memory_variables({})['history']}, # type: ignore
             )
             self.memory.save_context({"input": question}, {"output": response['answer']})
-            print(self.memory.load_memory_variables({}))
             return response
             
         return "No LLM Chain instantiated in Langchain"
