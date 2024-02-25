@@ -23,18 +23,45 @@ class LlmModel:
             self.model = AutoModelForCausalLM.from_pretrained(
                 model_name,
                 torch_dtype=dtype,
-                device_map= "auto",
+                device_map="auto",
             )
 
             self.pipeline = pipeline(
                 task="text-generation",
                 model=self.model,
                 tokenizer=self.tokenizer,
-                device_map= "auto",
+                device_map="auto",
                 max_new_tokens=4096,
                 return_full_text=False,
             )
             
+
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self, model_name=mistral_model):
+        dtype = select_gpu_if_available()
+
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_name, trust_remote_code=True, use_fast=False
+        )
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=dtype,
+            device_map="auto",
+        )
+        self.pipeline = pipeline(
+            task="text-generation",
+            model=self.model,
+            tokenizer=self.tokenizer,
+            device_map='auto',
+            max_new_tokens=1000,
+            return_full_text=False,
+        )
 
     def generate_text(self, input_text: str):
         if self.is_open_llm:

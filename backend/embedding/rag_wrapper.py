@@ -11,6 +11,7 @@ import traceback
 
 model_name = all_MiniLM_L6_v2
 
+
 class RagWrapper:
     repo_url: str
     default_branch = "main"
@@ -20,7 +21,6 @@ class RagWrapper:
     def __init__(self, repo_url: str, file_type: str, branch: str | None = None):
         self.downloadRepository(repo_url)
         self.loadSplitEmbedDocs(branch, file_type)
-        
 
     def downloadRepository(
         self,
@@ -31,7 +31,7 @@ class RagWrapper:
             repo_name = repo_name[:-4]
 
         local_path = os.path.join("remote_code", repo_name)
-        
+
         if not os.path.isdir(local_path):
             print("Cloning repository")
             try:
@@ -50,14 +50,14 @@ class RagWrapper:
     def loadSplitEmbedDocs(self, branch: str | None = None, file_type: str = ".py"):
         try:
             # Load
-            
+
             loader = GitLoader(
                 repo_path=self.repo_local_path,
                 file_filter=lambda file_path: file_path.endswith(file_type),
                 branch=branch or self.default_branch,
             )
             docs = loader.load()
-            
+
             # Split
             code_splitter = RecursiveCharacterTextSplitter.from_language(
                 language=extension_to_language.get(file_type, Language.PYTHON),
@@ -65,7 +65,6 @@ class RagWrapper:
                 chunk_overlap=200,
             )
             texts = code_splitter.split_documents(docs)
-            
 
             # embed and save in vector_store
             embeddings = HuggingFaceEmbeddings(
@@ -73,20 +72,16 @@ class RagWrapper:
                 encode_kwargs={"normalize_embeddings": True},
                 model_kwargs={"device": "cuda"},
             )
-            
+
             db = Chroma.from_documents(texts, embeddings)
 
             self.retriever = db.as_retriever(
                 search_type="mmr",  # Also test "similarity"
                 search_kwargs={"k": 8},
             )
-            #print(self.retriever.get_relevant_documents("iter_components")[0])
-
+            # print(self.retriever.get_relevant_documents("iter_components")[0])
 
             del embeddings
-
-    
-
 
         except Exception as e:
             traceback.print_exc()
