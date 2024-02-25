@@ -5,20 +5,19 @@ from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain.chains import LLMChain, ConversationalRetrievalChain, StuffDocumentsChain
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
-from langchain.memory import ConversationBufferMemory
-from prompt.prompts import prompt_template_RAG
-
-
+from langchain.memory import ConversationSummaryBufferMemory, ConversationBufferWindowMemory
 
 # uncomment for debug
 # import langchain
-
 # langchain.debug = True  # type: ignore
 
 
 class LangWrapper:
     llmModel: LlmModel
     llmChain: LLMChain | ConversationalRetrievalChain | None
+    pipeline: HuggingFacePipeline
+    someMemory: list[tuple]
+    memory: ConversationSummaryBufferMemory | None
     ragWrapper: RagWrapper | None
     prompt : PromptTemplate
     
@@ -28,29 +27,29 @@ class LangWrapper:
         llm_instance = llmModel.model if llmModel.is_open_llm else HuggingFacePipeline(pipeline=llmModel.pipeline)
         
         # initialize the LLM
-        primary_chain = LLMChain(
-            prompt=prompt,
-            llm=llm_instance,
-            verbose=True,
-        )
-        self.llmChain = primary_chain
-        self.ragWrapper = None
-        self.llmModel = llmModel
-
-
-    def invoke_llm_chain(self, question: str):
-        if self.llmChain:
-
-            response = self.llmChain.invoke(
-                device_map=0,
-                input={"question": question, "chat_history": self.llmChain.get_chat_history() or ""},  # type: ignore
+        prompt = PromptTemplate.from_template(self.template_text)
+        if isinstance(model, LlmModel):
+            self.llmModel = model
+            self.pipeline = HuggingFacePipeline(pipeline=self.llmModel.pipeline)
+            primary_chain = LLMChain(
+                prompt=prompt,
+                llm=self.pipeline,
+                verbose=True,
             )
-            if isinstance(self.llmChain, LLMChain):
-                return response["text"]
-            else:
-                return response
-        return "No LLM Chain instantiated in Langchain"
+            self.llmChain = primary_chain
+            self.someMemory = []
+            self.ragWrapper = None
+            self.memory = None
 
+        elif model != "openai" or "mistralapi":
+            print("Error: For API models, please choose openai or mistralapi")
+        else:
+            if model == "openai":
+                self.llmModel = ChatOpenAI(model="gpt-4")
+                output_parser = StrOutputParser()
+                self.llmChain = prompt | self.llmModel | output_parser  # type: ignore
+
+    
     # add rag if necessary
     def add_rag_wrapper(self, rag_wrapper: RagWrapper):
         self.ragWrapper = rag_wrapper
@@ -60,31 +59,23 @@ class LangWrapper:
         assert isinstance(primary_chain, LLMChain)
         assert isinstance(self.ragWrapper, RagWrapper)
 
-        memory = ConversationBufferMemory(
-            memory_key="chat_history", return_messages=True, output_key="answer"
-        )
+        self.memory = ConversationSummaryBufferMemory(llm=self.pipeline, max_token_limit=30)
 
         document_prompt = PromptTemplate(
             input_variables=["page_content", "file_name", "file_path", "source"], 
             template="""
-            PAGE_CONTENT
-            
+            The file {file_name} has this content: 
             {page_content}
-            
-            ----------------------------------
-            METADATA
-            filename= {file_name}, 
-            filepath= {file_path},
-            source= {source}
-            
+
+            Here are the metadata of the file
+            file_path={file_path}, source={source}
             """
         )
 
-        document_variable_name = "context"
         combine_docs_chain = StuffDocumentsChain(
             llm_chain=primary_chain,
             document_prompt=document_prompt,
-            document_variable_name=document_variable_name,
+            document_variable_name='context',
         )
 
         self.llmChain = ConversationalRetrievalChain(
@@ -92,12 +83,21 @@ class LangWrapper:
             question_generator=primary_chain,
             combine_docs_chain=combine_docs_chain,
             response_if_no_docs_found="The information needed was not found in any file",
-            get_chat_history=lambda inputs=None: (
-                ""
-                if inputs is None
-                else "\n".join([f"Human:{human}\nAI:{ai}" for human, ai in inputs])
-            ),
         )
+
+        
+
+    def invoke_llm_chain(self, question: str, includeHist: bool= False):
+        if self.llmChain:
+            # "chat_history": [self.someMemory[-1]]
+            response = self.llmChain(
+                    {'question': question, "chat_history":"", "histo":""},  # type: ignore
+            )
+            self.memory.save_context({"input": question}, {"output": response['answer']})
+            print(self.memory.load_memory_variables({}))
+            return response
+            
+        return "No LLM Chain instantiated in Langchain"
 
 
 

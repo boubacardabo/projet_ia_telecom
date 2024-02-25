@@ -78,15 +78,39 @@ def main():
         langchain_wrapper.add_rag_wrapper(ragWrapper)
         langchain_wrapper.setup_rag_llm_chain()
 
-        while True:
-            question = input("Ask a query (type 'q' to quit): \n").strip()
-            if question.lower() == 'q':
-                break
-                
-            generated_text = langchain_wrapper.invoke_llm_chain(question)
-            print(generated_text['answer'])
+        question = """
+            Briefly tell me what the codegen.py file does
+            """
+        generated_text = langchain_wrapper.invoke_llm_chain(question)
+    
+        # gen_text = model.generate_text(question)
+        print(generated_text["answer"])  # type: ignore
 
+        question = """
+            Where is the location of the codegen.py file ?
+            """
+        generated_text = langchain_wrapper.invoke_llm_chain(question)
 
+        # gen_text = model.generate_text(question)
+        print(generated_text["answer"])  # type: ignore
+
+        question = """
+            Can I use the codegen file to generate code in Java ?
+            """
+        generated_text = langchain_wrapper.invoke_llm_chain(question)
+        print(generated_text["answer"])  # type: ignore
+
+        # question = """
+        #     output EXATCLY the COMPLETE code of 'iter_components' function AS IS
+        #     """
+        # generated_text = langchain_wrapper.invoke_llm_chain(question)
+        # question = """
+        #     what is the path of a02yyuw.cpp file in the repository ?
+        #     """
+        # generated_text = langchain_wrapper.invoke_llm_chain(question=question)
+
+        # # gen_text = model.generate_text(question)
+        # print(generated_text["answer"])  # type: ignore
 
         langchain_wrapper.cleanup()
     
