@@ -14,7 +14,7 @@ if "LANGCHAIN_API_KEY" in os.environ:
     os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
     os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
     os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
-    os.environ["TAVILY_API_KEY"]= "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"
+    os.environ["TAVILY_API_KEY"]= os.getenv("TAVILY_API_KEY")
 
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
