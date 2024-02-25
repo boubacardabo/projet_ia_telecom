@@ -59,7 +59,7 @@ class LlmModel:
             model=self.model,
             tokenizer=self.tokenizer,
             device_map='auto',
-            max_new_tokens=1000,
+            max_new_tokens=500,            
             return_full_text=False,
         )
 
