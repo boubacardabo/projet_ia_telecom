@@ -49,3 +49,18 @@ AttributeError: 'HuggingFaceEmbeddings' object has no attribute 'show_progress'
 ```
 
 
+Tried GPT4all embedding.
+
+got this error : 
+
+```
+Traceback (most recent call last):
+  File "D:\TSP\TSP_3A\projet_AI\projet_ia_telecom\venv\lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 541, in _run_script  
+    exec(code, module.__dict__)
+  File "D:\TSP\TSP_3A\projet_AI\projet_ia_telecom\frontend\home.py", line 171, in <module>
+    langchain_wrapper.setup_rag_llm_chain()
+  File "D:\TSP\TSP_3A\projet_AI\projet_ia_telecom\backend\langchain_wrapper\lang_wrapper.py", line 79, in setup_rag_llm_chain
+    assert isinstance(self.ragWrapper, RagWrapper)
+AssertionError
+
+```

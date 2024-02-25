@@ -104,7 +104,9 @@ def main():
         retriever_tool = create_retriever_tool(
             retriever,
             "RAG-search",
-            "This is a RAG tool to search relevant information about the object before writing a system test for it. To use it, It should take in input keywords such as name of files, name of functions, name of classes, each separated with blank spaces."
+            """This is a RAG tool to search relevant information about the object before writing a system test for it. To use it, the action input should follow the following template : 
+            <name of the file> | <name of the function or class>.
+            """
         )
 
 
@@ -121,7 +123,7 @@ def main():
         agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
 
         #Run agent
-        input_query = "method iter_component_configs at config.py"
+        input_query = "method iter_component_configs at esphome/config.py"
         print(f"input : {input_query}\n")
         generated_output = agent_executor.invoke({"input": input_query})
         print(generated_output["output"])
