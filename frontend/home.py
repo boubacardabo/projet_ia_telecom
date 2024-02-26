@@ -125,8 +125,8 @@ import pickle
 @st.cache_resource
 def create_chain(system_prompt):
 
-    model = LlmModel(llm_runnable=True)
-    llm = model.llm
+    model = LlmModel(is_open_llm=True)
+    llm = model.model
 
     # Template you will use to structure your user input before converting
     # into a prompt. Here, my template first injects the personality I wish to
