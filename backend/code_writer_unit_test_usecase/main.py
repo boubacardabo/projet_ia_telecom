@@ -54,7 +54,7 @@ def main():
             print("You are using OpenLLM.\n")
 
 
-            model = LlmModel(llm_runnable=True)
+            model = LlmModel(is_open_llm=True)
 
             
 

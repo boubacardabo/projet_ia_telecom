@@ -69,7 +69,7 @@ def main():
             print("You are using OpenLLM.\n")
 
 
-            model = LlmModel(llm_runnable=True)
+            model = LlmModel(is_open_llm=True)
 
 
 
@@ -117,7 +117,7 @@ def main():
         prompt = prompt_usecase_test_system
 
         # Construct the ReAct agent
-        agent = create_react_agent(model.llm, tools, prompt)
+        agent = create_react_agent(model.model, tools, prompt)
 
         # Create an agent executor by passing in the agent and tools
         agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
