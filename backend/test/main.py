@@ -83,7 +83,7 @@ def main():
         question = """
             Briefly tell me what the codegen.py file does
             """
-        generated_text = langchain_wrapper.invoke_llm_chain(question)
+        generated_text = langchain_wrapper.invoke_llm_chain(question=question)
     
         # gen_text = model.generate_text(question)
         print(generated_text["answer"])  # type: ignore
@@ -91,7 +91,7 @@ def main():
         question = """
             Where is the location of the codegen.py file ?
             """
-        generated_text = langchain_wrapper.invoke_llm_chain(question)
+        generated_text = langchain_wrapper.invoke_llm_chain(question=question)
 
         # gen_text = model.generate_text(question)
         print(generated_text["answer"])  # type: ignore
@@ -101,7 +101,7 @@ def main():
         question = """
             Can I use the codegen file to generate code in Java ?
             """
-        generated_text = langchain_wrapper.invoke_llm_chain(question)
+        generated_text = langchain_wrapper.invoke_llm_chain(question=question)
         print(generated_text["answer"])  # type: ignore
 
         # question = """

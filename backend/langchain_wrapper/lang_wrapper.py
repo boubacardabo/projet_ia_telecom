@@ -52,7 +52,6 @@ class LangWrapper:
                 verbose=True,
             )
             self.llmChain = primary_chain
-            self.someMemory = []
             self.ragWrapper = None
             self.memory = None
 
@@ -101,14 +100,20 @@ class LangWrapper:
         )
 
         
-
-    def invoke_llm_chain(self, question: str, includeHist: bool= False):
+    #Be sure to check your prompt template variables and pass them in
+    def invoke_llm_chain(self, **kwargs):
+        invoke_params = {
+            **kwargs,
+            'histo' : self.memory.load_memory_variables({})['history'],
+            'chat_history': ""
+        } if self.memory else  {
+            **kwargs
+        }
+       
         if self.llmChain:
-            # "chat_history": [self.someMemory[-1]]
-            response = self.llmChain(
-                    {'question': question, "chat_history":"", "histo":self.memory.load_memory_variables({})['history']}, # type: ignore
-            )
-            self.memory.save_context({"input": question}, {"output": response['answer']})
+            response = self.llmChain(invoke_params)
+            if self.memory :
+                self.memory.save_context({"input": kwargs.get('question')}, {"output": response['answer']})
             return response
             
         return "No LLM Chain instantiated in Langchain"
