@@ -72,6 +72,7 @@ langchain==0.1.8
 langchain-community==0.0.21
 langchain-core==0.1.25
 langchain-openai==0.0.6
+langserve==0.0.43
 langsmith==0.1.5
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
