@@ -74,7 +74,7 @@ def main():
 
 
         # langchain
-        langchain_wrapper = LangWrapper(model=model)
+        langchain_wrapper = LangWrapper(llmModel=model)
         langchain_wrapper.add_rag_wrapper(ragWrapper)
         langchain_wrapper.setup_rag_llm_chain()
 
