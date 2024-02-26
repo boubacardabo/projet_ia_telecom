@@ -17,9 +17,9 @@ class RagWrapper:
     repo_local_path: str
     retriever: Any  # type: ignore
 
-    def __init__(self, repo_url: str, file_type: str, branch: str | None = None, save_embeddings=True, embeddings_from_remote_machine=None):
+    def __init__(self, repo_url: str, file_type: str, branch: str | None = None):
         self.downloadRepository(repo_url)
-        self.loadSplitEmbedDocs(branch, file_type, save_embeddings=save_embeddings, embeddings_from_remote_machine=embeddings_from_remote_machine)
+        self.loadSplitEmbedDocs(branch, file_type)
         
 
     def downloadRepository(
@@ -47,7 +47,7 @@ class RagWrapper:
             print("Repository already exists")
         self.repo_local_path = local_path
 
-    def loadSplitEmbedDocs(self, branch: str | None = None, file_type: str = ".py", save_embeddings=True, embeddings_from_remote_machine=None):
+    def loadSplitEmbedDocs(self, branch: str | None = None, file_type: str = ".py"):
         try:
             # Load
             
@@ -67,46 +67,25 @@ class RagWrapper:
             texts = code_splitter.split_documents(docs)
             
 
-            if save_embeddings :
-                # embed and save in vector_store
-                embeddings = HuggingFaceEmbeddings(
-                    model_name=model_name,
-                    encode_kwargs={"normalize_embeddings": True},
-                    model_kwargs={"device": "cuda"},
-                )
+            # embed and save in vector_store
+            embeddings = HuggingFaceEmbeddings(
+                model_name=model_name,
+                encode_kwargs={"normalize_embeddings": True},
+                model_kwargs={"device": "cuda"},
+            )
+            
+            db = Chroma.from_documents(texts, embeddings)
 
-                import pickle
-                # Serialize the embedding object to a binary file using pickle
-                with open('embedding_storage.pkl', 'wb') as pickle_file:
-                    pickle.dump(embeddings, pickle_file)
-
-                
-                db = Chroma.from_documents(texts, embeddings)
-
-                self.retriever = db.as_retriever(
-                    search_type="mmr",  # Also test "similarity"
-                    search_kwargs={"k": 8},
-                )
-                #print(self.retriever.get_relevant_documents("iter_components")[0])
+            self.retriever = db.as_retriever(
+                search_type="mmr",  # Also test "similarity"
+                search_kwargs={"k": 8},
+            )
+            #print(self.retriever.get_relevant_documents("iter_components")[0])
 
 
-                del embeddings
+            del embeddings
 
-            else :
-                # Load embeddings if not saving
-
-                embeddings = embeddings_from_remote_machine
-
-                db = Chroma.from_documents(texts, embeddings)
-
-                self.retriever = db.as_retriever(
-                    search_type="mmr",  # Also test "similarity"
-                    search_kwargs={"k": 8},
-                )
-                #print(self.retriever.get_relevant_documents("iter_components")[0])
-
-                del embeddings
-
+    
 
 
         except Exception as e:
