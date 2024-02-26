@@ -17,43 +17,25 @@ from prompt.prompts import prompt_template_RAG
 
 
 class LangWrapper:
-    llmModel: LlmModel | ChatOpenAI
+    llmModel: LlmModel
     llmChain: LLMChain | ConversationalRetrievalChain | None
     ragWrapper: RagWrapper | None
-    promptTemplate = prompt_template_RAG
+    prompt : PromptTemplate
     
 
-    def __init__(self, model: LlmModel | str, prompt=None):
+    def __init__(self, llmModel: LlmModel, prompt=prompt_template_RAG):
+        self.prompt = prompt
+        llm_instance = llmModel.model if llmModel.is_open_llm else HuggingFacePipeline(pipeline=llmModel.pipeline)
+        
         # initialize the LLM
-        if prompt is None :
-            prompt = self.promptTemplate
-        else :
-            prompt = prompt
-
-        if isinstance(model, LlmModel) and not model.llm:
-            self.llmModel = model
-            primary_chain = LLMChain(
-                prompt=prompt,
-                llm=HuggingFacePipeline(pipeline=self.llmModel.pipeline),
-                verbose=True,
-            )
-            self.llmChain = primary_chain
-            self.ragWrapper = None
-        else:
-            if model == "openai":
-                self.llmModel = ChatOpenAI(model="gpt-4")
-                output_parser = StrOutputParser()
-                self.llmChain = prompt | self.llmModel | output_parser  # type: ignore
-            else : 
-                #OpenLLM
-                self.llmModel = model
-                primary_chain = LLMChain(
-                    prompt=prompt,
-                    llm=model.llm,
-                    verbose=True,
-                )
-                self.llmChain = primary_chain
-                self.ragWrapper = None
+        primary_chain = LLMChain(
+            prompt=prompt,
+            llm=llm_instance,
+            verbose=True,
+        )
+        self.llmChain = primary_chain
+        self.ragWrapper = None
+        self.llmModel = llmModel
 
 
     def invoke_llm_chain(self, question: str):
