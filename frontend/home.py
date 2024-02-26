@@ -4,12 +4,13 @@ import traceback
 from dotenv import load_dotenv
 import os
 import atexit
+from langserve import RemoteRunnable
+
 
 # Load environment variables from .env file
 load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))  
 
 port = 22  # SSH port
-
 
 # Streamlit app
 st.title("GPU access")
@@ -115,18 +116,13 @@ if f"{backend_folder}\\backend" not in sys.path:
 
 #st.text(sys.path)
 
-
-from backend.embedding.rag_wrapper import RagWrapper
-from backend.langchain_wrapper.lang_wrapper import LangWrapper
-from backend.llm.llm_model import LlmModel
-import pickle
-
-
 @st.cache_resource
 def create_chain(system_prompt):
 
-    model = LlmModel(is_open_llm=True)
-    llm = model.model
+    # model = LlmModel(is_open_llm=True)
+    # llm = model.model
+
+    llm = RemoteRunnable("http://localhost:8000/llm/")
 
     # Template you will use to structure your user input before converting
     # into a prompt. Here, my template first injects the personality I wish to
@@ -156,29 +152,6 @@ def create_chain(system_prompt):
 
 # Create a header element
 st.header("Chatbot")
-
-
-#  # rag
-# repo_url = "https://github.com/esphome/esphome"
-# branch = "dev"
-# file_type = ".py"
-
-
-# with ssh_client.open_sftp() as sftp:
-#     with sftp.file('embedding_storage.pkl', 'rb') as remote_file:
-#         embeddings = pickle.load(remote_file)
-
-
-# ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type, save_embeddings=False, embeddings_from_remote_machine = embeddings)
-# model = LlmModel(llm_runnable=True)
-
-# langchain_wrapper = LangWrapper(model=model)
-# langchain_wrapper.add_rag_wrapper(ragWrapper)
-# langchain_wrapper.setup_rag_llm_chain()
-
-# llm = langchain_wrapper.llmModel.llm
-
-
 
 
 # This sets the LLM's personality for each prompt.
