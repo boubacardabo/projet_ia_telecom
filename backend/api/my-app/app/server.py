@@ -34,14 +34,14 @@ add_routes(
     path="/llm",
 )
 
-from packages.rag_chain import chain as ragChain
+# from packages.rag_chain import chain as ragChain
 
 
-add_routes(
-    app,
-    ragChain,
-    path="/rag-chain",
-)
+# add_routes(
+#     app,
+#     ragChain,
+#     path="/rag-chain",
+# )
 
 
 
