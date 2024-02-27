@@ -44,6 +44,16 @@ add_routes(
 # )
 
 
+from packages.chatbot_chain import chain as chatbotChain
+
+
+add_routes(
+    app,
+    chatbotChain,
+    path="/chatbot-chain",
+)
+
+
 
 if __name__ == "__main__":
     import uvicorn
