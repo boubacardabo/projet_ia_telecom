@@ -4,6 +4,8 @@ import traceback
 from dotenv import load_dotenv
 import os
 import atexit
+import subprocess
+import threading
 
 
 # Load environment variables from .env file
@@ -57,6 +59,20 @@ def execute_ssh_command(command):
 
     except Exception as e:
         return traceback.format_exc()
+
+
+def create_tunnel():
+    try:
+        code = subprocess.run(
+            [
+                "ssh",
+                "-L",
+                "4000:127.0.0.1:7000",
+                f"{username}@{hostname}",
+            ]
+        )
+    except Exception as e:
+        print(e)
 
 
 # Sidebar inputs for SSH connection parameters
@@ -127,10 +143,19 @@ if st.session_state.ssh_client:
                 execute_ssh_command(server_command)
                 st.session_state.server_pid = 0
     if st.session_state.server_pid != None and st.session_state.server_pid != 0:
-        kill_server_button = st.button("Kill server", type="secondary")
+        launch_ssh_tunnel = st.button("Launch SSH tunnel", type="secondary")
+        kill_server_button = st.button("Kill server", type="primary")
+
         if kill_server_button:
             execute_ssh_command(f"kill -9 {st.session_state.server_pid}")
             st.success("Server has been killed")
+            st.session_state.server_pid = None
+
+        if launch_ssh_tunnel:
+            tunnel_thread = threading.Thread(target=create_tunnel)
+            tunnel_thread.start()
+            os.environ["API_URL"] = "https://localhost:4000"
+            print(os.environ["API_URL"])
 
 
 # Cleanup function to close SSH connection when Streamlit app is stopped
