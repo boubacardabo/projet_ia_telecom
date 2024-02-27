@@ -6,6 +6,7 @@ from langchain.chains import LLMChain, ConversationalRetrievalChain, StuffDocume
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain.memory import ConversationSummaryBufferMemory, ConversationBufferWindowMemory
+from prompt.prompts import prompt_template_RAG
 
 # uncomment for debug
 # import langchain
@@ -15,7 +16,6 @@ from langchain.memory import ConversationSummaryBufferMemory, ConversationBuffer
 class LangWrapper:
     llmModel: LlmModel
     llmChain: LLMChain | ConversationalRetrievalChain | None
-    pipeline: HuggingFacePipeline
     someMemory: list[tuple]
     memory: ConversationBufferWindowMemory | None
     ragWrapper: RagWrapper | None
@@ -25,43 +25,19 @@ class LangWrapper:
     def __init__(self, llmModel: LlmModel, prompt=prompt_template_RAG):
         self.prompt = prompt
         llm_instance = llmModel.model if llmModel.is_open_llm else HuggingFacePipeline(pipeline=llmModel.pipeline)
-        
-    template_text = ("""
-                    You are a personal coding assistant that answers the questions given. 
-                    Depending on this instruction, the question and the context and chat history, you will
-                    either answer to questions related to a repository code, generate or
-                    correct code. DO your BEST and be brief. Do not repeat yourself
-      
-                    CONTEXT:
-                    {context}
-                    CHAT HISTORY:
-                    {histo}
-                    Given all of this, answer this question: 
-                    {question} 
-                    """)
-
-    def __init__(self, model: LlmModel | str):
+    
         # initialize the LLM
-        prompt = PromptTemplate.from_template(self.template_text)
-        if isinstance(model, LlmModel):
-            self.llmModel = model
-            self.pipeline = HuggingFacePipeline(pipeline=self.llmModel.pipeline)
-            primary_chain = LLMChain(
-                prompt=prompt,
-                llm=self.pipeline,
-                verbose=True,
-            )
-            self.llmChain = primary_chain
-            self.ragWrapper = None
-            self.memory = None
+        self.llmModel = llmModel
+        self.pipeline = HuggingFacePipeline(pipeline=self.llmModel.pipeline)
+        primary_chain = LLMChain(
+            prompt=prompt,
+            llm=llm_instance,
+            verbose=True,
+        )
+        self.llmChain = primary_chain
+        self.ragWrapper = None
+        self.memory = None
 
-        elif model != "openai" or "mistralapi":
-            print("Error: For API models, please choose openai or mistralapi")
-        else:
-            if model == "openai":
-                self.llmModel = ChatOpenAI(model="gpt-4")
-                output_parser = StrOutputParser()
-                self.llmChain = prompt | self.llmModel | output_parser  # type: ignore
 
     
     # add rag if necessary
@@ -117,51 +93,6 @@ class LangWrapper:
             return response
             
         return "No LLM Chain instantiated in Langchain"
-
-
-
-
-    def setup_rag_llm_chain2(self):
-
-        """ An alternative RAG chain setup"""
-
-        primary_chain = self.llmChain
-        assert isinstance(primary_chain, LLMChain)
-        assert isinstance(self.ragWrapper, RagWrapper)
-
-        from langchain.chains.question_answering import load_qa_chain
-        
-        prompt = PromptTemplate.from_template(template=self.template_text)
-        
-        self.llmChain = load_qa_chain(self.llmModel, chain_type="stuff", prompt=prompt)
-
-
-    def invoke_llm_chain2(self, question: str):
-        """ An alternative RAG chain"""
-        if self.llmChain:
-
-            docs = self.ragWrapper.retriever.get_relevant_documents(question)
-            response = self.llmChain.invoke({"input_documents": docs, "question": question}, return_only_outputs=True)
-
-            return response
-        return "No LLM Chain instantiated in Langchain"
-    
-
-
-    def invoke_llm_chain3(self, function, specification):
-        """For the 'code writer' usecase"""
-        if self.llmChain:
-
-            response = self.llmChain.invoke(
-                input={"input_function": function, "input_specification": specification}
-
-            )
-            if isinstance(self.llmChain, LLMChain):
-                return response["text"]
-            else:
-                return response
-        return "No LLM Chain instantiated in Langchain"
-
 
 
     def cleanup(self):
