@@ -75,7 +75,6 @@ class RagWrapper:
             # embed and save in vector_store
             embeddings = HuggingFaceEmbeddings(
                 model_name=model_name,
-                model_name=model_name,
                 encode_kwargs={"normalize_embeddings": True},
                 model_kwargs={"device": "cuda"},
             )
