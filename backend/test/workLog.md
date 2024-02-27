@@ -7,3 +7,6 @@
 - add indexing to avoid recomputing embeddings every time
 - to remove model go to ~/.cache/huggingface/hub and rm -r models--
 - the llm drifts when it does not find the good context ==> the retriever is not stable
+- put everything in try catch in case memory is saturated
+- conversationBufferSummaryMemory takes llm as input and relaunches it pushing to use twice as much as ram (unusable in practise)
+- memory is still beta in langchain
