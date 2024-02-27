@@ -14,7 +14,6 @@ from prompt.prompts import prompt_template_RAG
 class LangWrapper:
     llmModel: LlmModel
     llmChain: LLMChain | ConversationalRetrievalChain | None
-    someMemory: list[tuple]
     memory: ConversationBufferWindowMemory | None
     ragWrapper: RagWrapper | None
     prompt: PromptTemplate
@@ -92,7 +91,7 @@ class LangWrapper:
                 self.memory.save_context(
                     {"input": kwargs.get("question")}, {"output": response["answer"]}
                 )
-            return response
+            return response["answer"]
 
         return "No LLM Chain instantiated in Langchain"
 

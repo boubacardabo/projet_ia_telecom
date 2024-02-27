@@ -19,7 +19,7 @@ class RagWrapper:
     def __init__(
         self,
         repo_url: str,
-        file_type: str,
+        file_type: str = ".py",
         branch: str | None = None,
         model_name=all_MiniLM_L6_v2,
     ):

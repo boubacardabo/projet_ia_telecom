@@ -1,31 +1,41 @@
 from langchain.prompts import PromptTemplate, ChatPromptTemplate
 
 
-
-prompt_usecase_test_unit = ChatPromptTemplate.from_messages([
-    ("system", """[INST] You are a helpful code assistant that help with writing Python code for a user requests.
-                """),
-
-    ("user", """You will be given a function, and a unit test specification for the function. Your task is to write the implementation of the unit test such that it passes all requirements in the specification.
-                """),
-
-    ("user", " here is the function : \n ------------\n {input_function} \n ------------\n"),
-
-    ("user", "here is the specification of the unit test : \n ------------\n {input_specification} \n ------------\n "),
-
-    ("system", """Make sure to generate all test cases. Please output EXACTLY the python CODE in Markdown format, e.g.:
+prompt_usecase_test_unit = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            """[INST] You are a helpful code assistant that help with writing Python code for a user requests.
+                """,
+        ),
+        (
+            "user",
+            """You will be given a function, and a unit test specification for the function. Your task is to write the implementation of the unit test such that it passes all requirements in the specification.
+                """,
+        ),
+        (
+            "user",
+            " here is the function : \n ------------\n {input_function} \n ------------\n",
+        ),
+        (
+            "user",
+            "here is the specification of the unit test : \n ------------\n {input_specification} \n ------------\n ",
+        ),
+        (
+            "system",
+            """Make sure to generate all test cases. Please output EXACTLY the python CODE in Markdown format, e.g.:
 
     ```python
     ....
     ```
-    and NOTHING else. [/INST]""")
-    ])
-    
-
+    and NOTHING else. [/INST]""",
+        ),
+    ]
+)
 
 
 prompt_usecase_test_system = PromptTemplate.from_template(
-"""
+    """
 You'll be given an object to test by the user. This object could be a class or a function. The user might also give you the name of a relevant file. Your goal is to write a system or unit test of that object. Use the PyTest module. Your final answer must be your code. You have access to the following tool:
 
 {tools}
@@ -50,10 +60,8 @@ Thought:{agent_scratchpad}
 )
 
 
-
-
 prompt_template_RAG = PromptTemplate.from_template(
-"""
+    """
 [INST]
 You are an assistant for question-answering tasks. 
     Use the following pieces of retrieved context to answer the question. 
@@ -72,29 +80,15 @@ Here is the question to answer:
 """
 )
 
+prompt_template_simple = PromptTemplate.from_template(
+    """
+[INST]
+You are an assistant for question-answering tasks. 
+If you don't know the answer, just say that you don't know. 
 
-
-
-
-########
-#used for chatbot
-
-import streamlit as st
-# This sets the LLM's personality for each prompt.
-system_prompt = st.text_area(
-    label="System Prompt",
-    value="You are a helpful AI assistant who answers questions in short sentences.",
-    key="system_prompt")
-
-# The template is adapted for Mistral models.
-
-template = """
-<s>[INST]{}[/INST]</s>
-
-[INST]{}[/INST]
-""".format(system_prompt, "{question}")
-
-# We create a prompt from the template so we can use it with Langchain
-prompt_chatbot = PromptTemplate(template=template, input_variables=["question"])
-
-########""
+Here is the question to answer:
+{question} 
+-----------------------------------------------
+[/INST]
+"""
+)
