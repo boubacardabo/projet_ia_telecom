@@ -7,6 +7,13 @@ from langchain_community.llms import OpenLLM
 
 class LlmModel:
     is_open_llm : bool
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
     def __init__(self, model_name=mistral_model, is_open_llm=False):
 
         self.is_open_llm = is_open_llm
@@ -23,15 +30,15 @@ class LlmModel:
             self.model = AutoModelForCausalLM.from_pretrained(
                 model_name,
                 torch_dtype=dtype,
-                device_map= "auto",
+                device_map="auto",
             )
 
             self.pipeline = pipeline(
                 task="text-generation",
                 model=self.model,
                 tokenizer=self.tokenizer,
-                device_map= "auto",
-                max_new_tokens=4096,
+                device_map="auto",
+                max_new_tokens=1000,
                 return_full_text=False,
             )
             
