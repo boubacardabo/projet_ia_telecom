@@ -10,16 +10,15 @@ sys.path.append(backend_folder)
 load_dotenv()
 
 if "LANGCHAIN_API_KEY" in os.environ:
-    os.environ["LANGCHAIN_TRACING_V2"] = 'true'
+    os.environ["LANGCHAIN_TRACING_V2"] = "true"
     os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-    os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
-    os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
+    os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")  # type: ignore
+    os.environ["LANGCHAIN_PROJECT"] = "PRIM-NXP"
 
 from embedding.rag_wrapper import RagWrapper
 from langchain_wrapper.lang_wrapper import LangWrapper
 from llm.llm_model import LlmModel
-
-
+from llm.model_names import mistral_model
 
 
 def main():
@@ -34,47 +33,6 @@ def main():
         file_type = ".py"
         ragWrapper = RagWrapper(repo_url=repo_url, branch=branch, file_type=file_type)
 
-        choice = input("Choose HuggingFaceAPI ('h') or OpenLLM ('o'):\n ").lower().strip()
-
-
-
-
-        if choice == 'h':
-
-            print("You are using the huggingFace pipeline API.\n")
-
-            from llm.model_names import code_llama_model_13b_instruct
-
-            # model
-            model_name = code_llama_model_13b_instruct
-            model = LlmModel(model_name=model_name)
-
-
-            # question = """
-            #     Briefly tell me what the codegen.py file does
-            #     """
-            # generated_text = langchain_wrapper.invoke_llm_chain(question)
-            # # history = generated_text["chat_history"]  # type: ignore
-            # # gen_text = model.generate_text(question)
-            # print(generated_text["answer"])  # type: ignore
-
-
-
-
-            
-        elif choice == 'o':
-
-            print("You are using OpenLLM.\n")
-
-            model = LlmModel(is_open_llm=True)
-
-
-        else:
-            print("Invalid choice. Exiting.")
-            return
-    
-
-
         # langchain
         langchain_wrapper = LangWrapper(llmModel=model)
         langchain_wrapper.add_rag_wrapper(ragWrapper)
@@ -84,7 +42,7 @@ def main():
             Briefly tell me what the codegen.py file does
             """
         generated_text = langchain_wrapper.invoke_llm_chain(question=question)
-    
+
         # gen_text = model.generate_text(question)
         print(generated_text["answer"])  # type: ignore
 
@@ -96,7 +54,7 @@ def main():
         # gen_text = model.generate_text(question)
         print(generated_text["answer"])  # type: ignore
 
-        langchain_wrapper.llmModel.pipeline.max_new_tokens=30 # type: ignore
+        langchain_wrapper.llmModel.pipeline.max_new_tokens = 30  # type: ignore
 
         question = """
             Can I use the codegen file to generate code in Java ?
@@ -117,7 +75,7 @@ def main():
         # print(generated_text["answer"])  # type: ignore
 
         langchain_wrapper.cleanup()
-    
+
     except Exception as e:
         traceback.print_exc()
 
