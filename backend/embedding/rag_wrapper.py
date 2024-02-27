@@ -9,8 +9,6 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from typing import Any
 import traceback
 
-model_name = all_MiniLM_L6_v2
-
 
 class RagWrapper:
     repo_url: str
@@ -18,9 +16,15 @@ class RagWrapper:
     repo_local_path: str
     retriever: Any  # type: ignore
 
-    def __init__(self, repo_url: str, file_type: str, branch: str | None = None):
+    def __init__(
+        self,
+        repo_url: str,
+        file_type: str,
+        branch: str | None = None,
+        model_name=all_MiniLM_L6_v2,
+    ):
         self.downloadRepository(repo_url)
-        self.loadSplitEmbedDocs(branch, file_type)
+        self.loadSplitEmbedDocs(model_name, branch, file_type)
 
     def downloadRepository(
         self,
@@ -47,7 +51,9 @@ class RagWrapper:
             print("Repository already exists")
         self.repo_local_path = local_path
 
-    def loadSplitEmbedDocs(self, branch: str | None = None, file_type: str = ".py"):
+    def loadSplitEmbedDocs(
+        self, model_name: str, branch: str | None = None, file_type: str = ".py"
+    ):
         try:
             # Load
 
@@ -68,6 +74,7 @@ class RagWrapper:
 
             # embed and save in vector_store
             embeddings = HuggingFaceEmbeddings(
+                model_name=model_name,
                 model_name=model_name,
                 encode_kwargs={"normalize_embeddings": True},
                 model_kwargs={"device": "cuda"},

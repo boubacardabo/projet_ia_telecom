@@ -3,9 +3,7 @@ from embedding.rag_wrapper import RagWrapper
 from langchain.prompts import PromptTemplate
 from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain.chains import LLMChain, ConversationalRetrievalChain, StuffDocumentsChain
-from langchain_openai import ChatOpenAI
-from langchain_core.output_parsers import StrOutputParser
-from langchain.memory import ConversationSummaryBufferMemory, ConversationBufferWindowMemory
+from langchain.memory import ConversationBufferWindowMemory
 from prompt.prompts import prompt_template_RAG
 
 # uncomment for debug
