@@ -84,3 +84,8 @@ langchain_wrapper.add_rag_wrapper(ragWrapper)
 ```
 
 
+
+
+
+
+if you get ``[Errno 98] Address already in use`` or ``accept: Too many open files ssh tunnel``, an easy way to get rid of it is to simply kill all process related to ssh : ``pkill ssh```. This error is maybe due to an accumulation of unclosed ssh tunnel or zombie processes.
