@@ -4,24 +4,23 @@ from utils.utils import select_gpu_if_available
 from langchain_community.llms import OpenLLM
 
 
-
 class LlmModel:
-    is_open_llm : bool
+    is_open_llm: bool
     _instance = None
 
     def __new__(cls, *args, **kwargs):
         if not cls._instance:
             cls._instance = super().__new__(cls)
         return cls._instance
-    
+
     def __init__(self, model_name=mistral_model, is_open_llm=False):
 
         self.is_open_llm = is_open_llm
 
-        if is_open_llm: 
+        if is_open_llm:
             server_url = "http://localhost:3000"
             self.model = OpenLLM(server_url=server_url)
-            
+
         else:
             dtype = select_gpu_if_available()
             self.tokenizer = AutoTokenizer.from_pretrained(
@@ -41,7 +40,6 @@ class LlmModel:
                 max_new_tokens=1000,
                 return_full_text=False,
             )
-            
 
     def generate_text(self, input_text: str):
         if self.is_open_llm:
@@ -59,21 +57,20 @@ class LlmModel:
             )
             return " ".join(generated_text)
 
-        
-
     def cleanup(self):
 
-        if not self.is_open_llm : 
+        if not self.is_open_llm:
             del self.tokenizer
-            
 
         # Delete references to the model
         del self.model
 
-        #Empty gpu cache
+        # Empty gpu cache
         from torch.cuda import empty_cache
+
         empty_cache()
-       
+
         # Perform garbage collection to release memory
         from gc import collect
+
         collect()
