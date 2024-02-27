@@ -114,54 +114,14 @@ if backend_folder not in sys.path:
 if f"{backend_folder}\\backend" not in sys.path:
     sys.path.append(f"{backend_folder}\\backend")
 
-#st.text(sys.path)
-
-@st.cache_resource
-def create_chain(system_prompt):
-
-    # model = LlmModel(is_open_llm=True)
-    # llm = model.model
-
-    llm = RemoteRunnable("http://localhost:8000/llm/")
-
-    # Template you will use to structure your user input before converting
-    # into a prompt. Here, my template first injects the personality I wish to
-    # give to the LLM before in the form of system_prompt pushing the actual
-    # prompt from the user. Note that this chatbot doesn't have any memory of
-    # the conversation. So we will inject the system prompt for each message.
-    # The template is adapted for Mistral models.
-
-    template = """
-    <s>[INST]{}[/INST]</s>
-
-    [INST]{}[/INST]
-    """.format(system_prompt, "{question}")
-
-    # We create a prompt from the template so we can use it with Langchain
-    prompt = PromptTemplate(template=template, input_variables=["question"])
-
-    # We create an llm chain with our LLM and prompt
-    # llm_chain = LLMChain(prompt=prompt, llm=llm) # Legacy
-    llm_chain = prompt | llm  # LCEL
-
-    return llm_chain
-
-
 
 
 
 # Create a header element
 st.header("Chatbot")
 
-
-# This sets the LLM's personality for each prompt.
-system_prompt = st.text_area(
-    label="System Prompt",
-    value="You are a helpful AI assistant who answers questions in short sentences.",
-    key="system_prompt")
-
 # Create LLM chain to use for our chatbot.
-llm_chain = create_chain(system_prompt)
+llm_chain = RemoteRunnable("http://localhost:8000/chatbot-chain/")
 
 # We store the conversation in the session state.
 # This will be used to render the chat conversation.
@@ -203,3 +163,6 @@ if user_prompt := st.chat_input("Your message here", key="user_input"):
     # Add the response to the chat window
     with st.chat_message("assistant"):
         st.markdown(response)
+
+################
+        

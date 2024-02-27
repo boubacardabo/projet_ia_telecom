@@ -68,3 +68,30 @@ Here is the question to answer:
 [/INST]
 """
 )
+
+
+
+
+
+########
+#used for chatbot
+
+import streamlit as st
+# This sets the LLM's personality for each prompt.
+system_prompt = st.text_area(
+    label="System Prompt",
+    value="You are a helpful AI assistant who answers questions in short sentences.",
+    key="system_prompt")
+
+# The template is adapted for Mistral models.
+
+template = """
+<s>[INST]{}[/INST]</s>
+
+[INST]{}[/INST]
+""".format(system_prompt, "{question}")
+
+# We create a prompt from the template so we can use it with Langchain
+prompt_chatbot = PromptTemplate(template=template, input_variables=["question"])
+
+########""
