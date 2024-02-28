@@ -28,8 +28,9 @@ class LangWrapper:
 
         # initialize the LLM
         self.llmModel = llmModel
-        if not llmModel.is_open_llm:
+        if not llmModel.is_open_llm :
             self.pipeline = HuggingFacePipeline(pipeline=self.llmModel.pipeline)
+
         primary_chain = LLMChain(
             prompt=prompt,
             llm=llm_instance,
@@ -97,11 +98,10 @@ class LangWrapper:
                 return response["answer"]                
 
         return "No LLM Chain instantiated in Langchain"
+    
 
 
-
-
-    def invoke_llm_chain_code_writer_unit_test(self, function, specification):
+    def invoke_llm_chain_code_writer_unit_test_usecase(self, function, specification):
         """For the 'code writer' usecase"""
         if self.llmChain:
 
@@ -114,8 +114,8 @@ class LangWrapper:
             else:
                 return response
         return "No LLM Chain instantiated in Langchain"
-
-
+    
+    
 
     def cleanup(self):
         del self.llmChain
