@@ -35,12 +35,13 @@ async def root():
 
 @app.post("/setup_use_case/")
 async def setup_use_case(data=Body()):
-    return Response(apiservice.create_use_case_session(**data))
+    print(data)
+    return apiservice.create_use_case_session(**data)
 
 
 @app.post("/invoke_use_case/")
 async def invoke_use_case(data: dict = Body(...)):
-    return Response(apiservice.invoke_use_case(**data))
+    return apiservice.invoke_use_case(**data)
 
 
 if __name__ == "__main__":
