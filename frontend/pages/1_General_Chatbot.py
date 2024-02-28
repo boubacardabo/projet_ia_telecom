@@ -22,15 +22,15 @@ with st.sidebar:
     setup_button = st.button("Setup Chat")
     if setup_button:
         data = {
+            "use_case": "general_chatbot",
             "has_rag": input_visibility[selected_option],  # type: ignore
             "repo_url": repository_link,
             "branch": branch_name,
             "file_type": file_type,
         }
-        response = requests.post(f"{backend_url}/setup_use_case/", json=data).text
+        response = requests.post(f"{backend_url}/setup_use_case/", data=data)
 
-        print("boo", requests.get(f"{backend_url}/").text)
-        print("ok", response)
+        print("ok", response.text)
 
 st.title("General RAG Chatbot🔎")
 

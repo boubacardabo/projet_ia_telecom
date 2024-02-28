@@ -67,8 +67,9 @@ def create_tunnel():
         code = subprocess.run(
             [
                 "ssh",
-                "-D",
-                "4000" f"{username}@{hostname}",
+                "-L",
+                "4000:127.0.0.1:7000",
+                f"{username}@{hostname}",
             ]
         )
     except Exception as e:
@@ -141,8 +142,9 @@ if st.session_state.ssh_client:
             if launch_server_button:
                 server_command = f"""cd && cd projet_ia_telecom &&
                 source backend/venv/bin/activate && 
-                CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py --model_name {selected_model} --is_open_llm {is_open_llm}
+                CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py --model_name {selected_model} {"--is_open_llm" if is_open_llm else ""}
                 """
+                print(server_command)
                 execute_ssh_command(server_command)
                 st.session_state.server_pid = 0
     if st.session_state.server_pid != None and st.session_state.server_pid != 0:
