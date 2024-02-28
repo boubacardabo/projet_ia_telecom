@@ -136,13 +136,13 @@ if st.session_state.ssh_client:
                 available_gpus,
             )
             selected_model = st.selectbox(label="Select Model", options=model_list)
-            is_open_llm = boolean_choice = st.checkbox("Use OPEN_LLM", value=False)
+            is_open_llm = st.checkbox("Use OpenLLM", value=False)
 
             launch_server_button = st.button("Launch Server")
             if launch_server_button:
                 server_command = f"""cd && cd projet_ia_telecom &&
                 source backend/venv/bin/activate && 
-                CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py --model_name {selected_model} {"--is_open_llm" if is_open_llm else ""}
+                CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py --model_name {selected_model if not is_open_llm else ""} {"--is_open_llm" if is_open_llm else ""}
                 """
                 print(server_command)
                 execute_ssh_command(server_command)
