@@ -12,7 +12,7 @@ class ApiService:
         self.use_case_sessions = {}
         self.llm_model = model
 
-    def create_use_case_session(self, **kwargs) -> str:
+    def create_use_case_session(self, kwargs) -> str:
         print(kwargs)
         lang_wrapper = None
         use_case = kwargs.get("use_case")
@@ -27,7 +27,7 @@ class ApiService:
         self.use_case_sessions[use_case] = lang_wrapper
         return use_case
 
-    def invoke_use_case(self, **kwargs):
+    def invoke_use_case(self, kwargs):
         use_case = kwargs.get("use_case")
         lang_wrapper = self.use_case_sessions.get(use_case)
         if use_case == "general_chatbot":
