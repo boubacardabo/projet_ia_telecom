@@ -29,7 +29,7 @@ class ApiService:
         except Exception as e:
             return e
 
-    def invoke_use_case(self, kwargs):
+    def invoke_use_case(self, **kwargs):
         try:
             use_case = kwargs.get("use_case")
             use_case_object = self.use_case_sessions.get(use_case)
