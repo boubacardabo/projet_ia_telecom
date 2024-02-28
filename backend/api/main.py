@@ -1,12 +1,13 @@
 import os
 import sys
 import argparse
+import json
 
 
 backend_folder = f"{os.path.expanduser('~')}/projet_ia_telecom/backend"
 sys.path.append(backend_folder)
 
-from fastapi import FastAPI, Response, Body
+from fastapi import FastAPI, Response, Request
 from llm.llm_model import LlmModel
 from llm.model_names import mistral_model
 from api_service import ApiService
@@ -34,13 +35,16 @@ async def root():
 
 
 @app.post("/setup_use_case/")
-async def setup_use_case(data: dict = Body(...)):
-    print(data)
-    return apiservice.create_use_case_session(data)
+async def setup_use_case(request: Request):
+    body = await request.body()
+    body_data = json.loads(body)
+    kwargs = body_data
+
+    return apiservice.create_use_case_session(**kwargs)
 
 
 @app.post("/invoke_use_case/")
-async def invoke_use_case(data: dict = Body(...)):
+async def invoke_use_case(data: dict):
     return apiservice.invoke_use_case(**data)
 
 
