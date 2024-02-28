@@ -12,7 +12,7 @@ class ApiService:
         self.use_case_sessions = {}
         self.llm_model = model
 
-    def create_use_case_session(self, kwargs) -> str:
+    def create_use_case_session(self, **kwargs) -> str:
         print(kwargs)
         lang_wrapper = None
         use_case = kwargs.get("use_case")

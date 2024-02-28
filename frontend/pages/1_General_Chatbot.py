@@ -28,7 +28,7 @@ with st.sidebar:
             "branch": branch_name,
             "file_type": file_type,
         }
-        response = requests.post(f"{backend_url}/setup_use_case/", data=data)
+        response = requests.post(f"{backend_url}/setup_use_case/", json=data)
 
         print("ok", response.text)
 
