@@ -1,5 +1,7 @@
 import uuid
 from llm.llm_model import LlmModel
+from use_cases.general_chatbot import setup_chat, invoke_chat
+from langchain_wrapper.lang_wrapper import LangWrapper
 
 
 class ApiService:
@@ -10,18 +12,26 @@ class ApiService:
         self.use_case_sessions = {}
         self.llm_model = model
 
-    def create_session(self, use_case, **kwargs) -> str:
+    def create_use_case_session(self, **kwargs) -> str:
         lang_wrapper = None
+        use_case = kwargs.get("use_case")
+        kwargs.pop("use_case", None)
         if use_case == "general_chatbot":
-            pass
+            lang_wrapper = setup_chat(model=self.llm_model, **kwargs)
         elif use_case == "use_case_2":
             pass
         else:
             raise ValueError(f"Invalid use_case: {use_case}")
 
-        session_id = str(uuid.uuid4())  # Generate a random UUID
-        self.use_case_sessions[session_id] = lang_wrapper
-        return session_id
+        self.use_case_sessions[use_case] = lang_wrapper
+        return use_case
 
-    def get_session_(self, session_id: str):
-        return self.use_case_sessions.get(session_id)
+    def invoke_use_case(self, **kwargs):
+        use_case = kwargs.get("use_case")
+        lang_wrapper = self.use_case_sessions.get(use_case)
+        if use_case == "general_chatbot":
+            return invoke_chat(lang_wrapper=lang_wrapper, **kwargs)  # type: ignore
+        elif use_case == "use_case_2":
+            pass
+        else:
+            raise ValueError(f"Invalid use_case: {use_case}")

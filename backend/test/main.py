@@ -25,7 +25,7 @@ def main():
     try:
 
         # model
-        model = LlmModel(model_name=mistral_model)
+        model = LlmModel(model_name=mistral_model, is_open_llm=True)
 
         # rag
         repo_url = "https://github.com/esphome/esphome"
