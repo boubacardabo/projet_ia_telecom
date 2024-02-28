@@ -5,7 +5,7 @@ from prompt.prompts import prompt_template_simple
 
 
 def setup_chat(
-    has_rag: bool, model: LlmModel, repo_url=None, branch=None, file_type=None
+    model: LlmModel, has_rag: bool, repo_url=None, branch=None, file_type=None
 ):
     lang_wrapper = None
     if not has_rag:
@@ -21,5 +21,7 @@ def setup_chat(
     return lang_wrapper
 
 
-def invoke_chat(lang_wrapper: LangWrapper):
-    return lang_wrapper.invoke_llm_chain()
+def invoke_chat(lang_wrapper: LangWrapper, question: str):
+    return lang_wrapper.invoke_llm_chain(
+        question=question,
+    )

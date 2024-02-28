@@ -6,6 +6,7 @@ import os
 import atexit
 import subprocess
 import threading
+from utils.utils import model_list
 
 
 # Load environment variables from .env file
@@ -66,9 +67,8 @@ def create_tunnel():
         code = subprocess.run(
             [
                 "ssh",
-                "-L",
-                "4000:127.0.0.1:7000",
-                f"{username}@{hostname}",
+                "-D",
+                "4000" f"{username}@{hostname}",
             ]
         )
     except Exception as e:
@@ -134,11 +134,14 @@ if st.session_state.ssh_client:
                 "Choose GPUs:",
                 available_gpus,
             )
+            selected_model = st.selectbox(label="Select Model", options=model_list)
+            is_open_llm = boolean_choice = st.checkbox("Use OPEN_LLM", value=False)
+
             launch_server_button = st.button("Launch Server")
             if launch_server_button:
                 server_command = f"""cd && cd projet_ia_telecom &&
                 source backend/venv/bin/activate && 
-                CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py
+                CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py --model_name {selected_model} --is_open_llm {is_open_llm}
                 """
                 execute_ssh_command(server_command)
                 st.session_state.server_pid = 0
@@ -154,8 +157,7 @@ if st.session_state.ssh_client:
         if launch_ssh_tunnel:
             tunnel_thread = threading.Thread(target=create_tunnel)
             tunnel_thread.start()
-            os.environ["API_URL"] = "https://localhost:4000"
-            print(os.environ["API_URL"])
+            os.environ["API_URL"] = "http://localhost:4000"
 
 
 # Cleanup function to close SSH connection when Streamlit app is stopped
