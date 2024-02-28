@@ -14,7 +14,7 @@ load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))
 
 # Get default values from environment variables or use fallback values
 default_username = os.getenv("SSH_USERNAME", "bdabo")
-default_password = os.getenv("SSH_PASSWORD", "@2321ieatpears")
+default_password = os.getenv("SSH_PASSWORD", "")
 default_langsmith_api_key = os.getenv("LANGCHAIN_API_KEY", "")
 
 port = 22  # SSH port

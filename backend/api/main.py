@@ -44,8 +44,11 @@ async def setup_use_case(request: Request):
 
 
 @app.post("/invoke_use_case/")
-async def invoke_use_case(data: dict):
-    return apiservice.invoke_use_case(**data)
+async def invoke_use_case(request: Request):
+    body = await request.body()
+    body_data = json.loads(body)
+    kwargs = body_data
+    return apiservice.invoke_use_case(**kwargs)
 
 
 if __name__ == "__main__":
