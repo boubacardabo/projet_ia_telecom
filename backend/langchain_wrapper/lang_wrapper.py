@@ -32,7 +32,7 @@ class LangWrapper:
         primary_chain = LLMChain(
             prompt=prompt,
             llm=llm_instance,
-            verbose=True,
+            #verbose=True,
         )
         self.llmChain = primary_chain
         self.ragWrapper = None
