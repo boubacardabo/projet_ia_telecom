@@ -4,6 +4,7 @@ from langchain.callbacks import StreamlitCallbackHandler
 from langchain_community.llms import OpenLLM
 import requests
 import os
+import json
 
 backend_url = os.environ.get("API_URL") or "http://localhost:4000"
 st.session_state["is_setup"] = False
@@ -23,13 +24,20 @@ with st.sidebar:
 
     setup_button = st.button("Setup Chat")
     if setup_button:
-        data = {
-            "use_case": use_case_name,
-            "has_rag": input_visibility[selected_option],  # type: ignore
-            "repo_url": repository_link,
-            "branch": branch_name,
-            "file_type": file_type,
-        }
+        data = (
+            {
+                "use_case": use_case_name,
+                "has_rag": input_visibility[selected_option],  # type: ignore
+                "repo_url": repository_link or "",
+                "branch": branch_name or "",
+                "file_type": file_type or "",
+            }
+            if input_visibility[selected_option]  # type: ignore
+            else {
+                "use_case": use_case_name,
+                "has_rag": False,
+            }
+        )
         with st.spinner(""):
             response = requests.post(f"{backend_url}/setup_use_case/", json=data)
 
@@ -56,15 +64,17 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-if prompt := st.chat_input(
-    placeholder="Ask a new question", disabled=(not st.session_state["is_setup"])
-):
+if prompt := st.chat_input(placeholder="Ask a new question"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
-    with st.chat_message("assistant"):
-        data = {"use_case": "general_chatbot", "question": prompt}
-        with st.spinner(""):
-            response = requests.post(f"{backend_url}/invoke_use_case/", json=data).text
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            st.write(response)
+    data = {"use_case": use_case_name, "question": prompt}
+    with st.spinner("Processing input..."):
+        chat_response = requests.post(
+            f"{backend_url}/invoke_use_case/", json=data
+        ).json()
+        with st.chat_message("assistant"):
+            st.session_state.messages.append(
+                {"role": "assistant", "content": chat_response}
+            )
+            st.markdown(chat_response)
