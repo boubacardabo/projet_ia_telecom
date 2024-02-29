@@ -78,4 +78,4 @@ Give me your answer in Markdown format
 """
 )
 
-prompt_template_simple = PromptTemplate.from_template("Give all of your answers in Markdown format, answer this: {question}")
+prompt_template_simple = PromptTemplate.from_template("{question}")
