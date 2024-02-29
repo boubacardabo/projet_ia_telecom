@@ -80,15 +80,4 @@ Here is the question to answer:
 """
 )
 
-prompt_template_simple = PromptTemplate.from_template(
-    """
-[INST]
-You are an assistant for question-answering tasks. 
-If you don't know the answer, just say that you don't know. 
-
-Here is the question to answer:
-{question} 
------------------------------------------------
-[/INST]
-"""
-)
+prompt_template_simple = PromptTemplate.from_template("Give all of your answers in Markdown format, answer this: {question}")
