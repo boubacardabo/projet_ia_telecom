@@ -114,8 +114,7 @@ class LangWrapper:
             else:
                 return response
         return "No LLM Chain instantiated in Langchain"
-    
-    
+
 
     def cleanup(self):
         del self.llmChain
