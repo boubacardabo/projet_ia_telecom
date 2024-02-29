@@ -12,7 +12,7 @@ from llm.llm_model import LlmModel
 from llm.model_names import mistral_model
 from api_service import ApiService
 import uvicorn
-from langserve import add_routes
+
 
 
 app = FastAPI()
@@ -24,27 +24,6 @@ parser.add_argument("--is_open_llm", type=bool, default=False, help="OpenLLM use
 
 args = parser.parse_args()
 
-
-
-
-from api.packages.llm_chain import chain as llm
-
-add_routes(
-    app,
-    llm,
-    path="/llm",
-)
-
-from packages.rag_chain import chain as ragChain
-
-add_routes(
-    app,
-    ragChain,
-    path="/rag-chain",
-)
-
-# from langserve import RemoteRunnable
-# remote_runnable = RemoteRunnable("http://localhost:7000/llm")
 
 
 apiservice = ApiService(

@@ -140,12 +140,27 @@ if st.session_state.ssh_client:
 
             launch_server_button = st.button("Launch Server")
             if launch_server_button:
-                server_command = f"""cd && cd projet_ia_telecom &&
-                source backend/venv/bin/activate && 
+                server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom &&
                 CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py --model_name {selected_model if not is_open_llm else ""} {"--is_open_llm" if is_open_llm else ""}
                 """
                 print(server_command)
                 execute_ssh_command(server_command)
+
+                if is_open_llm : 
+
+                    server_command = "sed -i 's/\\r$//' ./backend/script_openllm.sh"
+
+
+                    print(server_command)
+                    execute_ssh_command(server_command)
+
+
+                    server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom/backend && ./script_openllm.sh {selected_gpus[0]}"""
+
+                    print(server_command)
+                    execute_ssh_command(server_command)
+
+
                 st.session_state.server_pid = 0
     if st.session_state.server_pid != None and st.session_state.server_pid != 0:
         launch_ssh_tunnel = st.button("Launch SSH tunnel", type="secondary")
