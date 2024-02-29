@@ -33,8 +33,11 @@ class ApiService:
         try:
             use_case = kwargs.get("use_case")
             use_case_object = self.use_case_sessions.get(use_case)
+            kwargs.pop("use_case", None)
             if use_case == "general_chatbot":
-                return invoke_chat(lang_wrapper=use_case_object, **kwargs)  # type: ignore
+                print(kwargs)
+                print("here")
+                return invoke_chat(lang_wrapper=use_case_object, **kwargs) # type: ignore
             elif use_case == "use_case_2":
                 pass
             else:

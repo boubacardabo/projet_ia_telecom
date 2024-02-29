@@ -22,6 +22,7 @@ def setup_chat(
 
 
 def invoke_chat(lang_wrapper: LangWrapper, question: str):
+    print(question)
     return lang_wrapper.invoke_llm_chain(
         question=question,
     )

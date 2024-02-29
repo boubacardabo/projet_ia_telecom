@@ -87,11 +87,13 @@ class LangWrapper:
 
         if self.llmChain:
             response = self.llmChain(invoke_params)
-            if self.memory:
+            if self.memory == None:
+                return response["text"]
+            else:
                 self.memory.save_context(
                     {"input": kwargs.get("question")}, {"output": response["answer"]}
                 )
-            return response["answer"]
+                return response["answer"]                
 
         return "No LLM Chain instantiated in Langchain"
 
