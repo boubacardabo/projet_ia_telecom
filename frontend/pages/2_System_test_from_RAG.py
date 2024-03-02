@@ -75,4 +75,4 @@ if prompt := st.chat_input(placeholder="Ask a new question"):
             st.session_state.messages.append(
                 {"role": "assistant", "content": chat_response}
             )
-            st.markdown(chat_response)
+            st.code(chat_response, language="python")

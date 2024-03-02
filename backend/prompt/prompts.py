@@ -64,8 +64,8 @@ prompt_template_RAG = PromptTemplate.from_template(
     """
 [INST]
 You are an assistant for question-answering tasks. 
-    Use the following pieces of retrieved context to answer the question. 
-    If you don't know the answer, just say that you don't know. 
+Use the following pieces of retrieved context to answer the question. 
+If you don't know the answer, just say that you don't know. 
 Here the is chat history:
 {histo}
 Here the is context retrieved:
