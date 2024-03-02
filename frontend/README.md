@@ -1,14 +1,13 @@
 make an environment :
 ```sh
-virtualenv .venv
 cd frontend
+virtualenv .venv
 pip install -r requirements.txt
 ```
 
 
 run the application :
 ```sh
-source .venv/Scripts/activate #in bash
 cd frontend
+source .venv/bin/activate #in bash
 streamlit run home.py
-```
