@@ -79,3 +79,22 @@ Give me your answer in Markdown format
 )
 
 prompt_template_simple = PromptTemplate.from_template("{question}")
+
+
+
+
+
+examples = [
+
+    {"instruction" :"write",
+     "model_answer" : "blabla",
+     "follow_up_instruction" : "write more",
+     },
+]
+
+template = "<s>[INST] {instruction} [/INST] {model_answer} </s>[INST] {follow_up_instruction} [/INST]"
+
+prompt_template_fewshot = PromptTemplate(
+    input_variables=["instruction", "model_answer", "follow_up_instruction"], template= template
+).format(**examples[0])
+

@@ -48,7 +48,10 @@ with st.sidebar:
                 )
 
 
-st.title("Code writer : system test")
+st.title("Code writer : system test with RAG")
+
+
+
 
 
 if "messages" not in st.session_state:
@@ -75,4 +78,4 @@ if prompt := st.chat_input(placeholder="Ask a new question"):
             st.session_state.messages.append(
                 {"role": "assistant", "content": chat_response}
             )
-            st.code(chat_response, language="python")
+            st.markdown(chat_response)
