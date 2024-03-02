@@ -26,10 +26,12 @@ class LangWrapper:
             else HuggingFacePipeline(pipeline=llmModel.pipeline)
         )
 
+        self.llm_instance = llm_instance
+
         # initialize the LLM
         self.llmModel = llmModel
         if not llmModel.is_open_llm :
-            self.pipeline = HuggingFacePipeline(pipeline=self.llmModel.pipeline)
+            self.pipeline = HuggingFacePipeline(pipeline=self.llmModel.pipeline) #decrepated?
 
         primary_chain = LLMChain(
             prompt=prompt,

@@ -13,8 +13,8 @@ from utils.utils import model_list
 load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))
 
 # Get default values from environment variables or use fallback values
-default_username = os.getenv("SSH_USERNAME", "bdabo")
-default_password = os.getenv("SSH_PASSWORD", "")
+default_username = os.getenv("SSH_USERNAME", "username")
+default_password = os.getenv("SSH_PASSWORD", "password")
 default_langsmith_api_key = os.getenv("LANGCHAIN_API_KEY", "")
 
 port = 22  # SSH port
@@ -89,7 +89,7 @@ with st.sidebar:
         value=default_langsmith_api_key,
     )
     connect_button = st.button(label="Connect to GPUs")
-    os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
+    
 
 if "ssh_client" not in st.session_state:
     st.session_state.ssh_client = None
@@ -101,6 +101,7 @@ if connect_button:
     st.session_state.ssh_client = establish_ssh_connection(
         hostname, port, username, password
     )
+    os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
 
 # Button to execute command
 if st.session_state.ssh_client:
@@ -140,16 +141,19 @@ if st.session_state.ssh_client:
 
             launch_server_button = st.button("Launch Server")
             if launch_server_button:
-                server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom &&
-                CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py --model_name {selected_model if not is_open_llm else ""} {"--is_open_llm" if is_open_llm else ""}
+                server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom && CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py {" --model_name " + selected_model if is_open_llm==False else ""} {"--is_open_llm True" if is_open_llm==True else ""} &
                 """
                 print(server_command)
                 execute_ssh_command(server_command)
 
                 if is_open_llm : 
 
-                    server_command = "sed -i 's/\\r$//' ./backend/script_openllm.sh"
+                    server_command = "cd && cd projet_ia_telecom/backend && sed -i 's/\\r$//' script_openllm.sh"
 
+                    print(server_command)
+                    execute_ssh_command(server_command)
+
+                    server_command = "chmod +x script_openllm.sh"
 
                     print(server_command)
                     execute_ssh_command(server_command)
