@@ -16,13 +16,9 @@ load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))
 default_username = os.getenv("SSH_USERNAME", "username")
 default_password = os.getenv("SSH_PASSWORD", "password")
 default_langsmith_api_key = os.getenv("LANGCHAIN_API_KEY", "")
+default_hostname = os.getenv("SSH_HOSTNAME", "gpu6.enst.fr")
 
 port = 22  # SSH port
-
-# setting LangSmith API keys
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_PROJECT"] = "PRIM-NXP"
 
 # Streamlit app
 st.title("GPU access")
@@ -79,7 +75,7 @@ def create_tunnel():
 # Sidebar inputs for SSH connection parameters
 with st.sidebar:
     st.subheader("SSH Connection Parameters")
-    hostname = st.text_input("Hostname", value="gpu4.enst.fr")
+    hostname = st.text_input("Hostname", value=default_hostname)
     username = st.text_input("Username", value=default_username)
     password = st.text_input("Password", type="password", value=default_password)
     langsmith_api_key = st.text_input(
@@ -101,7 +97,7 @@ if connect_button:
     st.session_state.ssh_client = establish_ssh_connection(
         hostname, port, username, password
     )
-    os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
+    # os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
 
 # Button to execute command
 if st.session_state.ssh_client:
@@ -141,7 +137,8 @@ if st.session_state.ssh_client:
 
             launch_server_button = st.button("Launch Server")
             if launch_server_button:
-                server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom && CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py {" --model_name " + selected_model if is_open_llm==False else ""} {"--is_open_llm True" if is_open_llm==True else ""} &
+
+                server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom && CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py {" --model_name " + selected_model if is_open_llm==False else ""} {"--is_open_llm True" if is_open_llm==True else ""} --langchain_api_key "{langsmith_api_key}" & 
                 """
                 print(server_command)
                 execute_ssh_command(server_command)

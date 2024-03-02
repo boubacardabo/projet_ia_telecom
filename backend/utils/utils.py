@@ -90,10 +90,6 @@ def write_function_to_file2(function_string_whole, file_path):
         
         
 
-
-
-
-
 def execute_generated_file(file_path):
 
     """To execute a python file from a call of this function"""
