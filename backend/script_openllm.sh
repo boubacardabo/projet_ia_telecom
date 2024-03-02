@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 #This script is to launch an OpenLLM server with Mixtral.
 

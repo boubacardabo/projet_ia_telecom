@@ -14,7 +14,6 @@ from prompt.prompts import prompt_template_RAG
 class LangWrapper:
     llmModel: LlmModel
     llmChain: LLMChain | ConversationalRetrievalChain | None
-    someMemory: list[tuple]
     memory: ConversationBufferWindowMemory | None
     ragWrapper: RagWrapper | None
     prompt: PromptTemplate
@@ -27,13 +26,17 @@ class LangWrapper:
             else HuggingFacePipeline(pipeline=llmModel.pipeline)
         )
 
+        self.llm_instance = llm_instance
+
         # initialize the LLM
         self.llmModel = llmModel
-        self.pipeline = HuggingFacePipeline(pipeline=self.llmModel.pipeline)
+        if not llmModel.is_open_llm :
+            self.pipeline = HuggingFacePipeline(pipeline=self.llmModel.pipeline) #decrepated?
+
         primary_chain = LLMChain(
             prompt=prompt,
             llm=llm_instance,
-            verbose=True,
+            #verbose=True,
         )
         self.llmChain = primary_chain
         self.ragWrapper = None
@@ -88,13 +91,32 @@ class LangWrapper:
 
         if self.llmChain:
             response = self.llmChain(invoke_params)
-            if self.memory:
+            if self.memory == None:
+                return response["text"]
+            else:
                 self.memory.save_context(
                     {"input": kwargs.get("question")}, {"output": response["answer"]}
                 )
-            return response
+                return response["answer"]                
 
         return "No LLM Chain instantiated in Langchain"
+    
+
+
+    def invoke_llm_chain_code_writer_unit_test_usecase(self, function, specification):
+        """For the 'code writer' usecase"""
+        if self.llmChain:
+
+            response = self.llmChain.invoke(
+                input={"input_function": function, "input_specification": specification}
+
+            )
+            if isinstance(self.llmChain, LLMChain):
+                return response["text"]
+            else:
+                return response
+        return "No LLM Chain instantiated in Langchain"
+
 
     def cleanup(self):
         del self.llmChain

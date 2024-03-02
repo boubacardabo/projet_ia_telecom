@@ -4,20 +4,32 @@ import traceback
 from dotenv import load_dotenv
 import os
 import atexit
-from langserve import RemoteRunnable
+import subprocess
+import threading
+from utils.utils import model_list
 
 
 # Load environment variables from .env file
-load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))  
+load_dotenv(dotenv_path=os.path.join(os.getcwd(), ".env"))
+
+# Get default values from environment variables or use fallback values
+default_username = os.getenv("SSH_USERNAME", "username")
+default_password = os.getenv("SSH_PASSWORD", "password")
+default_langsmith_api_key = os.getenv("LANGCHAIN_API_KEY", "")
 
 port = 22  # SSH port
+
+# setting LangSmith API keys
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+os.environ["LANGCHAIN_PROJECT"] = "PRIM-NXP"
 
 # Streamlit app
 st.title("GPU access")
 
 
-
 # Define function to establish SSH connection
+@st.cache_resource
 def establish_ssh_connection(hostname, port, username, password):
     try:
         # Create SSH client
@@ -26,7 +38,6 @@ def establish_ssh_connection(hostname, port, username, password):
 
         # Connect to SSH server
         client.connect(hostname, port, username, password)
-
         st.success("SSH connection established successfully.")
 
         return client  # Return the SSH client object
@@ -37,13 +48,13 @@ def establish_ssh_connection(hostname, port, username, password):
 
 
 # Define function to execute command on remote machine
-def execute_ssh_command(client, command):
+def execute_ssh_command(command):
     try:
         # Execute the command on the remote machine
-        stdin, stdout, stderr = client.exec_command(command)
+        stdin, stdout, stderr = st.session_state.ssh_client.exec_command(command)
 
         # Read the output (if any)
-        output = stdout.read().decode('utf-8')
+        output = stdout.read().decode("utf-8")
 
         return output
 
@@ -51,11 +62,19 @@ def execute_ssh_command(client, command):
         return traceback.format_exc()
 
 
+def create_tunnel():
+    try:
+        code = subprocess.run(
+            [
+                "ssh",
+                "-L",
+                "4000:127.0.0.1:7000",
+                f"{username}@{hostname}",
+            ]
+        )
+    except Exception as e:
+        print(e)
 
-# Get default values from environment variables or use fallback values
-default_username = os.getenv("SSH_USERNAME", "username")
-default_password = os.getenv("SSH_PASSWORD", "")
-default_langsmith_api_key = os.getenv("LANGCHAIN_API_KEY", "")
 
 # Sidebar inputs for SSH connection parameters
 with st.sidebar:
@@ -63,106 +82,115 @@ with st.sidebar:
     hostname = st.text_input("Hostname", value="gpu4.enst.fr")
     username = st.text_input("Username", value=default_username)
     password = st.text_input("Password", type="password", value=default_password)
-    langsmith_api_key = st.text_input("Langsmith API Key", key="langchain_search_api_key_langsmith", type="password", value=default_langsmith_api_key)
-
-        
+    langsmith_api_key = st.text_input(
+        "Langsmith API Key",
+        key="langchain_search_api_key_langsmith",
+        type="password",
+        value=default_langsmith_api_key,
+    )
+    connect_button = st.button(label="Connect to GPUs")
     
-#setting LangSmith API keys
-os.environ["LANGCHAIN_TRACING_V2"] = 'true'
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
-os.environ["LANGCHAIN_PROJECT"]= "PRIM-NXP"
 
+if "ssh_client" not in st.session_state:
+    st.session_state.ssh_client = None
 
+if "server_pid" not in st.session_state:
+    st.session_state.server_pid = 0
 
-
-#SSH connection
-ssh_client = establish_ssh_connection(hostname, port, username, password)
-
-
-# Input for command to execute remotely
-command = "nvidia-smi"
+if connect_button:
+    st.session_state.ssh_client = establish_ssh_connection(
+        hostname, port, username, password
+    )
+    os.environ["LANGCHAIN_API_KEY"] = langsmith_api_key
 
 # Button to execute command
-if st.button("See GPU Status"):
-    with st.spinner("Executing command..."):
-        output = execute_ssh_command(ssh_client, command)
-        st.code(output)
+if st.session_state.ssh_client:
+    check_gpus_button = st.button("See GPU Status")
+    check_server_status_button = st.button("Server Status")
+
+    if check_gpus_button:
+        with st.spinner("Executing command..."):
+            output = execute_ssh_command("nvidia-smi")
+            st.code(output)
+    if check_server_status_button:
+        with st.spinner("Checking Server Status"):
+            output = execute_ssh_command("lsof -t -i:7000")
+            if len(output) > 0:
+                st.success(f"Server running on PID ={output}")
+                st.session_state.server_pid = output
+            else:
+                st.info("Server is not running")
+                st.session_state.server_pid = None
+
+    if st.session_state.server_pid == None:
+        with st.spinner(""):
+            available_gpus = execute_ssh_command("nvidia-smi -L").split("\n")
+            available_gpus = [
+                gpu.split(":")[0].split(" ")[-1]
+                for gpu in available_gpus
+                if gpu.startswith("GPU")
+            ]
+
+            st.subheader("GPU Selection for Server Launch")
+            selected_gpus = st.multiselect(
+                "Choose GPUs:",
+                available_gpus,
+            )
+            selected_model = st.selectbox(label="Select Model", options=model_list)
+            is_open_llm = st.checkbox("Use OpenLLM", value=False)
+
+            launch_server_button = st.button("Launch Server")
+            if launch_server_button:
+                server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom && CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py {" --model_name " + selected_model if is_open_llm==False else ""} {"--is_open_llm True" if is_open_llm==True else ""} &
+                """
+                print(server_command)
+                execute_ssh_command(server_command)
+
+                if is_open_llm : 
+
+                    server_command = "cd && cd projet_ia_telecom/backend && sed -i 's/\\r$//' script_openllm.sh"
+
+                    print(server_command)
+                    execute_ssh_command(server_command)
+
+                    server_command = "chmod +x script_openllm.sh"
+
+                    print(server_command)
+                    execute_ssh_command(server_command)
+
+
+                    server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom/backend && ./script_openllm.sh {selected_gpus[0]}"""
+
+                    print(server_command)
+                    execute_ssh_command(server_command)
+
+
+                st.session_state.server_pid = 0
+    if st.session_state.server_pid != None and st.session_state.server_pid != 0:
+        launch_ssh_tunnel = st.button("Launch SSH tunnel", type="secondary")
+        kill_server_button = st.button("Kill server", type="primary")
+
+        if kill_server_button:
+            execute_ssh_command(f"kill -9 {st.session_state.server_pid}")
+            st.success("Server has been killed")
+            st.session_state.server_pid = None
+
+        if launch_ssh_tunnel:
+            tunnel_thread = threading.Thread(target=create_tunnel)
+            tunnel_thread.start()
+            os.environ["API_URL"] = "http://localhost:4000"
 
 
 # Cleanup function to close SSH connection when Streamlit app is stopped
 def cleanup():
-    ssh_client.close()
-    print("SSH connection closed.") #you can verify it in the log of the terminal from which you leaunched streamlit
+    if st.session_state.ssh_client:
+        st.session_state.ssh_client.close()
+    print(
+        "SSH connection closed."
+    )  # you can verify it in the log of the terminal from which you leaunched streamlit
+
 
 # Register cleanup function
 atexit.register(cleanup)
 
 ##################
-
-
-from langchain.prompts import PromptTemplate
-import sys
-
-backend_folder = f"{os.getcwd()}"
-
-#To access to backend modules
-if backend_folder not in sys.path:
-    sys.path.append(backend_folder)
-
-#for modules in backend to access to other modules
-if f"{backend_folder}\\backend" not in sys.path:
-    sys.path.append(f"{backend_folder}\\backend")
-
-
-
-
-# Create a header element
-st.header("Chatbot")
-
-# Create LLM chain to use for our chatbot.
-llm_chain = RemoteRunnable("http://localhost:8000/chatbot-chain/")
-
-# We store the conversation in the session state.
-# This will be used to render the chat conversation.
-# We initialize it with the first message we want to be greeted with.
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {"role": "assistant", "content": "How may I help you today?"}
-    ]
-
-if "current_response" not in st.session_state:
-    st.session_state.current_response = ""
-
-# We loop through each message in the session state and render it as
-# a chat message.
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-
-# We take questions/instructions from the chat input to pass to the LLM
-if user_prompt := st.chat_input("Your message here", key="user_input"):
-
-    # Add our input to the session state
-    st.session_state.messages.append(
-        {"role": "user", "content": user_prompt}
-    )
-
-    # Add our input to the chat window
-    with st.chat_message("user"):
-        st.markdown(user_prompt)
-
-    # Pass our input to the LLM chain and capture the final responses.
-    response = llm_chain.invoke({"question": user_prompt})
-
-    # Add the response to the session state
-    st.session_state.messages.append(
-        {"role": "assistant", "content": response}
-    )
-
-    # Add the response to the chat window
-    with st.chat_message("assistant"):
-        st.markdown(response)
-
-################
-        

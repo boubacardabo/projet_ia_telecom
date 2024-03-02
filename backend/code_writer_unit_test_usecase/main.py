@@ -79,7 +79,7 @@ def main():
         function_string = functions[0]
 
         #generating output of LLM
-        generated_text = langchain_wrapper.invoke_llm_chain3(function=function_string, specification=specification_string)
+        generated_text = langchain_wrapper.invoke_llm_chain_code_writer_unit_test_usecase(function=function_string, specification=specification_string)
         print(generated_text)
         print("\n --------------------------------------- \n")
 
