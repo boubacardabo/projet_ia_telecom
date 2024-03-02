@@ -1,7 +1,6 @@
-import uuid
 from llm.llm_model import LlmModel
 from use_cases.general_chatbot import setup_chat, invoke_chat
-from langchain_wrapper.lang_wrapper import LangWrapper
+from use_cases.codewriter_system_test import invoke_agent
 
 
 class ApiService:
@@ -19,8 +18,8 @@ class ApiService:
             kwargs.pop("use_case", None)
             if use_case == "general_chatbot":
                 use_case_object = setup_chat(model=self.llm_model, **kwargs)
-            elif use_case == "use_case_2":
-                pass
+            elif use_case == "codewriter_system_test":
+                use_case_object = setup_chat(model=self.llm_model, **kwargs)
             else:
                 raise ValueError(f"Invalid use_case: {use_case}")
 
@@ -36,8 +35,8 @@ class ApiService:
             kwargs.pop("use_case", None)
             if use_case == "general_chatbot":
                 return invoke_chat(lang_wrapper=use_case_object, **kwargs)  # type: ignore
-            elif use_case == "use_case_2":
-                pass
+            elif use_case == "codewriter_system_test":
+                return invoke_agent(lang_wrapper=use_case_object, **kwargs)
             else:
                 raise ValueError(f"Invalid use_case: {use_case}")
         except Exception as e:

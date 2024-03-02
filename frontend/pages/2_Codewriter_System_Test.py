@@ -5,7 +5,7 @@ import os
 
 backend_url = os.environ.get("API_URL") or "http://localhost:4000"
 st.session_state["is_setup"] = False
-use_case_name = "general_chatbot"
+use_case_name = "codewriter_system_test"
 
 with st.sidebar:
     st.subheader("Chatbot parameters")
@@ -47,14 +47,15 @@ with st.sidebar:
                     f"An error has occurred during setup: {response.status_code} {response.text}"
                 )
 
-st.title("General RAG Chatbot🔎")
+
+st.title("Code writer : system test")
 
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
         {
             "role": "assistant",
-            "content": "Hi, I'm a chatbot who can search in the project files with Retrieval Augmented Generation (RAG). Please set me up on the sidebar before proceeding",
+            "content": "Hi, I'm a chatbot who can write system tests. Please set me up on the sidebar before proceeding",
         }
     ]
 

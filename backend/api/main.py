@@ -14,6 +14,7 @@ from api_service import ApiService
 import uvicorn
 
 
+
 app = FastAPI()
 parser = argparse.ArgumentParser(description="FastAPI app")
 parser.add_argument(
@@ -23,9 +24,12 @@ parser.add_argument("--is_open_llm", type=bool, default=False, help="OpenLLM use
 
 args = parser.parse_args()
 
+
+
 apiservice = ApiService(
     LlmModel(model_name=args.model_name, is_open_llm=args.is_open_llm)
 )
+
 
 
 @app.get("/")
