@@ -84,6 +84,12 @@ streamlit run ./frontend/home.py
 ```
 
 
+  1. Connect to Télécom Paris network using OpenVPN GUI. Follow the steps [here](https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows).
+
+
+
+- You can connect yourself by SSH to the GPU directly from the web interface. You need to make an SSH tunnel between your local machine and the remote machine this also can be done from the frontend. If you have an issue, you can do it manually : [here](resources/tunnel_SSH.md).
+
 
 <br>
 <br>
@@ -123,13 +129,20 @@ for example.
  After you're done, make sure to kill your process (`Ctrl + D` should be enough) to free the memory of the GPU.
 
 
- ## adding usecase
+## homemade tutorial
+
+-  Connect by SSH to one of Télécom GPU clusters. See how to do it [here](resources/GPU_access.md). 
+
+- Launch an LLM inference server using OpenLLM. See how to do it [here](OpenLLM/OpenLLM.md).
+
+     
+ ## adding usecase to the project
 
 make one folder `backend` per usecase.
 
 --- 
 <br>
 
-**additional information**
+## additional information
 If you install models on télécom GPUs using HuggingFace, they will be in: 
 `~/.cache/huggingface/hub`
