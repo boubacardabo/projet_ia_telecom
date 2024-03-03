@@ -4,15 +4,15 @@
 
 The goal of the project is to create a generative AI able to support NXP developers during debugging and software validation phases. The AI system should be able to predict new bugs as well as unexpected behavior based on the source code of a project, and should be able to generate testing code for NFC/UWB products. During this project, we were faced against two main constraints:
 
-- One of them is to adapt our solution to the specific source code of NFC/UWB products from NXP semiconductors, that is to say a source code mainly in Python, C and C++ to deal with microcontrollers, sensors, and electronics.
+- One of them is to adapt our solution to the specific source code of NFC/UWB products from NXP semiconductors, that is to say a source code mainly in Python, C and C++ to deal with microcontrollers, sensors, and electronics;
 
-- One of the goals of our project is to serve as a Proof of Concept (PoC) for NXP to demonstrate the feasibility of developing such use cases in an open-source way. Therefore we had to use open-source technologies (one of the main consequence is that we can’t rely on the OpenAI API to build our application)
+- One of the goals of our project is to serve as a Proof of Concept (PoC) for NXP to demonstrate the feasibility of developing such use cases in an open-source way. Therefore we had to use open-source technologies (one of the main consequence is that we can’t rely on the OpenAI API to build our application).
 
 ## Architecture
-See the draft [architecture](architecture/README.md) for more information 
+See the draft [architecture](architecture/README.md) for more information. 
 
 ## End goals
-Generative AI trained for software validation :
+Generative AI trained for software validation:
 
     - Code Writer:
         Use case: On demand generate of test from specification (unit, system)
@@ -50,7 +50,7 @@ Generative AI trained for software debugging:
 # Launching the LLM-powered application
 
 
-Makre sure to use Python *3.10.12*. It might work for similar version, but it's not a guarantee. If you're using conda, you can do the following :
+Make sure to use Python *3.10.12*. It might work for similar version, but it's not a guarantee. If you're using conda, you can do the following :
 
 ```bash
 conda update conda
@@ -58,7 +58,7 @@ conda create -n conda-env python=3.10.12
 conda activate conda-env
 ```
 
-YOu can check the Python version :
+You can check the Python version :
 
 ```bash
 python --version
@@ -92,7 +92,7 @@ streamlit run ./frontend/home.py
 
 
 
-- You can connect yourself by SSH to the GPU directly from the web interface. You need to make an SSH tunnel between your local machine and the remote machine this also can be done from the frontend. If you have an issue, you can do it manually : [here](resources/tunnel_SSH.md).
+- You can connect yourself by SSH to the GPU directly from the web interface. You need to make an SSH tunnel between your local machine and the remote machine this also can be done from the frontend. If you have an issue, you can do it manually [here](resources/tunnel_SSH.md).
 
 
 <br>
@@ -149,5 +149,5 @@ make one folder `backend` per usecase.
 <br>
 
 ## additional information
-If you install models on télécom GPUs using HuggingFace, they will be in: 
+If you install models on télécom GPUs using *HuggingFace*, they will be in: 
 `~/.cache/huggingface/hub`
