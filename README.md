@@ -9,7 +9,7 @@ The goal of the project is to create a generative AI able to support NXP develop
 - One of the goals of our project is to serve as a Proof of Concept (PoC) for NXP to demonstrate the feasibility of developing such use cases in an open-source way. Therefore we had to use open-source technologies (one of the main consequence is that we can’t rely on the OpenAI API to build our application)
 
 ## Architecture
-See [architecture](architecture/README.md) for more information 
+See the draft [architecture](architecture/README.md) for more information 
 
 ## End goals
 Generative AI trained for software validation :
@@ -119,6 +119,7 @@ source venv/bin/activate
 pip install -r ./backend/requirements.txt
 ```
 
+Make sure the that your virtual environment name is the same as specified in the frontend ``home.py`` file in the *serve_command* variables!
 
 
 and then launch an entrypoint (`main.py`) file on the remote machine:
