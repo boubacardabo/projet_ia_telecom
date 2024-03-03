@@ -138,7 +138,7 @@ if st.session_state.ssh_client:
             launch_server_button = st.button("Launch Server")
             if launch_server_button:
 
-                server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom && CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py {" --model_name " + selected_model if is_open_llm==False else ""} {"--is_open_llm True" if is_open_llm==True else ""} --langchain_api_key "{langsmith_api_key}" & 
+                server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom && CUDA_VISIBLE_DEVICES={(','.join(selected_gpus)) if len(selected_gpus) > 1 else selected_gpus[0]} python3 backend/api/main.py {" --model_name " + selected_model if is_open_llm==False else ""} {"--is_open_llm True" if is_open_llm==True else ""} --langchain_api_key "{langsmith_api_key}" 
                 """
                 print(server_command)
                 execute_ssh_command(server_command)
