@@ -2,7 +2,11 @@
 
 ## Project Overview
 
-Create a generative AI able to support NXP developers during debugging phases and able to predict new bugs based on code/test updates. The model sohuld also be able to generate tests (unit, system) in Python for  NFC/UWB products. The AI must be able to understand the domain, the specification and the existing tests. RAG methods (Langchain,...) with open source models (Code Llama, Llama 2...) will be used.
+The goal of the project is to create a generative AI able to support NXP developers during debugging and software validation phases. The AI system should be able to predict new bugs as well as unexpected behavior based on the source code of a project, and should be able to generate testing code for NFC/UWB products. During this project, we were faced against two main constraints:
+
+- One of them is to adapt our solution to the specific source code of NFC/UWB products from NXP semiconductors, that is to say a source code mainly in Python, C and C++ to deal with microcontrollers, sensors, and electronics.
+
+- One of the goals of our project is to serve as a Proof of Concept (PoC) for NXP to demonstrate the feasibility of developing such use cases in an open-source way. Therefore we had to use open-source technologies (one of the main consequence is that we can’t rely on the OpenAI API to build our application)
 
 ## Architecture
 See [architecture](architecture/README.md) for more information 
