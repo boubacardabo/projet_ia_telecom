@@ -1,0 +1,19 @@
+
+The HumanEval dataset, developed by Chen and colleagues in 2021, comprises 164 handwritten
+programming problems aimed at assessing the functional correctness of models synthesizing 
+programs from natural language descriptions. Each problem includes a function signature, 
+description, reference implementation, and multiple unit tests, with an average of 7.7 tests
+per problem. These tasks evaluate understanding of natural language, reasoning, algorithms,
+and basic mathematics, resembling simple software interview questions. Pass rates are measured 
+using the pass@k metric, generating k samples per problem; a problem is deemed solved if any 
+sample passes all tests. All 164 problems are used in experiments, with a maximum depth limit of 8.
+
+
+The Mostly Basic Programming Problems (MBPP) benchmark, introduced by Austin et al. in 2021, 
+offers 974 short Python functions for evaluating program synthesis techniques. Crowdsourced from 
+individuals with basic Python knowledge, each data point includes a natural language description,
+reference solution, and three test cases for functional correctness. Prompts are typically concise,
+one-sentence descriptions. Solutions cover common programming constructs like mathematical operations,
+list processing, string manipulation, and use of the Python standard library, averaging 6.8 lines of code.
+The dataset also includes an additional set of 426 problems manually verified for clear specifications,
+standard function signatures, and accurate test cases. For experiments, a randomly selected subset of 397 problems is employed.
