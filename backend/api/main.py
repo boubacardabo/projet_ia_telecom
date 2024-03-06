@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 import json
+import signal
 
 
 backend_folder = f"{os.path.expanduser('~')}/projet_ia_telecom/backend"
@@ -14,8 +15,6 @@ from api_service import ApiService
 import uvicorn
 
 
-
-
 app = FastAPI()
 parser = argparse.ArgumentParser(description="FastAPI app")
 parser.add_argument(
@@ -23,7 +22,9 @@ parser.add_argument(
 )
 parser.add_argument("--is_open_llm", type=bool, default=False, help="OpenLLM used")
 
-parser.add_argument("--langchain_api_key", type=str, default="", help="LangChain API key")
+parser.add_argument(
+    "--langchain_api_key", type=str, default="", help="LangChain API key"
+)
 
 args = parser.parse_args()
 
@@ -35,7 +36,6 @@ os.environ["LANGCHAIN_API_KEY"] = args.langchain_api_key
 apiservice = ApiService(
     LlmModel(model_name=args.model_name, is_open_llm=args.is_open_llm)
 )
-
 
 
 @app.get("/")
@@ -61,6 +61,14 @@ async def invoke_use_case(request: Request):
 
     return apiservice.invoke_use_case(**kwargs)
 
+
+def signal_handler(sig, frame):
+    apiservice.llm_model.cleanup()
+    sys.exit(0)
+
+
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=7000)
