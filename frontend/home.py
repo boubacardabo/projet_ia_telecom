@@ -156,7 +156,7 @@ if st.session_state.ssh_client:
                     execute_ssh_command(server_command)
 
 
-                    server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom/backend && ./script_openllm.sh 0"""
+                    server_command = f"""cd && source venv-test/bin/activate && cd projet_ia_telecom/backend && ./script_openllm.sh {selected_gpus[0]}"""
 
                     print(server_command)
                     execute_ssh_command(server_command)
