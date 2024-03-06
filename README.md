@@ -87,13 +87,10 @@ pip install -r ./frontend/requirements.txt
 streamlit run ./frontend/home.py
 ```
 
-
-  1. Connect to Télécom Paris network using OpenVPN GUI. Follow the steps [here](https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows).
-
+1. Connect to Télécom Paris network using OpenVPN GUI. Follow the steps [here](https://eole.telecom-paris.fr/vos-services/services-numeriques/connexions-aux-reseaux/openvpn-avec-windows).
 
 
 - You can connect yourself by SSH to the GPU directly from the web interface. You need to make an SSH tunnel between your local machine and the remote machine this also can be done from the frontend. If you have an issue, you can do it manually [here](resources/tunnel_SSH.md).
-
 
 <br>
 <br>

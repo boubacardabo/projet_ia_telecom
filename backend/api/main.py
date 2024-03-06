@@ -15,6 +15,7 @@ import uvicorn
 
 
 
+
 app = FastAPI()
 parser = argparse.ArgumentParser(description="FastAPI app")
 parser.add_argument(
@@ -22,9 +23,14 @@ parser.add_argument(
 )
 parser.add_argument("--is_open_llm", type=bool, default=False, help="OpenLLM used")
 
+parser.add_argument("--langchain_api_key", type=str, default="", help="LangChain API key")
+
 args = parser.parse_args()
 
-
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+os.environ["LANGCHAIN_PROJECT"] = "PRIM-NXP"
+os.environ["LANGCHAIN_API_KEY"] = args.langchain_api_key
 
 apiservice = ApiService(
     LlmModel(model_name=args.model_name, is_open_llm=args.is_open_llm)

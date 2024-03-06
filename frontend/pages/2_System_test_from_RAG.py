@@ -48,7 +48,10 @@ with st.sidebar:
                 )
 
 
-st.title("Code writer : system test")
+st.title("Code writer : system test with RAG")
+
+
+
 
 
 if "messages" not in st.session_state:
