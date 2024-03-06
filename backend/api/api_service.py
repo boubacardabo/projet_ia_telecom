@@ -1,8 +1,6 @@
 from llm.llm_model import LlmModel
 from use_cases.general_chatbot import setup_chat, invoke_chat
 from use_cases.codewriter_system_test import invoke_agent
-from use_cases.codewriter_unit_test import invoke_chat_unit_test
-
 
 class ApiService:
     use_case_sessions: dict
@@ -21,8 +19,6 @@ class ApiService:
                 use_case_object = setup_chat(model=self.llm_model, **kwargs)
             elif use_case == "codewriter_system_test":
                 use_case_object = setup_chat(model=self.llm_model, **kwargs)
-            # elif use_case == "codewriter_unit_test":
-            #     use_case_object = setup_chat(model=self.llm_model, **kwargs)
 
             else:
                 raise ValueError(f"Invalid use_case: {use_case}")
@@ -43,13 +39,6 @@ class ApiService:
             
             elif use_case == "codewriter_system_test":
                 return invoke_agent(lang_wrapper=use_case_object, **kwargs)
-            
-            # elif use_case == "codewriter_unit_test":
-
-            #     specification_string = kwargs.get("specification_string")
-            #     function_string = kwargs.get("function_string")
-                
-            #     return invoke_chat_unit_test(lang_wrapper=use_case_object,specification_string=specification_string, function_string=function_string, **kwargs)
             
             else:
                 raise ValueError(f"Invalid use_case: {use_case}")
