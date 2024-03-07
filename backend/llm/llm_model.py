@@ -22,7 +22,7 @@ class LlmModel:
                 backend="vllm",
                 quantize="awq",
                 max_new_tokens=1000,
-                model_name=model_name,
+                model_id=model_name,
             )
 
         else:
