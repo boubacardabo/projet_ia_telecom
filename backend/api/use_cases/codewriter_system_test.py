@@ -1,7 +1,7 @@
 from langchain_wrapper.lang_wrapper import LangWrapper
 from langchain.tools.retriever import create_retriever_tool
-from langchain.agents import AgentExecutor, AgentType
-from langchain.agents.react import create_react_agent  # type: ignore
+from langchain.agents import AgentExecutor
+from langchain.agents import create_react_agent  # type: ignore
 from prompt.prompts import prompt_usecase_test_system
 from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
