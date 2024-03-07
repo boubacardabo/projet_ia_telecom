@@ -1,6 +1,6 @@
 from langchain_wrapper.lang_wrapper import LangWrapper
 from langchain.tools.retriever import create_retriever_tool
-from langchain.agents import AgentExecutor, create_react_agent
+from langchain.agents import AgentExecutor, create_react_agent, AgentType
 from prompt.prompts import prompt_usecase_test_system
 from llm.llm_model import LlmModel
 from embedding.rag_wrapper import RagWrapper
@@ -50,7 +50,7 @@ def setup_agent(
     return use_case_object
 
 
-def invoke_agent(agent_executor: AgentExecutor, question: str):
+def invoke_agent(agent_executor, question: str):
 
     generated_output = agent_executor.invoke({"input": question})
     return generated_output["output"]
