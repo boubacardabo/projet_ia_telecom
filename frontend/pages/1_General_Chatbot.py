@@ -14,9 +14,11 @@ with st.sidebar:
     selected_option = st.selectbox("Do you wish to use RAG ?", options)
     if input_visibility[selected_option]:  # type: ignore
         repository_link = st.text_input(
-            "Repository Link", value="https://github.com/esphome/esphome"
+            "Repository Link", value="https://github.com/nxp-imx/ethos-u-vela"
         )
-        branch_name = st.text_input("Branch name for checkout", value="dev")
+        branch_name = st.text_input(
+            "Branch name for checkout", value="lf-5.15.71_2.2.0"
+        )
         file_type = st.text_input("File type for rag", value=".py")
 
     setup_button = st.button("Setup Chat")
@@ -50,19 +52,19 @@ with st.sidebar:
 st.title("General RAG Chatbot🔎")
 
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [
+if "chatbot_messages" not in st.session_state:
+    st.session_state["chatbot_messages"] = [
         {
             "role": "assistant",
             "content": "Hi, I'm a chatbot who can search in the project files with Retrieval Augmented Generation (RAG). Please set me up on the sidebar before proceeding",
         }
     ]
 
-for msg in st.session_state.messages:
+for msg in st.session_state.chatbot_messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 if prompt := st.chat_input(placeholder="Ask a new question"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.chatbot_messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
     data = {"use_case": use_case_name, "question": prompt}
@@ -71,7 +73,7 @@ if prompt := st.chat_input(placeholder="Ask a new question"):
             f"{backend_url}/invoke_use_case/", json=data
         ).json()
         with st.chat_message("assistant"):
-            st.session_state.messages.append(
+            st.session_state.chatbot_messages.append(
                 {"role": "assistant", "content": chat_response}
             )
             st.markdown(chat_response)

@@ -51,22 +51,19 @@ with st.sidebar:
 st.title("Code writer : system test with RAG")
 
 
-
-
-
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [
+if "writer_messages" not in st.session_state:
+    st.session_state["writer_messages"] = [
         {
             "role": "assistant",
             "content": "Hi, I'm a chatbot who can write system tests. Please set me up on the sidebar before proceeding",
         }
     ]
 
-for msg in st.session_state.messages:
+for msg in st.session_state.writer_messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 if prompt := st.chat_input(placeholder="Ask a new question"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.writer_messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
     data = {"use_case": use_case_name, "question": prompt}
@@ -75,7 +72,7 @@ if prompt := st.chat_input(placeholder="Ask a new question"):
             f"{backend_url}/invoke_use_case/", json=data
         ).json()
         with st.chat_message("assistant"):
-            st.session_state.messages.append(
+            st.session_state.writer_messages.append(
                 {"role": "assistant", "content": chat_response}
             )
             st.markdown(chat_response)

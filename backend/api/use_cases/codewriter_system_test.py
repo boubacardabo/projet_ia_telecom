@@ -44,7 +44,7 @@ def setup_agent(
 
         # Create an agent executor by passing in the agent and tools
         agent_executor = AgentExecutor(
-            agent=agent, tools=tools, verbose=True, handle_parsing_errors=True  # type: ignore
+            agent=agent, tools=tools, handle_parsing_errors=True  # type: ignore
         )
         use_case_object = agent_executor
 
