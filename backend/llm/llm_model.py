@@ -18,7 +18,13 @@ class LlmModel:
         self.is_open_llm = is_open_llm
 
         if is_open_llm:
-            self.model = OpenLLM(server_url="http://localhost:3000")
+            self.model = OpenLLM(
+                server_url="http://localhost:3000",
+                backend="vllm",
+                quantize="awq",
+                max_new_tokens=1000,
+                model_name=model_name,
+            )
 
         else:
             dtype = select_gpu_if_available()
